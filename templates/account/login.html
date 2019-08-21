@@ -1,3 +1,5 @@
+{% load static %}
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,16 +29,23 @@
 		<div class="container-login100">
 			<div class="wrap-login100">
 				<div class="login100-pic js-tilt" data-tilt>
-					<img src="images/img-01.png" alt="IMG">
+					<img src="{% static 'log/images/img-01.png' %} " alt="IMG">
 				</div>
 
-				<form class="login100-form validate-form">
+				<form method="post" class="login100-form validate-form">
+				  {% for error in form.non_field_errors%}
+                        {{error|escape}}
+                    {% endfor %}
+                  {% csrf_token %}
 					<span class="login100-form-title">
 						Member Login
 					</span>
 
 					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-						<input class="input100" type="text" name="email" placeholder="Email">
+
+						<input id="id_login" class="input100" type="text" name="login" placeholder="Username or Email" required="">
+						{% comment %} {{form.login|as_crispy_field}} {% endcomment %}
+						{% comment %} {{form.password|as_crispy_field}} {% endcomment %}
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-envelope" aria-hidden="true"></i>
@@ -44,7 +53,7 @@
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate = "Password is required">
-						<input class="input100" type="password" name="pass" placeholder="Password">
+						<input id="id_password" class="input100" type="password" name="password" placeholder="Password" required="">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-lock" aria-hidden="true"></i>
@@ -52,7 +61,7 @@
 					</div>
 					
 					<div class="container-login100-form-btn">
-						<button class="login100-form-btn">
+						<button type="submit" class="login100-form-btn">
 							Login
 						</button>
 					</div>
