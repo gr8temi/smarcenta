@@ -8,8 +8,7 @@
 				<div class="push login100-pic js-tilt" data-tilt>
 					<img src="{% static 'log/images/img-01.png' %} " alt="IMG">
 				</div>
-
-				<form method="post" class="login100-form validate-form">
+				<form method="post" id="signup_form" action="{% url 'account_signup' %}" class="login100-form validate-form">
 				  {% for error in form.non_field_errors%}
                         {{error|escape}}
                     {% endfor %}
@@ -51,7 +50,7 @@
 					</div>
 					<div class="container-login100-form-btn">
 						<button type="submit" class="login100-form-btn">
-							Login
+							Sign Up
 						</button>
 					</div>
 

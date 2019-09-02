@@ -1,0 +1,33 @@
+<div class="col-md-12" id="subc"><h3>Deadline</h3></div>
+{% for dead in dedline %}
+              <div class="mb-3 mb-md-0">
+                <label for="option-job-type-1">
+                  <!-- <input type="radio" value="{{dead.id}}" id="ded_line" name="job-type"> {{dead.deadline}} <small>{{dead.price}}</small> -->
+                  {% csrf_token %}
+                  <li class="deadli joos" id="ded_line"  value="{{dead.id}}">{{dead.deadline}} <small>{{dead.price}}</small></li>
+                </label>  
+              </div>
+{% endfor %}
+<script>
+        $(".deadli").unbind().click(function (e) {
+             var url = "/Job/deadlines/";
+             var deadline = $(this).val();
+             console.log(deadline);
+             $("#load_deadline").show()
+             $.ajax({
+               url: url,
+            //    method:"POST",
+               data: {
+                 'deadline': deadline
+               },
+               success: function (data) {
+                 $(".ded-form").html(data);
+                 console.log(data)
+                 $("#load_deadline").show()
+                 $("#load_sub2").load(location.href + " #load_sub2")
+                 $("#total_sum").load(location.href + " #total_sum")
+               }
+             });
+       
+           });
+       </script>

@@ -1560,3 +1560,9 @@ a {
   padding:2px; 
   border-right:1px solid #fff;
 }
+.joo{
+  width: 200px; padding:5px; background:#3B945E; cursor: pointer; border:1px solid grey; color:white
+}
+.joos{
+  width: 230px; padding:5px; background:#3B945E; cursor: pointer; border:1px solid grey; color:white; word-wrap: wrap break-word;
+}

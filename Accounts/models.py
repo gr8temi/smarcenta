@@ -10,7 +10,7 @@ class CustomUser(AbstractUser):
 
 
 	def __str__(self):
-		return self.first_name + " "+ self.last_name
+		return self.email
 
 class Candidate(models.Model):
 	user = models.OneToOneField('CustomUser', on_delete=models.CASCADE)
@@ -33,6 +33,7 @@ class Finder(models.Model):
 class Categories(models.Model):
 
 	category = models.CharField(max_length=50)
+	about  = models.TextField(default="info about category")
 
 	def __str__(self):
 		return self.category

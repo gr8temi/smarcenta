@@ -1,0 +1,31 @@
+<div class="col-md-12" id="subc"><h3>Sub Categories</h3></div>
+{% for sub in subcat %}
+              <div class="mb-3 mb-md-0">
+                <label for="option-job-type-1">
+                  <!-- <input type="radio" value="{{sub.id}}" id="jo_cate" name="job_type"> {{sub.name}} <small>{{sub.pricing}}</small> -->
+                  <li class="jo_cate joos"  value="{{sub.id}}">{{sub.name}} <small>{{sub.pricing}}</small> <i class="fa fa-arrow-right" style="float: right;"  aria-hidden="true"></i> </li>
+                </label>  
+              </div>
+{% endfor %}
+<script>
+ $(".jo_cate").unbind().click(function (e) {
+      $(".ded-form").show()
+      var url = "/Job/deadline/";
+      var sub_cat = $(this).val();
+      // console.log(sub_cat);
+      $.ajax({
+        url: url,
+        data: {
+          'sub_cat': sub_cat
+        },
+        success: function (data) {
+          $(".ded-form").html(data);
+          console.log(data)
+          $("#load_sub").show()
+          $("#load_sub1").load(location.href + " #load_sub1")
+          
+        }
+      });
+
+    });
+</script>

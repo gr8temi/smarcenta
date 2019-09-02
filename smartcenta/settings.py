@@ -50,7 +50,26 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.openid',
     'crispy_forms',
+    'ckeditor',
+    'djmoney'
+    # 'ckeditor_uploader',
 ]
+CKEDITOR_CONFIGS = {
+'default': {
+'toolbar': 'Custom',
+'height': 300,
+'width': "100%",
+'toolbar_Custom':
+    [
+        ['Bold', 'Italic', 'Underline'],
+        ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+        ['Link', 'Unlink'],
+        ['RemoveFormat', 'Source'],
+        ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley','SpecialChar', 'PageBreak', 'Iframe']
+    ]
+},
+}
+# CKEDITOR_UPLOAD_PAT
 CRISPY_TEMPLATE_PACK ='bootstrap4'
 
 MIDDLEWARE = [
@@ -112,7 +131,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
+LOGIN_REDIRECT_URL= 'index'
+LOGOUT_REDIRECT_URL= 'index'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/

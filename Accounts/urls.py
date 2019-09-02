@@ -11,7 +11,7 @@ from allauth.socialaccount import views as so_views
 urlpatterns = [
 	url(r'^accounts/', include('allauth.urls')),
 	url(r'^login/$', all_views.LoginView.as_view(), {'template_name':'account/login.html'}, name='account_login'),
-	url(r'^SignUp/$', all_views.SignupView.as_view(), name='account_signup'),
+	url(r'^SignUp/$', all_views.SignupView.as_view(), {'template_name':'account/signup.html'}, name='account_signup'),
 	url(r'^Mail_activate/$', all_views.email_verification_sent, name='account_email_verification_sent'),
 	url(r"^confirm-email/(?P<key>[-:\w]+)/$", all_views.confirm_email,
         name="account_confirm_email"),
