@@ -8,6 +8,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path
 urlpatterns = [
 	path('', views.Home, name='index'),
+	path("dashboard/", views.dashboard, name="dashboard"),
 ]
 urlpatterns+=staticfiles_urlpatterns()
 urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 

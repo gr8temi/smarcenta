@@ -41,8 +41,8 @@
 
             <div class="row form-group">
               <div class="col-md-12 mb-3 mb-md-0">
-                <label class="font-weight-bold" for="fullname">Job Title</label>
-                <input type="text" id="fullname" class="form-control" placeholder="eg. Full Stack Frontend">
+                <label class="font-weight-bold" for="title">Job Title</label>
+                <input type="text" id="title" class="titles form-control" placeholder="eg. Full Stack Frontend">
               </div>
             </div>
             
@@ -109,7 +109,12 @@
               <div class="col-md-12"><h3>Job Description</h3></div>
               <div class="col-md-12 mb-3 mb-md-0">
                 <!-- <textarea name="" class="form-control" id="" cols="30" rows="5"></textarea> -->
-                {{jobform.description|as_crispy_field }}
+                <!-- {{jobform.description|as_crispy_field }} -->
+                  <textarea class="form-control" name="editor1" id="" rows="3"></textarea>
+                  <script>
+                        CKEDITOR.replace( 'editor1' );
+                        
+                </script>
               </div>
             </div>
 
@@ -153,7 +158,7 @@
 
             <div class="col-md-12 mb-3 mb-md-0">
               <label class="font-weight-bold" for="phone">Email Address</label>
-              <input type="text" id="phone" class="form-control" required>
+              <input type="email" id="email_hid" class="form-control" required>
             </div>
 
           </div>
@@ -165,19 +170,29 @@
             <div class="">
               <h3 class="center h5 text-black mb-3">Booking Summary</h3>
             </div>
+            <div class="ko">
+
+            </div>
             <div id="load_cat">
-              <p>Category  <span style="float:right;">{{cate}}</span></p>
+              <p>Category  <span class="cate_sum" style="float:right;">{{cate}}</span></p>
             </div>
             <div id="load_sub"style="display: none">
-                <p id="load_sub1">Sub Category <span style="float: right;" class="mr-auto">{{subc}} <small>{{sub_price}}</small></span> </p>
+                
+                <p id="load_sub1">Sub Category <span style="float: right;" class="sub_cat_sum mr-auto">{{subc}} <small>{{sub_price}}</small></span> </p>
             </div>
             <div id="load_deadline"style="display: none">
-                <p id="load_sub2">Deadline<span style="float: right;" class="mr-auto">{{deadlines}} <small>{{dead_price}}</small></span> </p>
+                <p id="load_sub2">Deadline<span style="float: right;" class="dead_sum mr-auto ">{{deadlines}} <small>{{dead_price}}</small></span> </p>
             </div>
             <div class="total">
-                <p id="total_sum"><b>Total</b> <span style="float: right;" class="mr-auto">{{tota}}</p>
+                <input type="hidden" value="{{user.email}}" id="email_hid">
+                <input type="hidden" name="user_id" id="user_id" value="{{user.id}}">
+                <p><b>Total</b> <span style="float: right;" class="mr-auto">&#8358;<span id="total_sum">{{tota}}</span></p>
             </div>
-            <p><a href="#" class="btn btn-green text-white  py-2 px-4">Checkout</a></p>
+            <form >
+              <script src="https://js.paystack.co/v1/inline.js"></script>
+              <button type="button" onclick="payWithPaystack()"> Pay </button> 
+            </form>
+            <!-- <p><a href="#" class="btn btn-green text-white  py-2 px-4">Checkout</a></p> -->
 
           </div>
         </div>
@@ -274,13 +289,81 @@
           $(".new-form").html(data);
           $("#subc").show()
           $("#load_cat").load(location.href + " #load_cat");
+          $("#total_sum").load(location.href + " #total_sum")
           $("#load_sub").hide()
 
         }
       });
 
     });
+    function payWithPaystack(){
+      // let amount = parseInt($("#total_sum").val())*100;
+      // console.log(amount)
+      let email = $("#email_hid").val();
+      let total = $("#total_sum").text()*100;
+      let category = $(".cate_sum").text()
+      let sub_cat_sum = $(".sub_cat_sum").text()
+      let dead_sum = $(".dead_sum").text()
+      let phone = $("#phone").val()
+      let title = $(".titles").val()
+      let name = $("#fullname").val()
+      let id = $("#user_id").val()
+      
+      var description = CKEDITOR.instances.editor1.getData();
+      // console.log(id)
 
+      // console.log(title)
+    var handler = PaystackPop.setup({
+      key: 'pk_test_018d63ee14fff968b6765fbe71b4eb1215a6ea78',
+      email: email,
+      amount: total,
+      currency: "NGN",
+      // ref: ''+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+      metadata: {
+         custom_fields: [
+            {
+                display_name: "adams",
+                variable_name: "name",
+                value: "+2348093615224"
+            }
+         ]
+      },
+      callback: function(response){
+          // alert('success. transaction ref is ' + response.reference);
+          if (id == "None"){
+        
+      }
+        
+        $.ajax({
+        url: "/Job/payin/",
+        // method:"POST",
+          data: {
+            "email":email,
+            "total":total,
+            "category":category,
+            "sub_cat_sum":sub_cat_sum,
+            "dead_sum":dead_sum,
+            "phone":phone,
+            "title":title, 
+            "description":description,
+            "reference":response.reference,
+            "name":name,
+          },
+          success: function (data) {
+            // alert("success");
+            // $(".ko").html(data)
+            location.assign("/dashboard")
+          }
+      });
+          
+
+      },
+      onClose: function(){
+          
+      }
+    });
+    handler.openIframe();
+  }
 </script>
 
 {% endblock script %}

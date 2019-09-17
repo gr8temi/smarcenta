@@ -28,3 +28,31 @@ class subcategory(models.Model):
     pricing = MoneyField(decimal_places=2, max_digits=8,default_currency="NGN",default=0.00)
     def __str__(self):
         return self.name
+
+class Order(models.Model):
+    title = models.CharField(max_length=50)
+    name = models.CharField( max_length=50)
+    category = models.CharField( max_length=50)
+    sub_cat = models.CharField( max_length=50)
+    deadlines =models.CharField( max_length=50)
+    total = MoneyField(decimal_places=2, max_digits=8,default_currency="NGN",default=0.00)
+    email = models.EmailField( max_length=254)
+    phone = models.CharField(max_length=50)
+    reference = models.CharField( max_length=50)
+    description = RichTextField(null=True)
+
+    def __str__(self):
+        """Unicode representation of Order."""
+        pass
+
+
+class Workload(models.Model):
+    """Model definition for Workload."""
+    project_id = models.ForeignKey("Order", on_delete=models.CASCADE)
+    status_code = models.IntegerField()
+    project_manager=models.CharField( max_length=50)
+    project_handler=models.CharField( max_length=50)
+
+    def __str__(self):
+        """Unicode representation of Workload."""
+        pass

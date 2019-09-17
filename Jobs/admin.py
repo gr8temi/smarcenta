@@ -5,3 +5,5 @@ from . import models
 admin.site.register(models.Jobs)
 admin.site.register(models.Deadline)
 admin.site.register(models.subcategory)
+# admin.site.register(models.Order)
+# admin.site.register(models.Workload)

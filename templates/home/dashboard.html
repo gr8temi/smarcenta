@@ -1,4 +1,7 @@
+{% load static %}
+
 <!doctype html>
+
 <html lang="en">
   <head>
     <title>Dashboard</title>
@@ -9,7 +12,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="./dash.css">
+    <link rel="stylesheet" href="{% static 'css/dash.css' %}">
   </head>
   <body>
       <div class="container-fluid dash-back" >
@@ -19,7 +22,7 @@
               <div class="sidenav col-md-2 d-flex flex-column align-items-center p-5" style="height: 100vh; background:#E7E8EB20;">
 
 <div class="prof-img">
-  <img class="img-fluid img-thumbnail" src="../../assets/images/person_1.jpg" alt="" srcset="">
+  <img class="img-fluid img-thumbnail" src="{% static 'images/person_1.jpg' %}" alt="" srcset="">
   <p class="text-center text-white">Samantha Chan</p>
   <hr class="">
 </div>
@@ -153,7 +156,7 @@
 
                         </div> 
                         <div class="d-flex justify-content-end align-items-end p-4" style="width: 100%; height: 100%;">
-                          <button class="shadow add-button">+</button>
+                          <button class="shadow add-button" data-toggle="modal" data-target="#exampleModalScrollable">+</button>
                         </div>
                     </div>
                 </div>
@@ -162,6 +165,26 @@
        
         
       </div>
+    <!-- Modal -->
+<div class="modal fade bd-example-modal-xl" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalScrollableTitle">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

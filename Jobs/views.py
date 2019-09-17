@@ -1,4 +1,5 @@
 from django.shortcuts import render,HttpResponse
+from django.contrib.auth.decorators import login_required
 from . import forms
 from Accounts import models as acct
 from . import models as jom
@@ -57,6 +58,7 @@ def CatChange(request):
     subcat = jom.subcategory.objects.filter(category=cate)
     request.session['category']=category.category
     print(request.session['category'])
+    request.session['total']=0
     # print(deadlines)
     context = {
         "subcat":subcat,
@@ -92,5 +94,32 @@ def dead_line_price(request):
 
     return HttpResponse(status=204)    
 
+@login_required
+def payin(request):
+    title = request.GET.get("title")
+    email = request.GET.get("email")
+    total= request.GET.get("total")
+    category=request.GET.get("category")
+    sub_cat= request.GET.get("sub_cat_sum")
+    deadline = request.GET.get("dead_sum")
+    phone = request.GET.get("phone")
+    reference= request.GET.get("reference")
+    name = request.GET.get("name")
+    description = request.GET.get("description")
 
-
+    jom.Order.objects.create(
+        title=title,
+        name = name,
+        category=category,
+        sub_cat=sub_cat,
+        deadlines=deadline,
+        total=total,
+        email=email,
+        phone=phone,
+        reference=reference,
+        description=description,
+    )
+    
+    # print (description)
+    
+    return HttpResponse(description)

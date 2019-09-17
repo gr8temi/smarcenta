@@ -51,7 +51,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.openid',
     'crispy_forms',
     'ckeditor',
-    'djmoney'
+    'djmoney',
+    'livereload'
     # 'ckeditor_uploader',
 ]
 CKEDITOR_CONFIGS = {
@@ -80,6 +81,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'livereload.middleware.LiveReloadScript',
 ]
 
 ROOT_URLCONF = 'smartcenta.urls'
