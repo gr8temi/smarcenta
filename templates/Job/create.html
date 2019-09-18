@@ -18,7 +18,8 @@
 
   <div class="site-section bg-light">
     <div class="container-fluid">
-      <div class="row">
+      <div class="container">
+        <div class="row">
         <div class="col-lg-1"></div>
         <div class=" col-lg-6">
         
@@ -186,17 +187,26 @@
             <div class="total">
                 <input type="hidden" value="{{user.email}}" id="email_hid">
                 <input type="hidden" name="user_id" id="user_id" value="{{user.id}}">
-                <p><b>Total</b> <span style="float: right;" class="mr-auto">&#8358;<span id="total_sum">{{tota}}</span></p>
+                <p class="totals" style="display: none"><b>Total</b> <span style="float: right;" class="mr-auto">&#8358;<span id="total_sum">{{tota}}</span></p>
             </div>
             <form >
               <script src="https://js.paystack.co/v1/inline.js"></script>
-              <button type="button" onclick="payWithPaystack()"> Pay </button> 
+              
+              {% if user.is_authenticated %}
+                <button type="button" onclick="payWithPaystack(true)"> Pay </button> 
+                {% else %}
+                <button type="button" onclick="payWithPaystack(false)"> Pay </button> 
+              {% endif %}
+                
+              
             </form>
             <!-- <p><a href="#" class="btn btn-green text-white  py-2 px-4">Checkout</a></p> -->
 
           </div>
         </div>
       </div>
+      </div>
+      
     </div>
   </div>
 
@@ -267,7 +277,27 @@
   </div>
 
   
-
+<!-- Modal -->
+<div class="modal fade" id="notification" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p> We advice you log in before completing this payment. If you dont't you'll still be able to track this jobs progress but would be missing out a great deal of packages we have for you.
+            </p>
+         </div>
+        <div class="modal-footer">
+          <a href="{% url 'account_login' %}?next={{request.path}}"><button type="button" class="btn btn-primary">log in</button></a> 
+          <button type="button" onclick="payWithPaystack(true)" class="btn btn-warning">proceed</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 {% endblock content %}
 
@@ -291,12 +321,14 @@
           $("#load_cat").load(location.href + " #load_cat");
           $("#total_sum").load(location.href + " #total_sum")
           $("#load_sub").hide()
+          $(".totals").hide()
+          $("#load_sub2").hide()
 
         }
       });
 
     });
-    function payWithPaystack(){
+    function payWithPaystack(proceed){
       // let amount = parseInt($("#total_sum").val())*100;
       // console.log(amount)
       let email = $("#email_hid").val();
@@ -308,12 +340,17 @@
       let title = $(".titles").val()
       let name = $("#fullname").val()
       let id = $("#user_id").val()
-      
+      // let proceed = false;
       var description = CKEDITOR.instances.editor1.getData();
-      // console.log(id)
+      if (id=="None"){
+              $('#notification').modal('show')
 
-      // console.log(title)
-    var handler = PaystackPop.setup({
+      }
+      console.log(proceed)
+      if (proceed==true){
+        $('#notification').modal('hide')
+        console.log(proceed)
+        var handler = PaystackPop.setup({
       key: 'pk_test_018d63ee14fff968b6765fbe71b4eb1215a6ea78',
       email: email,
       amount: total,
@@ -330,9 +367,6 @@
       },
       callback: function(response){
           // alert('success. transaction ref is ' + response.reference);
-          if (id == "None"){
-        
-      }
         
         $.ajax({
         url: "/Job/payin/",
@@ -348,11 +382,21 @@
             "description":description,
             "reference":response.reference,
             "name":name,
+            "id" :id,
           },
           success: function (data) {
             // alert("success");
             // $(".ko").html(data)
-            location.assign("/dashboard")
+            console.log(typeof (data))
+            data=parseInt(data)
+            console.log(typeof(data))
+            if (data == 0){
+              location.assign("/Track")
+            }
+            else if(data >0){
+              location.assign("/dashboard")
+            }
+            
           }
       });
           
@@ -364,6 +408,7 @@
     });
     handler.openIframe();
   }
+      }
 </script>
 
 {% endblock script %}

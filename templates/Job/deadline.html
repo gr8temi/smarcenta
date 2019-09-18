@@ -22,8 +22,10 @@
                },
                success: function (data) {
                  $(".ded-form").html(data);
-                 console.log(data)
-                 $("#load_deadline").show()
+                //  console.log(data)
+                //  $("#load_deadline").show()
+                 $("#load_sub2").show()
+                 $(".totals").show()
                  $("#load_sub2").load(location.href + " #load_sub2")
                  $("#total_sum").load(location.href + " #total_sum")
                }

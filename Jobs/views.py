@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from . import forms
 from Accounts import models as acct
 from . import models as jom
+from django.core.mail import EmailMessage, send_mail, EmailMultiAlternatives
 # Create your views here.
 def JobCreate(request):
     template = 'Job/create.html'
@@ -93,12 +94,10 @@ def dead_line_price(request):
     request.session['total']= total  
 
     return HttpResponse(status=204)    
-
-@login_required
 def payin(request):
     title = request.GET.get("title")
     email = request.GET.get("email")
-    total= request.GET.get("total")
+    total= float(request.GET.get("total"))/100
     category=request.GET.get("category")
     sub_cat= request.GET.get("sub_cat_sum")
     deadline = request.GET.get("dead_sum")
@@ -106,6 +105,10 @@ def payin(request):
     reference= request.GET.get("reference")
     name = request.GET.get("name")
     description = request.GET.get("description")
+    user_id = request.GET.get("id")
+    print(category)
+    if user_id =="None":
+        user_id=0
 
     jom.Order.objects.create(
         title=title,
@@ -118,8 +121,9 @@ def payin(request):
         phone=phone,
         reference=reference,
         description=description,
+        user_id=user_id,
     )
     
     # print (description)
     
-    return HttpResponse(description)
+    return HttpResponse(user_id)
