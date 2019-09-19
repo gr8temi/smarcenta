@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from . import forms
 from Accounts import models as acct
 from . import models as jom
+from django.template.loader import render_to_string
 from django.core.mail import EmailMessage, send_mail, EmailMultiAlternatives
 # Create your views here.
 def JobCreate(request):
@@ -124,6 +125,23 @@ def payin(request):
         user_id=user_id,
     )
     
+    mail_subject = 'Order successfully placed'
+    message = render_to_string('home/order_mail.txt', {            
+			'name': name,
+			'Job_title':title,
+			'reference':reference,
+		})
+    to_email = [
+		email,
+		]
+    msg_html = render_to_string('home/order_mail.html', {            
+			'name': name,
+			'Job_title':title,
+			'reference':reference,
+		})
+    send_mail(mail_subject, message, 'adamstemii@gmail.com', to_email, fail_silently=False, html_message=msg_html,
+ )
+
     # print (description)
     
     return HttpResponse(user_id)

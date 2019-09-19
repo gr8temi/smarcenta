@@ -1566,3 +1566,8 @@ a {
 .joos{
   width: 230px; padding:5px; background:#3B945E; cursor: pointer; border:1px solid grey; color:white; word-wrap: wrap break-word;
 }
+@media only screen and (min-width:1200px) {
+ .container{
+   max-width: 1720px;
+  }
+}

@@ -40,10 +40,21 @@ class Order(models.Model):
     phone = models.CharField(max_length=50)
     reference = models.CharField( max_length=50)
     description = RichTextField(null=True)
+    user_id  = models.IntegerField(default=0,null=True)
 
     def __str__(self):
-        """Unicode representation of Order."""
-        pass
+        return self.title
+class stage(models.Model):
+    """Model definition for status."""
+
+    stage_name=models.CharField(max_length=50)
+    category = models.ForeignKey("subcategory",on_delete=models.CASCADE)
+    stage = models.IntegerField()
+    status = models.CharField(default="Waiting", max_length=20)
+
+    def __str__(self):
+        """Unicode representation of status."""
+        return self.stage_name
 
 
 class Workload(models.Model):

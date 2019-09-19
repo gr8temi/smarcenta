@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -8,9 +9,74 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  </head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="{% static 'css/dash.css'%} ">
+</head>
   <body>
-      
+        <div class="container-fluid">
+            <div class="container">
+                    <div class="col-md-5 tasks">
+                            <div class="white-back d-flex flex-column align-items-start justify-content-start pt-lg-x ">
+                              
+                                <div class="segment2">
+                                  <div class="top-bar d-flex justify-content-between pt-2">
+                                    <h3>{{job.title}}</h3>
+                                    <p>Welcome <small>{{job.name}}</small></p>
+                                  </div>
+                                  <div class="describe">
+                                      {{job.description | safe}}
+                                    <!-- <p>Design a website for ABC company</p> -->
+                                  </div>
+            
+                                  <div class="activities">
+                                    <div class="heads d-flex justify-content-between pt-5">
+                                      <h4>Activities</h4>
+                                      <p>Status</p>
+                                      
+                                    </div>
+                                    <hr class="p-0 m-1">
+                                    <div class="jobs-div d-flex flex-column">
+                                        
+                                        {% for stage in stages %}
+                                            
+                                            {% if stage.status == "Waiting" %}
+                                               <div class="d-flex jobs justify-content-between">
+                                              
+                                              <p> <span class="text-secondary pt-2 fa fa-pause-circle pr-3"></span> {{stage.stage_name}}</p>
+                                              <div class="p-1 alert alert-secondary" role="alert">
+                                               {{stage.status}}
+                                              </div>
+                                          </div> 
+                                          {% elif stage.status == "In progress" %}
+                                          <div class="d-flex jobs justify-content-between">
+                                             
+                                                <p> <span class="text-warning pt-2 fa fa-spinner pr-3"></span> Project handled by Designer</p>
+                                                <div class="p-1 alert alert-warning" role="alert">
+                                                 In progress
+                                                </div>
+                                            </div>
+                                            {% elif stage.status == "success" %}
+                                            <div class="d-flex jobs justify-content-between">
+                                              
+                                              <p> <span class="text-success pt-2 fa fa-check-circle pr-3"></span> Project handled by Designer</p>
+                                              <div class="p-1 alert alert-success" role="alert">
+                                               success
+                                              </div>
+                                          </div>
+                                            {% endif %}
+                                                
+                                            
+                                        {% endfor %}
+                                    </div>
+                                  </div>
+            
+                                </div> 
+                                
+                            </div>
+                        </div>
+            </div>
+        </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

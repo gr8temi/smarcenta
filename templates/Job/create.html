@@ -179,7 +179,7 @@
             </div>
             <div id="load_sub"style="display: none">
                 
-                <p id="load_sub1">Sub Category <span style="float: right;" class="sub_cat_sum mr-auto">{{subc}} <small>{{sub_price}}</small></span> </p>
+                <p id="load_sub1">Sub Category <span style="float: right;" class="sub_cat_sum mr-auto"><span id="sub_span">{{subc}}</span> <small>{{sub_price}}</small></span> </p>
             </div>
             <div id="load_deadline"style="display: none">
                 <p id="load_sub2">Deadline<span style="float: right;" class="dead_sum mr-auto ">{{deadlines}} <small>{{dead_price}}</small></span> </p>
@@ -209,7 +209,7 @@
       
     </div>
   </div>
-
+  
  
 
 
@@ -334,7 +334,7 @@
       let email = $("#email_hid").val();
       let total = $("#total_sum").text()*100;
       let category = $(".cate_sum").text()
-      let sub_cat_sum = $(".sub_cat_sum").text()
+      let sub_cat_sum = $("#sub_span").text()
       let dead_sum = $(".dead_sum").text()
       let phone = $("#phone").val()
       let title = $(".titles").val()

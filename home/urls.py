@@ -9,6 +9,7 @@ from django.urls import path
 urlpatterns = [
 	path('', views.Home, name='index'),
 	path("dashboard/", views.dashboard, name="dashboard"),
+	path("Track/", views.track, name="Track")
 ]
 urlpatterns+=staticfiles_urlpatterns()
 urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 

@@ -1,0 +1,5 @@
+<h3>Hi, {{name}}</h3>
+<p>Good day, We write to notify you that your order for {{title}} job has been placed successfully</p>
+<p>Your reference code is {{reference}}</p>
+<h6>Best Regards</h6>
+<h5>Smartcenta Team.</h5>
