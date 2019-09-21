@@ -1,6 +1,6 @@
 from django.conf.urls import url, include
 from django.contrib import admin
-from django.contrib.auth.views import login, password_reset
+# from django.contrib.auth.views import login, password_reset
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
@@ -16,7 +16,7 @@ urlpatterns = [
 	url(r"^confirm-email/(?P<key>[-:\w]+)/$", all_views.confirm_email,
         name="account_confirm_email"),
 	url(r'^signup/$', so_views.SignupView.as_view(),{'template_name':'socialaccount/signup.html'}, name='socialaccount_signup'),
-	url(r'^logout/$', auth_views.logout, name='logout'),
+	url(r'^logout/$', auth_views.LogoutView.as_view(), name='logout'),
 	# url(r'^Update-Info/(?P<pk>\d+)/$', views.Info.as_view(), name='info'),
 	# url(r'^register/$', views.UserFormView.as_view(), name='register'),
 	# url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',views.activate, name='activate'),
