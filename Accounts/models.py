@@ -6,7 +6,7 @@ class CustomUser(AbstractUser):
 	is_active=models.BooleanField(default=True)
 	address = models.CharField(max_length=150, default="lagos")
 	phone = models.CharField(max_length=150, default="08000012345")
-	Candidate = models.BooleanField(default=True)
+	# Candidate = models.BooleanField(default=True)
 	referal_code= models.CharField(null=True, blank=True, max_length=50)
 	referal_point =models.PositiveIntegerField(default=0)
 
