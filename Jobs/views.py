@@ -108,11 +108,13 @@ def payin(request):
     description = request.GET.get("description")
     user_id = request.GET.get("id")
     print(category)
+    acronyms ="".join([ leter[0] for leter in title.split(" ")]) 
     if user_id =="None":
         user_id=0
 
     jom.Order.objects.create(
         title=title,
+        abbr=acronyms,
         name = name,
         category=category,
         sub_cat=sub_cat,
@@ -145,3 +147,63 @@ def payin(request):
     # print (description)
     
     return HttpResponse(user_id)
+
+def workload(request):
+    # if request.method == "GET":
+    #     reference = request.GET.get("reference")
+    #     stage_id = request.GET.get("stage_id")
+    #     stage_info = jom.stage.objects.get(id=stage_id)
+    #     return HttpResponse(stage_id)
+    if request.method=="GET":
+        handlers = request.GET.get("handlers")
+        managers = request.GET.get("manager")
+        reference = request.GET.get("cur_reference")
+        handler = acct.project_handlers.objects.get(id=handlers)
+        manager =acct.project_managers.objects.get(id=managers)
+        project_id = jom.Order.objects.get(reference=reference)
+        status = jom.stage.objects.get(stage_name="Assign Task",category__name=project_id.sub_cat)
+        jom.Workload.objects.create(
+            project_id=project_id,
+            status_code= status.stage,
+            project_manager=manager.name,
+            project_handler=handler.name,
+        )
+        #manager's mail
+        mail_subject = 'Job assigned to you'
+        message = render_to_string('Job/assign_mail.txt', {            
+                'name': manager.name,
+                'Job':project_id,
+        
+            })
+        to_email = [
+            manager.email,
+            ]
+        msg_html = render_to_string('Job/assign_mail.html', {            
+                'name': manager.name,
+                'Job':project_id,
+            })
+
+        send_mail(mail_subject, message, 'adamstemii@gmail.com', to_email, fail_silently=False, html_message=msg_html,)
+        # manager.availability=False
+        # manager.save()
+
+        #handlers Mail
+        mail_subject = 'Job assigned to you'
+        message = render_to_string('Job/assign_mail.txt', {            
+                'name': handler.name,
+                'Job':project_id,
+        
+            })
+        to_email = [
+            handler.email,
+            ]
+        msg_html = render_to_string('Job/assign_mail.html', {            
+                'name': handler.name,
+                'Job':project_id,
+            })
+        send_mail(mail_subject, message, manager.email, to_email, fail_silently=False, html_message=msg_html,) 
+        project_id.status+=1
+        project_id.save()
+        # handler.availability=False
+        # handler.save()       
+        return HttpResponse(True)

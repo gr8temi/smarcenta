@@ -32,6 +32,7 @@ class subcategory(models.Model):
 class Order(models.Model):
     title = models.CharField(max_length=50)
     name = models.CharField( max_length=50)
+    abbr = models.CharField(max_length=50, default="abc")
     category = models.CharField( max_length=50)
     sub_cat = models.CharField( max_length=50)
     deadlines =models.CharField( max_length=50)
@@ -41,6 +42,7 @@ class Order(models.Model):
     reference = models.CharField( max_length=50)
     description = RichTextField(null=True)
     user_id  = models.IntegerField(default=0,null=True)
+    status = models.IntegerField(default=1)
 
     def __str__(self):
         return self.title
@@ -66,4 +68,4 @@ class Workload(models.Model):
 
     def __str__(self):
         """Unicode representation of Workload."""
-        pass
+        return self.project_id.title

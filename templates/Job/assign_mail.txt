@@ -1,0 +1,4 @@
+<h3>Hi, {{name}}</h3>
+<p>Good day, You have been assigned to be in charge of {{Job.title}} for {{job.name}} and you have till the end of 2weeks to finish it.</p>
+<h6>Best Regards</h6>
+<h5>Smartcenta Team.</h5>

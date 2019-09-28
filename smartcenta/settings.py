@@ -30,8 +30,8 @@ EMAIL_HOST = config('EMAIL_HOST')
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = config('EMAIL_PORT', cast=int)
-EMAIL_USE_TLS = False
-EMAIL_USE_SSL = True
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -141,8 +141,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-LOGIN_REDIRECT_URL= 'index'
-LOGOUT_REDIRECT_URL= 'index'
+LOGIN_REDIRECT_URL= 'dashboard'
+LOGOUT_REDIRECT_URL= 'dashboard'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/

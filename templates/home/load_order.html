@@ -1,0 +1,83 @@
+{% load static %}
+<style>
+  .fixed_header {
+    width: 100%;
+    /* table-layout: fixed; */
+    /* border-collapse: collapse; */
+  }
+
+  .fixed_header tbody {
+    /* display:block; */
+    overflow: auto;
+    height: 300px;
+  }
+
+  /* .fixed_header thead tr {
+   display: block;
+} */
+
+  /* .fixed_header thead {
+  background: black;
+  color:#fff;
+} */
+</style>
+
+<div class="segment2 ">
+    
+        
+  <div class="top-bar d-flex justify-content-between pt-2">
+    <h3>Orders</h3>
+    <p>
+      Welcome <small>{{ user.name }}</small>
+    </p>
+  </div>
+
+  <div class="activities">
+    <div class="heads d-flex justify-content-between pt-5">
+      <table
+        class=" fixed_header table table-striped table-inverse table-responsive"
+      >
+        <thead class="thead-inverse">
+          <tr>
+            <th>Order Title</th>
+            <th>Customer</th>
+            <th>Reference</th>
+            <th>Activity</th>
+            <!-- <th>Stage</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          {% for orders in order %}
+          <tr>
+            <td scope="row">{{ orders.title }}</td>
+            <td>{{ orders.name }}</td>
+            <td>{{ orders.reference }}</td>
+            <td>
+              <a href="javascript:void(0)" onclick="load_content('{{orders.reference}}')"><button class="btn btn-success">
+                View
+              </button></a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script src="{% static 'js/jquery-3.3.1.min.js' %} "></script>
+<script>
+        function load_content(reference){
+          $.ajax({
+            url: "/Tracking",
+            method:"GET",
+            data:{
+              "reference":reference
+            },
+            success:function(data){
+              $(".loading").html(data)
+            }
+            
+      
+          })
+        }
+        </script>

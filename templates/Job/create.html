@@ -139,7 +139,7 @@
   
               <p class="mb-0 font-weight-bold">Phone</p>
               <p class="mb-4"><a class="text-green" href="#">{{user.phone}}</a></p>
-  
+              <input type="hidden" value="{{user.phone}}" id="phone">
               <p class="mb-0 font-weight-bold">Email Address</p>
               <p class="mb-0"><a class="text-green" href="#">{{user.email}}</a></p>
   
@@ -154,18 +154,19 @@
             <div class="col-md-12 mb-3 mb-md-0">
               <label class="font-weight-bold" for="phone">Phone</label>
               <input type="text" id="phone" class="form-control" required>
+              <small id="phone_helpId" class="d-none form-text text-muted">Help text</small>
             </div>
             <!-- <p class="mb-4"><a href="#">+1 232 3235 324</a></p> -->
 
             <div class="col-md-12 mb-3 mb-md-0">
               <label class="font-weight-bold" for="phone">Email Address</label>
-              <input type="email" id="email_hid" class="form-control" required>
+              <input type="email" id="email_hid" class="form-control email_hid" required>
+              <small id="email_helpId" class="d-none form-text text-muted">Help text</small>
             </div>
 
           </div>
           {% endif %}
             
-         
           
           <div class="p-4 mb-3 bg-white ">
             <div class="">
@@ -189,13 +190,13 @@
                 <input type="hidden" name="user_id" id="user_id" value="{{user.id}}">
                 <p class="totals" style="display: none"><b>Total</b> <span style="float: right;" class="mr-auto">&#8358;<span id="total_sum">{{tota}}</span></p>
             </div>
-            <form >
+            <form class="d-flex justify-content-center">
               <script src="https://js.paystack.co/v1/inline.js"></script>
               
               {% if user.is_authenticated %}
-                <button type="button" onclick="payWithPaystack(true)"> Pay </button> 
+                <button class="text-center text-white btn btn-success" type="button" onclick="payWithPaystack(true)"> Pay </button> 
                 {% else %}
-                <button type="button" onclick="payWithPaystack(false)"> Pay </button> 
+                <button class="text-center text-white btn btn-success" type="button" onclick="payWithPaystack(false)"> Pay </button> 
               {% endif %}
                 
               
@@ -332,6 +333,9 @@
       // let amount = parseInt($("#total_sum").val())*100;
       // console.log(amount)
       let email = $("#email_hid").val();
+      if (email==""){
+        $(".email_hid").addClass(".invalid")
+      }
       let total = $("#total_sum").text()*100;
       let category = $(".cate_sum").text()
       let sub_cat_sum = $("#sub_span").text()
@@ -351,9 +355,9 @@
         $('#notification').modal('hide')
         console.log(proceed)
         var handler = PaystackPop.setup({
-      key: 'pk_test_018d63ee14fff968b6765fbe71b4eb1215a6ea78',
+      key: 'pk_live_94249b86d23ef8c4ae4a2bbc63139a0df96514c9',
       email: email,
-      amount: total,
+      amount: 10000,
       currency: "NGN",
       // ref: ''+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
       metadata: {

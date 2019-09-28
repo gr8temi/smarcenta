@@ -13,6 +13,21 @@ class CustomUser(AbstractUser):
 
 	def __str__(self):
 		return self.email
+class project_managers(models.Model):
+	name = models.CharField(max_length=50)
+	email = models.EmailField( max_length=254)
+	availability = models.BooleanField(default=True)
+	def __str__(self):
+	 return self.name
+
+
+class project_handlers(models.Model):
+	name = models.CharField(max_length=50)
+	email = models.EmailField( max_length=254)
+	availability = models.BooleanField(default=True)
+	def __str__(self):
+	 return self.name
+
 
 class Candidate(models.Model):
 	user = models.OneToOneField('CustomUser', on_delete=models.CASCADE)

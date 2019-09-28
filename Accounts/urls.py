@@ -2,12 +2,14 @@ from django.conf.urls import url, include
 from django.contrib import admin
 # from django.contrib.auth.views import login, password_reset
 from django.conf import settings
+from django.urls import path
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib.auth import views as auth_views
 # from . import views
 from allauth.account import views as all_views
 from allauth.socialaccount import views as so_views
+from . import views as my
 urlpatterns = [
 	url(r'^accounts/', include('allauth.urls')),
 	url(r'^login/$', all_views.LoginView.as_view(), {'template_name':'account/login.html'}, name='account_login'),
@@ -17,6 +19,9 @@ urlpatterns = [
         name="account_confirm_email"),
 	url(r'^signup/$', so_views.SignupView.as_view(),{'template_name':'socialaccount/signup.html'}, name='socialaccount_signup'),
 	url(r'^logout/$', auth_views.LogoutView.as_view(), name='logout'),
+	path("admin_page/", my.admin_page, name="admin_page"),
+	path("load_order/", my.load_order, name="load_order"),
+	path("load_admin_order/", my.load_admin_order, name="load_admin_order"),
 	# url(r'^Update-Info/(?P<pk>\d+)/$', views.Info.as_view(), name='info'),
 	# url(r'^register/$', views.UserFormView.as_view(), name='register'),
 	# url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',views.activate, name='activate'),
