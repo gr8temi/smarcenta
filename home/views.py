@@ -2,6 +2,8 @@ from django.shortcuts import render,HttpResponse
 from Accounts import models as Acct
 from django.contrib.auth.decorators import login_required
 from Jobs import models as jo
+from django.template.loader import render_to_string
+from django.core.mail import EmailMessage, send_mail, EmailMultiAlternatives
 # Create your views here.
 def Home(request):
 	template = "home/home.html"
@@ -63,8 +65,24 @@ def trackin(request):
 		return render(request,template,context)	
 def verify(request):
 	reference = request.GET.get("reference")
-	stage = request.GET.get("stage")
+	status = request.GET.get("stage")
 	order = jo.Order.objects.get(reference=reference)
+	stage = jo.stage.objects.get(stage=status, category__name=order.sub_cat)
+
+	mail_subject = 'Job Status'
+	message = render_to_string('home/job_status.txt', {            
+               "order":order,
+			   "stage":stage
+        
+            })
+	to_email = [
+            order.email,
+            ]
+	msg_html = render_to_string('home/job_status.html', {            
+                "order":order,
+			   "stage":stage
+            })
+	send_mail(mail_subject, message, "Smartcentanigeria@gmail.com", to_email, fail_silently=False, html_message=msg_html,) 
 	order.status+=1
 	order.save()
 	return HttpResponse(True)

@@ -1,0 +1,4 @@
+<h3>Hi, {{order.name}}</h3>
+<p>Good day, We write to notify you that your order for {{order.title}} with reference of {{order.reference}} has successfully passed the {{stage.stage_name}} stage</p>
+<h6>Best Regards</h6>
+<h5>Smartcenta Team.</h5>
