@@ -11,6 +11,7 @@ urlpatterns = [
 	path("dashboard/", views.dashboard, name="dashboard"),
 	path("Track/", views.track, name="Track"),
 	path("Tracking/", views.trackin, name="Trackin"),
+	path("user_track/", views.user_track, name="user_track"),
 	path("verify/", views.verify, name="verify")
 	
 ]

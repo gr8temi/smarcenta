@@ -1,0 +1,94 @@
+{% load static %}
+<div id="segment2" class="segment2">
+
+
+        <div class="top-bar d-flex justify-content-between pt-2">
+        <h3>{{job.title}}</h3>
+        <p>Welcome <small>{{job.name}}</small></p>
+        </div>
+        <div class="describe">
+            {{job.description | safe}}
+        <!-- <p>Design a website for ABC company</p> -->
+        </div>
+
+      <div class="activities">
+        <div class="heads d-flex justify-content-between pt-5">
+            <h4>Activities</h4>
+            <p>Ref.Code: {{job.reference}}</p>
+            <p>Status</p>
+            
+        </div>
+        <hr class="p-0 m-1">
+    <div id="jobs-div" class="jobs-div d-flex flex-column">
+            
+            {% for stage  in stages %}
+            
+            {% if stage.stage == job.status %}
+            <div class="d-flex jobs justify-content-between">
+
+                <p> <span class="text-warning pt-2 fa fa-spinner pr-3"></span> {{stage.stage_name}}</p>
+                <div class="p-1 alert alert-warning" role="alert">
+                    In Progress
+                </div>
+            </div>
+            {% elif stage.stage > job.status %}
+            <div class="d-flex jobs justify-content-between">
+                
+            <p> <span class="flex-grow-1 text-secondary pt-2 fa fa-pause-circle pr-3"></span> {{stage.stage_name}}</p>
+            <div class="p-1 alert alert-secondary" role="alert">
+                Waiting
+            </div>
+            </div>
+            {% elif stage.stage < job.status %}
+            <div class="d-flex jobs justify-content-between">  
+                <p> <span class="text-success pt-2 fa fa-check-circle pr-3"></span>  
+                {{stage.stage_name}}</p>
+                <div class="p-1 alert alert-success" role="alert">
+                    Success
+                </div>
+            </div>
+            {% endif %}
+                
+            {% endfor %}
+            </div>   
+        </div>
+      </div>
+
+<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<script>
+const verify =(reference,stage)=>{
+  $(".frame").show()
+    $.ajax({
+        url:"/verify",
+        data:{
+            "reference":reference,
+            "stage":stage
+        },
+        success:function(data){
+          $(".frame").fadeOut()
+          alert("stage successfully passed")
+          $(".jobs").load(location.href + ".jobs")
+        }
+    })
+}
+$("#assign_form").submit(function(e){
+  $(".frame").show()
+    e.preventDefault()
+    url= $("#assign_form").attr("action")
+    $.ajax({
+      url:url,
+      method:"GET",
+      data:$("#assign_form").serialize(),
+      success:function(data){
+        console.log(data);
+        
+        $("#showAssign").show()
+        $(".frame").fadeOut()
+        $("#exampleModal").modal('hide')
+      }
+    })
+    
+})
+</script>
+
+                                      

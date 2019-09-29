@@ -63,6 +63,24 @@ def trackin(request):
 			"handlers":handlers
 		}
 		return render(request,template,context)	
+def user_track(request):
+	if request.method== "GET":
+		template="home/user_track.html"
+		refer=str(request.GET.get("reference")).rstrip()
+		job = jo.Order.objects.get(reference=refer)
+		sub_cat = jo.subcategory.objects.get(name=job.sub_cat)
+		stages = jo.stage.objects.filter(category=sub_cat)
+		managers = Acct.project_managers.objects.all()
+		handlers = Acct.project_handlers.objects.all()
+
+		context={
+			"stages":stages,
+			"job":job,
+			"managers":managers,
+			"handlers":handlers
+		}
+		return render(request,template,context)	
+
 def verify(request):
 	reference = request.GET.get("reference")
 	status = request.GET.get("stage")
