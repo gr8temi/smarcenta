@@ -115,7 +115,7 @@
 <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
 <script>
 const verify =(reference,stage)=>{
-    console.log(reference)
+  $(".frame").show()
     $.ajax({
         url:"/verify",
         data:{
@@ -123,6 +123,7 @@ const verify =(reference,stage)=>{
             "stage":stage
         },
         success:function(data){
+          $(".frame").fadeOut()
           alert("stage successfully passed")
           $(".jobs").load(location.href + ".jobs")
         }
