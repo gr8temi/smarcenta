@@ -82,7 +82,7 @@
                                                     <p>({{categories}})</p>
                                                 </div>
                                                 <div class="d-flex justify-content-center">
-                                                    <a href="" class="text-white pb-3">View All <span class="fa fa-long-arrow-right"></span> </a>
+                                                    <a href="javascript:void(0)" onclick="load_category()" class="text-white pb-3">View All <span class="fa fa-long-arrow-right"></span> </a>
                                                 </div>
                                                 </div>
                                         </div>
@@ -232,6 +232,17 @@
         function load_users(){
             $.ajax({
                 url:"/users",
+                method:"GET",
+
+                success:function(data){
+                    $(".loading").html(data)
+                }
+
+            })
+        }
+        function load_category(){
+            $.ajax({
+                url:"/ad_category",
                 method:"GET",
 
                 success:function(data){
