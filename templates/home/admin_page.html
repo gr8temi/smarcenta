@@ -32,8 +32,6 @@
 </head>
   <body>
         <div class="area">
-
-      
                 <div class="cube"></div>
                 <div class="cube"></div>
                 <div class="cube"></div>
@@ -46,171 +44,171 @@
                 <div class="cube"></div>
                 <div class="cube"></div>
         
-      <div class="container-fluid">
-          <div class="container">
-            <div class="row">
-                <div class="col-md-5"  >
-                    <div class="d-flex align-items-center justify-content-between flex-wrap"style="height: 100vh">
-                            <div class=" boxes d-flex flex-wrap justify-content-between"> 
-                                    <div class="shadow box d-flex justify-content-center align-items-center">
+    <div class="container-fluid">
+        <div class="container">
+        <div class="row">
+            <div class="col-md-5"  >
+                <div class="d-flex align-items-center justify-content-between flex-wrap"style="height: 100vh">
+                        <div class=" boxes d-flex flex-wrap justify-content-between"> 
+                                <div class="shadow box d-flex justify-content-center align-items-center">
+                                    <div class=" border-primary cad d-flex flex-column justify-content-between" >
+                                        <div class="d-flex flex-column align-items-center justify-content-center" style="height: 100%">
+                                            <h4 class="pt-2">Orders</h4>
+                                            <p class=""><img src=" {% static 'images/notebook.png' %}" alt="" srcset=""></p>
+                                            <p>({{order}})</p>
+                                        </div>
+                                        <div class="d-flex justify-content-center">
+                                            <a href="javascript:void(0)" onclick="load_order()" class="text-white pb-3">View All <span class="fa fa-long-arrow-right"></span> </a>
+                                        </div>
+                                        </div>
+                                </div>
+                                <div class="shadow box d-flex justify-content-center align-items-center">
                                         <div class=" border-primary cad d-flex flex-column justify-content-between" >
                                             <div class="d-flex flex-column align-items-center justify-content-center" style="height: 100%">
-                                                <h4 class="pt-2">Orders</h4>
-                                                <p class=""><img src=" {% static 'images/notebook.png' %}" alt="" srcset=""></p>
-                                                <p>({{order}})</p>
+                                                <h4 class="pt-2">Users</h4>
+                                                <p class=""><img src="{% static 'images/group.png' %}" alt="" srcset=""></p>
+                                                <p>({{users}})</p>
                                             </div>
                                             <div class="d-flex justify-content-center">
-                                                <a href="javascript:void(0)" onclick="load_order()" class="text-white pb-3">View All <span class="fa fa-long-arrow-right"></span> </a>
+                                                <a href="javascript:void(0)" onclick="load_users()" class="text-white pb-3">View All <span class="fa fa-long-arrow-right"></span> </a>
                                             </div>
-                                         </div>
+                                            </div>
                                     </div>
                                     <div class="shadow box d-flex justify-content-center align-items-center">
                                             <div class=" border-primary cad d-flex flex-column justify-content-between" >
                                                 <div class="d-flex flex-column align-items-center justify-content-center" style="height: 100%">
-                                                    <h4 class="pt-2">Users</h4>
-                                                    <p class=""><img src="{% static 'images/group.png' %}" alt="" srcset=""></p>
-                                                    <p>({{users}})</p>
+                                                    <h4 class="pt-2">Categories</h4>
+                                                    <p class=""><img src="{% static 'images/folder.png' %}" alt="" srcset=""></p>
+                                                    <p>({{categories}})</p>
                                                 </div>
                                                 <div class="d-flex justify-content-center">
                                                     <a href="" class="text-white pb-3">View All <span class="fa fa-long-arrow-right"></span> </a>
                                                 </div>
-                                             </div>
+                                                </div>
                                         </div>
                                         <div class="shadow box d-flex justify-content-center align-items-center">
                                                 <div class=" border-primary cad d-flex flex-column justify-content-between" >
                                                     <div class="d-flex flex-column align-items-center justify-content-center" style="height: 100%">
-                                                        <h4 class="pt-2">Categories</h4>
-                                                        <p class=""><img src="{% static 'images/folder.png' %}" alt="" srcset=""></p>
-                                                        <p>({{categories}})</p>
+                                                        <h4 class="pt-2">Administration</h4>
+                                                        <p class=""><img src="{% static 'images/admin.png' %}" alt="" srcset=""></p>
+                                                        <!-- <p>({{sub_cat}})</p> -->
                                                     </div>
                                                     <div class="d-flex justify-content-center">
                                                         <a href="" class="text-white pb-3">View All <span class="fa fa-long-arrow-right"></span> </a>
                                                     </div>
-                                                 </div>
+                                                    </div>
                                             </div>
                                             <div class="shadow box d-flex justify-content-center align-items-center">
                                                     <div class=" border-primary cad d-flex flex-column justify-content-between" >
                                                         <div class="d-flex flex-column align-items-center justify-content-center" style="height: 100%">
-                                                            <h4 class="pt-2">Administration</h4>
-                                                            <p class=""><img src="{% static 'images/admin.png' %}" alt="" srcset=""></p>
-                                                            <!-- <p>({{sub_cat}})</p> -->
+                                                            <h4 class="pt-2">Promotions</h4>
+                                                            <p class=""><img src="{% static 'images/promotion.png' %}" alt="" srcset=""></p>
+                                                            <p>(34)</p>
                                                         </div>
                                                         <div class="d-flex justify-content-center">
                                                             <a href="" class="text-white pb-3">View All <span class="fa fa-long-arrow-right"></span> </a>
                                                         </div>
-                                                     </div>
+                                                        </div>
                                                 </div>
                                                 <div class="shadow box d-flex justify-content-center align-items-center">
                                                         <div class=" border-primary cad d-flex flex-column justify-content-between" >
                                                             <div class="d-flex flex-column align-items-center justify-content-center" style="height: 100%">
-                                                                <h4 class="pt-2">Promotions</h4>
-                                                                <p class=""><img src="{% static 'images/promotion.png' %}" alt="" srcset=""></p>
+                                                                <h4 class="pt-2">Settings</h4>
+                                                                <p class=""> <img class="" src="{% static 'images/settings.png' %}" alt="" srcset=""> </p>
                                                                 <p>(34)</p>
                                                             </div>
                                                             <div class="d-flex justify-content-center">
                                                                 <a href="" class="text-white pb-3">View All <span class="fa fa-long-arrow-right"></span> </a>
                                                             </div>
-                                                         </div>
+                                                            </div>
                                                     </div>
-                                                    <div class="shadow box d-flex justify-content-center align-items-center">
-                                                            <div class=" border-primary cad d-flex flex-column justify-content-between" >
-                                                                <div class="d-flex flex-column align-items-center justify-content-center" style="height: 100%">
-                                                                    <h4 class="pt-2">Settings</h4>
-                                                                    <p class=""> <img class="" src="{% static 'images/settings.png' %}" alt="" srcset=""> </p>
-                                                                    <p>(34)</p>
-                                                                </div>
-                                                                <div class="d-flex justify-content-center">
-                                                                    <a href="" class="text-white pb-3">View All <span class="fa fa-long-arrow-right"></span> </a>
-                                                                </div>
-                                                             </div>
-                                                        </div>
 
-                                    
-                            </div> 
-                    </div>
-                </div>
-                <div class="frame justify-content-center align-items-center" style="z-index: 100000;display:none;">
-                        <div class="center " style="width: 100%;">
-                           <div class="dot-1"></div>
-                           <div class="dot-2"></div>
-                           <div class="dot-3"></div>
-                        </div>
-                     </div>
-                <div class="col-md-7 tasks">
-                    <div class="white-back d-flex flex-column align-items-start justify-content-start pt-lg-x loading">
-                      
-                        <div class="segment2">
-                          <div class="top-bar d-flex justify-content-between pt-2">
-                            <h3>Admin Page</h3>
-                            <p>Welcome <small>{{user.username}}</small></p>
-                          </div>
-                          <!-- <div class="describe">
-                            <p>Perform</p>
-                          </div> -->
-
-                          <div class="activities job-divs">
-                            <div class="heads d-flex justify-content-between pt-5">
-                              <h4>Activities</h4>
-                              <p>Status</p>
-                              
-                            </div>
-                            <hr class="p-0 m-1">
-                            <div class="jobs-div d-flex flex-column">
-                                  <div class="d-flex jobs justify-content-between">
-                                      
-                                      <p> <span class="text-success pt-2 fa fa-check-circle pr-3"></span> Project handled by Designer</p>
-                                      <div class="p-1 alert alert-success" role="alert">
-                                       success
-                                      </div>
-                                  </div>
-                                  <div class="d-flex jobs justify-content-between">
-                                      
-                                      <p> <span class="text-success pt-2 fa fa-check-circle pr-3"></span> Project handled by Designer</p>
-                                      <div class="p-1 alert alert-success" role="alert">
-                                       success
-                                      </div>
-                                  </div>
-                                  <div class="d-flex jobs justify-content-between">
-                                      
-                                      <p> <span class="text-success pt-2 fa fa-check-circle pr-3"></span> Project handled by Designer</p>
-                                      <div class="p-1 alert alert-success" role="alert">
-                                       success
-                                      </div>
-                                  </div>
-                                  <div class="d-flex jobs justify-content-between">
-                                     
-                                      <p> <span class="text-warning pt-2 fa fa-spinner pr-3"></span> Project handled by Designer</p>
-                                      <div class="p-1 alert alert-warning" role="alert">
-                                       In progress
-                                      </div>
-                                  </div>
-                                  <div class="d-flex jobs justify-content-between">
-                                     
-                                      <p> <span class="text-warning pt-2 fa fa-spinner pr-3"></span> Project handled by Designer</p>
-                                      <div class="p-1 alert alert-warning" role="alert">
-                                       In progress
-                                      </div>
-                                  </div>
-                                  <div class="d-flex jobs justify-content-between">
-                                     
-                                      <p> <span class="text-secondary pt-2 fa fa-pause-circle pr-3"></span> Project handled by Designer</p>
-                                      <div class="p-1 alert alert-secondary" role="alert">
-                                       Waiting
-                                      </div>
-                                  </div>
-                            </div>
-                          </div>
-
+                                
                         </div> 
-                        <!-- <div class="d-flex justify-content-end align-items-end p-4" style="width: 100%; height: 100%;">
-                          <button class="shadow add-button" data-toggle="modal" data-target="#exampleModalScrollable">+</button>
-                        </div> -->
-                    </div>
-
                 </div>
             </div>
-          </div>
-      </div>
+            <div class="frame justify-content-center align-items-center" style="z-index: 100000;display:none;">
+                    <div class="center " style="width: 100%;">
+                        <div class="dot-1"></div>
+                        <div class="dot-2"></div>
+                        <div class="dot-3"></div>
+                    </div>
+                    </div>
+            <div class="col-md-7 tasks">
+                <div class="white-back d-flex flex-column align-items-start justify-content-start pt-lg-x loading">
+                    
+                    <div class="segment2">
+                        <div class="top-bar d-flex justify-content-between pt-2">
+                        <h3>Admin Page</h3>
+                        <p>Welcome <small>{{user.username}}</small></p>
+                        </div>
+                        <!-- <div class="describe">
+                        <p>Perform</p>
+                        </div> -->
+
+                        <div class="activities job-divs">
+                        <div class="heads d-flex justify-content-between pt-5">
+                            <h4>Activities</h4>
+                            <p>Status</p>
+                            
+                        </div>
+                        <hr class="p-0 m-1">
+                        <div class="jobs-div d-flex flex-column">
+                                <div class="d-flex jobs justify-content-between">
+                                    
+                                    <p> <span class="text-success pt-2 fa fa-check-circle pr-3"></span> Project handled by Designer</p>
+                                    <div class="p-1 alert alert-success" role="alert">
+                                    success
+                                    </div>
+                                </div>
+                                <div class="d-flex jobs justify-content-between">
+                                    
+                                    <p> <span class="text-success pt-2 fa fa-check-circle pr-3"></span> Project handled by Designer</p>
+                                    <div class="p-1 alert alert-success" role="alert">
+                                    success
+                                    </div>
+                                </div>
+                                <div class="d-flex jobs justify-content-between">
+                                    
+                                    <p> <span class="text-success pt-2 fa fa-check-circle pr-3"></span> Project handled by Designer</p>
+                                    <div class="p-1 alert alert-success" role="alert">
+                                    success
+                                    </div>
+                                </div>
+                                <div class="d-flex jobs justify-content-between">
+                                    
+                                    <p> <span class="text-warning pt-2 fa fa-spinner pr-3"></span> Project handled by Designer</p>
+                                    <div class="p-1 alert alert-warning" role="alert">
+                                    In progress
+                                    </div>
+                                </div>
+                                <div class="d-flex jobs justify-content-between">
+                                    
+                                    <p> <span class="text-warning pt-2 fa fa-spinner pr-3"></span> Project handled by Designer</p>
+                                    <div class="p-1 alert alert-warning" role="alert">
+                                    In progress
+                                    </div>
+                                </div>
+                                <div class="d-flex jobs justify-content-between">
+                                    
+                                    <p> <span class="text-secondary pt-2 fa fa-pause-circle pr-3"></span> Project handled by Designer</p>
+                                    <div class="p-1 alert alert-secondary" role="alert">
+                                    Waiting
+                                    </div>
+                                </div>
+                        </div>
+                        </div>
+
+                    </div> 
+                    <!-- <div class="d-flex justify-content-end align-items-end p-4" style="width: 100%; height: 100%;">
+                        <button class="shadow add-button" data-toggle="modal" data-target="#exampleModalScrollable">+</button>
+                    </div> -->
+                </div>
+
+            </div>
+        </div>
+        </div>
+    </div>
       </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -223,6 +221,17 @@
         function load_order(){
             $.ajax({
                 url:"/account/load_order",
+                method:"GET",
+
+                success:function(data){
+                    $(".loading").html(data)
+                }
+
+            })
+        }
+        function load_users(){
+            $.ajax({
+                url:"/users",
                 method:"GET",
 
                 success:function(data){

@@ -97,10 +97,38 @@ def verify(request):
             order.email,
             ]
 	msg_html = render_to_string('home/job_status.html', {            
-                "order":order,
-			   "stage":stage
+            "order":order,
+			"stage":stage
             })
 	send_mail(mail_subject, message, "Smartcentanigeria@gmail.com", to_email, fail_silently=False, html_message=msg_html,) 
 	order.status+=1
 	order.save()
 	return HttpResponse(True)
+def users(request):
+	template = "home/users.html"
+	users = Acct.CustomUser.objects.filter(is_staff=False) 
+	orders = jo.Order.objects.all()
+	user_list=[]
+	count=0
+	for user in users:
+		order = jo.Order.objects.filter(user_id=user.id).count()
+		pending= jo.Order.objects.filter(user_id=user.id, status__lte=6).count()
+		complete=jo.Order.objects.filter(user_id=user.id, status__gte=6).count()
+		user_list.append({"username":user.username,
+		"id":user.id,"is_active":user.is_active, "email":user.email, "order":order, "pending":pending,"complete":complete, "referal":user.referal_point})
+
+	print(user_list)
+	
+	users = Acct.CustomUser.objects.filter(is_staff=False)
+	context = {
+	"users":users,
+	"user_list":user_list,
+
+	}
+	return render(request,template,context)
+
+
+
+	
+
+

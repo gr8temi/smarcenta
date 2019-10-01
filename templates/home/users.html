@@ -1,0 +1,211 @@
+{% load static %}
+<style>
+  .fixed_header {
+    width: 100%;
+    /* table-layout: fixed; */
+    /* border-collapse: collapse; */
+  }
+
+  .fixed_header tbody {
+    /* display:block; */
+    overflow: auto;
+    height: 300px;
+  }
+
+  /* .fixed_header thead tr {
+   display: block;
+} */
+
+  /* .fixed_header thead {
+  background: black;
+  color:#fff;
+} */
+</style>
+
+<div class="segment2 ">
+    
+        
+  <div class="top-bar d-flex justify-content-between pt-2">
+    <h3>Users</h3>
+    <p>
+      Welcome <small>{{ user.name }}</small>
+    </p>
+  </div>
+
+  <div class="activities">
+    <div class="pt-5">
+      <table class="table table-striped table-inverse table-responsive" style="overflow-y: scroll; height:500px;"
+      >
+        <thead class="">
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Orders</th>
+            <th>Pending</th>
+            <th>Complete</th>
+            <th>Referals</th>
+            <!-- <th>Reward</th> -->
+            <th>Actions</th>
+            <!-- <th>Stage</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in user_list %}
+          <tr>
+            <td style="text-transform: capitalize"> {{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{user.order}}</td>
+            <td>{{user.pending}}</td>
+            <td>{{user.complete}}</td>
+            <td>{{ user.referal}}</td>
+            <!-- <td class="d-flex flex-column">
+                <button class="btn btn-success" onclick="rewardBtn({{user.id}})">Add</button>
+                <button class="btn btn-danger">Remove</button>
+            </td> -->
+            <td>
+                
+                {% if user.is_active == True %}
+                 <button class="btn btn-warning" onclick="suspend({{user.id}},'{{user.is_active}}')">
+                Suspend
+              </button>   
+                {% else %}
+                <button class="btn btn-primary" onclick="suspend({{user.id}},'{{user.is_active}}')">
+                        Activate
+                </button>  
+                {% endif %}
+                    
+              
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form id="reward-form">
+                <div class="form-group">
+                  <input type="hidden" class="form-control" id="recipient-name">
+                  <div class="form-group">
+                    <label for="">Amount</label>
+                    <input type="number" name="amount" min="0.0" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                    <small id="helpId" class="text-muted">Amount awarded to users</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="message-text" class="col-form-label">Message:</label>
+                  <textarea class="form-control" id="message-text"></textarea>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Reward</button>
+            </div>
+          </div>
+        </div>
+      </div>      
+<div class="modal fade" id="suspendModal" tabindex="-1" role="dialog" aria-labelledby="suspendModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="suspendModalLabel">Perform Action</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert" id="showAssign" style="display: none">
+                                <h2 class="showAssign-tit">User Suspended</h2>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                  <form id="suspend-form" action="{% url 'suspend' %}">
+                      <input type="hidden" name="user_id" class="form-control" id="sus_user">
+                      <input type="hidden" name="active_user" class="form-control" id="active_user">
+                    <div class="form-group">
+                      <label for="message-text" id="" class="col-form-label"><h6 id="message-self"></h6> </label>
+                      <textarea name="reason" class="form-control" id="message-text"></textarea>
+                    </div>
+                    <div class="d-flex flex-column align-items-center sus-button">
+                       
+                    </div>
+                    
+                  </form>
+                </div>
+                <div class="modal-footer d-flex flex-column">
+                </div>
+              </div>
+            </div>
+          </div>  
+<script src="{% static 'js/jquery-3.3.1.min.js' %} "></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<script>    
+function rewardBtn(rewardId){
+    $('#exampleModal').modal('toggle')
+    $("#recipient-name").val(rewardId)
+
+}
+function suspend(userId,active){
+    $("#suspendModal").modal("toggle")
+    console.log( active)
+    if (active == "False"){
+        $("#message-self").text(`Reason For Activation:`)
+         $(".sus-button").html(`
+         <button type="submit" class="btn btn-primary">Activate</button>
+        <small>Nb. Clicking this button activates the user</small>   
+        `)
+    }
+    else{
+        $("#message-self").text(`Reason for Suspension:`)
+        $(".sus-button").html(`
+        <button type="submit" class="btn btn-warning">Suspend</button>
+        <small>Nb. Clicking this button suspends the user</small>  
+        `)
+    }
+    $("#sus_user").val(userId)
+    $("#active_user").val(active)
+}
+function load_content(reference){
+          $.ajax({
+            url: "/Tracking",
+            method:"GET",
+            data:{
+              "reference":reference
+            },
+            success:function(data){
+              $(".loading").html(data)
+            }
+            
+      
+          })
+        }
+$("#suspend-form").submit((e)=>{
+    $(".frame").show()
+    e.preventDefault()
+    url= $("#suspend-form").attr("action")
+    $.ajax({
+      url:url,
+      method:"GET",
+      data:$("#suspend-form").serialize(),
+      success:function(data){
+        console.log(data);
+        $("#showAssign").show()
+        $(".frame").fadeOut()
+      }
+    })
+})
+</script>

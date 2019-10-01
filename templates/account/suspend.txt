@@ -1,0 +1,4 @@
+<h3>Hi, {{user.username}}</h3>
+<p>Good day, We write to notify you that you have been suspended from using our services for {{reason}}. To rectify this reply this email with consice approach taking to resolve it. thanks</p>
+<h6>Best Regards</h6>
+<h5>Smartcenta Team.</h5>

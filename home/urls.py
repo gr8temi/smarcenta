@@ -12,7 +12,8 @@ urlpatterns = [
 	path("Track/", views.track, name="Track"),
 	path("Tracking/", views.trackin, name="Trackin"),
 	path("user_track/", views.user_track, name="user_track"),
-	path("verify/", views.verify, name="verify")
+	path("verify/", views.verify, name="verify"),
+	path("users/", views.users, name="users"),
 	
 ]
 urlpatterns+=staticfiles_urlpatterns()
