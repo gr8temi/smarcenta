@@ -127,8 +127,13 @@ def users(request):
 	}
 	return render(request,template,context)
 
+def Categories(request):
+	template = "home/categories.html"
+	categories 	  = Acct.Categories.objects.all()
+	subcategories = jo.subcategory.objects.all() 
 
-
-	
-
-
+	context= {
+	"subcategories":subcategories,
+	"categories":categories
+	}
+	return render(request,template,context)
