@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 #E-mail settings
 # EMAIL_USE_TLS = True
 
@@ -94,6 +94,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'livereload.middleware.LiveReloadScript',
+    
 ]
 
 ROOT_URLCONF = 'smartcenta.urls'
@@ -167,7 +168,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT= '/staticfiles/'
+STATIC_ROOT= os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS=(
     os.path.join(BASE_DIR,'assets'),
 )
