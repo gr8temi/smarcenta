@@ -14,9 +14,9 @@ import os
 from decouple import config
 import django_heroku
 
-django_heroku.settings(locals())
-# Build paths inside the project like this: os.path.join(config['BASE_DIR'], ...)
 
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
@@ -101,7 +101,7 @@ ROOT_URLCONF = 'smartcenta.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(config['BASE_DIR'], 'templates',)   ],
+        'DIRS': [os.path.join(BASE_DIR, 'templates',)   ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -123,7 +123,7 @@ WSGI_APPLICATION = 'smartcenta.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(config['BASE_DIR'], 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -167,14 +167,14 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT= os.path.join(config['BASE_DIR'], 'staticfiles')
+STATIC_ROOT= '/staticfiles/'
 STATICFILES_DIRS=(
-    os.path.join(config['BASE_DIR'],'assets'),
+    os.path.join(BASE_DIR,'assets'),
 )
 
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT = os.path.join(config['BASE_DIR'], 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
@@ -195,3 +195,4 @@ SOCIALACCOUNT_FORMS ={'signup': 'Accounts.forms.SocialForm'}
 SITE_ID = 1
 ACCOUNT_FORMS = {'signup': 'Accounts.forms.MyCustomSignupForm'}
 AUTH_USER_MODEL = 'Accounts.CustomUser'
+django_heroku.settings(locals())
