@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 from decouple import config
-import django_heroku
+# import django_heroku
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -94,6 +94,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'livereload.middleware.LiveReloadScript',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     
 ]
 
@@ -196,4 +197,4 @@ SOCIALACCOUNT_FORMS ={'signup': 'Accounts.forms.SocialForm'}
 SITE_ID = 1
 ACCOUNT_FORMS = {'signup': 'Accounts.forms.MyCustomSignupForm'}
 AUTH_USER_MODEL = 'Accounts.CustomUser'
-django_heroku.settings(locals())
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
