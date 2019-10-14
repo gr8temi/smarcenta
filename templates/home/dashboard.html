@@ -28,193 +28,139 @@
           <div class="cube"></div>
           <div class="cube"></div>
           <div class="cube"></div>
-    <div class="container-fluid" >
-
-        <div class="container ">
-            <div class="res-nav d-flex d-md-none d-lg-none justify-content-around align-items-center " style="z-index: 10;">
-                <div class="pl-1 flex-grow-1">
-            <img class="img-fluid rounded-circle img-thumbnail" style="width: 40px; height: 40px;" src="{% static 'images/person_1.jpg' %}" alt="" srcset="">
-                </div>
-                <div class="flex-grow-1">
-                  <a href=""><img class="img-fluid" style="width: 40px; height: 40px;" src="{%static 'images/dashboard.png' %}" alt=""></a>
-                </div>
-                <div class="flex-grow-1">
-                  <a href=""><img class="img-fluid"style="width: 40px; height: 40px;" src="{%static 'images/settings.png' %}" alt=""></a>
-                </div>
-                <div class="flex-grow-1">
-                  <a href=""><img class="img-fluid"style="width: 40px; height: 40px;" src="{%static 'images/conversation.png' %}" alt=""></a>
-                </div>
-                <div class="flex-grow-1">
-                  <a href=""><img class="img-fluid"style="width: 40px; height: 40px;" src="{%static 'images/information.png' %}" alt=""></a>
-                </div>
-
+          <div class="res-nav d-flex d-md-none d-lg-none justify-content-around align-items-center mb-3" style="z-index: 10;">
+            <div class="p-1 flex-grow-1 icons justify-content-center">
+        <img class="img-fluid rounded-circle img-thumbnail" style="width: 40px; height: 40px;" src="{% static 'images/person_1.jpg' %}" alt="" srcset="">
             </div>
-            <div class="row">
-              <div class="sidenav col-md-2 d-flex flex-column align-items-center p-lg-5" style="height: 100vh; background:#E7E8EB20;">
-
-<div class="prof-img ">
-  <!-- <img class="pl-5"  src=" {% static 'images/home.png'%}" alt="" srcset=""> -->
-  <div class="d-flex justify-content-center">
-    <a class="text-white" href="{% url 'index' %}"><i style="font-size: 2em" class="fa fa-home" aria-hidden="true"></i></a>
-
-  </div>
-
-  <img class="img-fluid img-thumbnail" src="{% static 'images/person_1.jpg' %}" alt="" srcset="">
-  <p class="text-center text-white">Username: {{request.user.username}}</p>
-  <p style="font-size: 0.75rem" class="text-center text-white">Referal Code: <b>{{request.user.referal_code}}</b> </p>
-  <p class="text-center text-white">Referal Points: {{request.user.referal_point}} </p>
-  <hr class="">
-</div>
-
-<div class="panels" style="width:100%; height: 30%; border-bottom: 1px solid rgba(17, 17, 19, 0.125)">
-  <div class="text-center das pt-2 pb-3" style=" border-bottom: 1px solid white;">
-    <li><a href="#dashboard">Dashboard</a></li>
-
-  </div>
-  <div class="text-center das pt-2 pb-3" style=" border-bottom: 1px solid white;">
-      <li><a href="#dashboard">Management</a></li>
-
-  </div>
-  <div class="text-center das pt-2 pb-3" style=" border-bottom: 1px solid white;">
-      <li><a href="#dashboard">FAQ</a></li>
-
-  </div>
-</div>
-
-</div>
-<div class="col-md-5 me mt-5">
-  <!-- <div class="d-flex justify-content-start align-start-end pt-2">
-      <button class="shadow add-buttons"><i class="fa fa-bars"></i></button>
-  </div> -->
-<div class=" d-flex flex-column contains align-items-start pt-lg-x">
-
-  <div class="segment">
-
-    <div class="name">
-      <h3 >Hi {{request.user.username}} </h3>
-    </div>
-
-    <div class="p">
-        <p > welcome back to your workspace we really miss you.</p>
-    </div>
-
-    <div class="">
-        <div class="input-group position-relative p-lg-2 search">
-            <i class="fa fa-search pt-2 pr-2 pl-2"></i>
-            <input class="p-2 phones" type="text" placeholder="Search for Tasks project..." name="project" id="project">
-        </div>
-
-
-    </div>
-    <div class="proj-icon pt-2  pt-lg-5">
-      <h4 >Project <span><small>({{counter}})</small></span></h4>
-      <div class=" boxes d-flex flex-wrap justify-content-evenly">
-
-        {% for job in jobs %}
-        {% with index=forloop.counter %}
-          <div class="shadow box d-flex justify-content-center align-items-center"><h6><a class="text-dark" href="javascript:void(0)" onclick="load_content('{{job.reference}}')">{{job.abbr}}</a></h6></div>
-          {% endwith%}
-        {% endfor %}
-
-
-        <!-- <div class="shadow box d-flex justify-content-center align-items-center"><h6>PD</h6></div>
-        <div class="shadow box d-flex justify-content-center align-items-center"><h6>PD</h6></div>
-        <div class="shadow box d-flex justify-content-center align-items-center"><h6>PD</h6></div>
-        <div class="shadow box d-flex justify-content-center align-items-center"><h6>PD</h6></div>
-        <div class="shadow boxs d-flex justify-content-center align-items-center"><h6>8+</h6></div> -->
-
-      </div>
-    </div>
-    <!-- <div class="add-new proj-icon pt-2  pt-lg-5">
-        <h4 >News Board</h4>
-
-    </div> -->
-  </div>
-
-
-</div>
-
-</div>
-<div class="col-md-5 tasks">
-<div class="white-back d-flex flex-column align-items-start justify-content-start pt-lg-x loading">
-
-<div class="segment2">
-<div class="top-bar d-flex justify-content-between pt-2">
-<h3 style="font-size: 1.2rem;">Web Development</h3>
-<p>Welcome <small>{{user.username}}</small></p>
-</div>
-<div class="describe">
-<p>Design a website for ABC company</p>
-</div>
-
-<div class="activities">
-<div class="heads d-flex justify-content-between pt-5">
-<h4>Activities</h4>
-<p>Status</p>
-
-</div>
-<hr class="p-0 m-1">
-<div class="jobs-div d-flex flex-column">
-<div class="d-flex jobs justify-content-between">
-
-    <p> <span class="text-success pt-2 fa fa-check-circle pr-3"></span> Project handled by Designer</p>
-    <div class="p-1 alert alert-success" role="alert">
-      success
-    </div>
-</div>
-<div class="d-flex jobs justify-content-between">
-
-    <p> <span class="text-success pt-2 fa fa-check-circle pr-3"></span> Project handled by Designer</p>
-    <div class="p-1 alert alert-success" role="alert">
-      success
-    </div>
-</div>
-<div class="d-flex jobs justify-content-between">
-
-    <p> <span class="text-success pt-2 fa fa-check-circle pr-3"></span> Project handled by Designer</p>
-    <div class="p-1 alert alert-success" role="alert">
-      success
-    </div>
-</div>
-<div class="d-flex jobs justify-content-between">
-
-    <p> <span class="text-warning pt-2 fa fa-spinner pr-3"></span> Project handled by Designer</p>
-    <div class="p-1 alert alert-warning" role="alert">
-      In progress
-    </div>
-</div>
-<div class="d-flex jobs justify-content-between">
-
-    <p> <span class="text-warning pt-2 fa fa-spinner pr-3"></span> Project handled by Designer</p>
-    <div class="p-1 alert alert-warning" role="alert">
-      In progress
-    </div>
-</div>
-<div class="d-flex jobs justify-content-between">
-
-    <p> <span class="text-secondary pt-2 fa fa-pause-circle pr-3"></span> Project handled by Designer</p>
-    <div class="p-1 alert alert-secondary" role="alert">
-      Waiting
-    </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="d-flex justify-content-end align-items-end p-4" style="width: 100%; height: 100%;">
-<button class="shadow add-button" data-toggle="modal" data-target="#exampleModalScrollable">+</button>
-</div>
-</div>
-</div>
-
+            <div class="flex-grow-1 icons justify-content-center p-1">
+                <a href="{%url 'index' %}"><img class="img-fluid" style="width: 40px; height: 40px;" src="{%static 'images/house.png' %}" alt=""></a>
               </div>
+            <div class="flex-grow-1 icons justify-content-center p-1">
+              <a href="javascript:void(0)" onclick="dashboard()"><img class="img-fluid" style="width: 40px; height: 40px;" src="{%static 'images/dashboard.png' %}" alt=""></a>
+            </div>
+            <div class="flex-grow-1 icons justify-content-center p-1">
+              <a href=""><img class="img-fluid"style="width: 40px; height: 40px;" src="{%static 'images/settings.png' %}" alt=""></a>
+            </div>
+            <div class="flex-grow-1 icons justify-content-center p-1">
+              <a href=""><img class="img-fluid"style="width: 40px; height: 40px;" src="{%static 'images/conversation.png' %}" alt=""></a>
+            </div>
+            <div class="flex-grow-1 icons justify-content-center p-1">
+              <a href=""><img class="img-fluid"style="width: 40px; height: 40px;" src="{%static 'images/information.png' %}" alt=""></a>
+            </div>
+
         </div>
+      <div class="container-fluid">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-2">
+              <div class="sidenav col-md-12 d-flex flex-column align-items-center p-lg-5" style="height: 100vh; background:#E7E8EB20;">
 
-
+                <div class="prof-img ">
+                  <!-- <img class="pl-5"  src=" {% static 'images/home.png'%}" alt="" srcset=""> -->
+                  <div class="d-flex justify-content-center">
+                    <a class="text-white" href="{% url 'index' %}"><i style="font-size: 2em" class="fa fa-home" aria-hidden="true"></i></a>
+                
+                  </div>
+                
+                  <img class="img-fluid img-thumbnail" src="{% static 'images/person_1.jpg' %}" alt="" srcset="">
+                  <p class="text-center text-white">Username: {{request.user.username}}</p>
+                  <p style="font-size: 0.75rem" class="text-center text-white">Referal Code: <b>{{request.user.referal_code}}</b> </p>
+                  <p class="text-center text-white">Referal Points: {{request.user.referal_point}} </p>
+                  <hr class="">
+                </div>
+                
+                <div class="panels" style="width:100%; height: 30%; border-bottom: 1px solid rgba(17, 17, 19, 0.125)">
+                  <div class="text-center das pt-2 pb-3" style=" border-bottom: 1px solid white;">
+                    <li><a href="#dashboard">Dashboard</a></li>
+                
+                  </div>
+                  <div class="text-center das pt-2 pb-3" style=" border-bottom: 1px solid white;">
+                      <li><a href="#dashboard">Management</a></li>
+                
+                  </div>
+                  <div class="text-center das pt-2 pb-3" style=" border-bottom: 1px solid white;">
+                      <li><a href="#dashboard">FAQ</a></li>
+                
+                  </div>
+                </div>
+                
+                </div>
+            </div>
+            <div class="col-md-10" id="main-area">
+              <div class="row">
+                <div class="col-md-6 me mt-4">
+                <!-- <div class="d-flex justify-content-start align-start-end pt-2">
+                    <button class="shadow add-buttons"><i class="fa fa-bars"></i></button>
+                </div> -->
+              <div class=" d-flex flex-column contains align-items-start pt-lg-x">
+              
+                <div class="segment">
+              
+                  <div class="name pt-5 pt-lg-0">
+                    <h3 >Hi {{request.user.username}} </h3>
+                  </div>
+              
+                  <div class="p">
+                      <p > welcome back to your workspace we really miss you.</p>
+                  </div>
+              
+                  <div class="">
+                      <div class="input-group position-relative p-lg-2 search">
+                            <input class="p-2 phones" type="text" placeholder="Search for Tasks project..." name="project" id="project">
+                          <i class="fa fa-search pt-2 pr-2 pl-2"></i>
+                      </div>
+              
+              
+                  </div>
+                  <div class="proj-icon pt-2  pt-lg-5">
+                    <h4 >Tasks <span><small>({{counter}})</small></span></h4>
+                    <div class=" boxes d-flex flex-wrap justify-content-evenly">
+              
+                      {% for job in jobs %}
+                      {% with index=forloop.counter %}
+                        <div class="shadow box d-flex justify-content-center align-items-center"><h6><a class="text-dark" href="javascript:void(0)" onclick="load_content('{{job.reference}}')">{{job.abbr}}</a></h6></div>
+                        {% endwith%}
+                      {% endfor %}
+              
+              
+                      <!-- <div class="shadow box d-flex justify-content-center align-items-center"><h6>PD</h6></div>
+                      <div class="shadow box d-flex justify-content-center align-items-center"><h6>PD</h6></div>
+                      <div class="shadow box d-flex justify-content-center align-items-center"><h6>PD</h6></div>
+                      <div class="shadow box d-flex justify-content-center align-items-center"><h6>PD</h6></div>
+                      <div class="shadow boxs d-flex justify-content-center align-items-center"><h6>8+</h6></div> -->
+              
+                    </div>
+                  </div>
+                  <!-- <div class="add-new proj-icon pt-2  pt-lg-5">
+                      <h4 >News Board</h4>
+              
+                  </div> -->
+                </div>
+              
+              
+              </div>
+              
+              </div>
+              <div class="col-md-6 tasks">
+                  <div class="white-back d-flex flex-column align-items-start justify-content-start pt-5 loading">
+                  
+                  <div class="segment2 d-flex justify-content-center align-items-center" style="height: 100%;">
+                    Click on any task by on the task panel to see its progress
+                  </div>
+                  <div class="d-flex justify-content-end align-items-end p-4" style="width: 100%; height: 100%;">
+                  <button class="shadow add-button" data-toggle="modal" data-target="#exampleModalScrollable">+</button>
+                  </div>
+                  </div>
+                  </div>
+              </div>
+              
+            </div>
+          </div>
       </div>
- </div>
-
-    <!-- Modal -->
+      </div>
+      
+    </div>
+     <!-- Modal -->
 <div class="modal fade bd-example-modal-xl" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
       <div class="modal-content">
@@ -450,5 +396,8 @@
 
     })
   }
+  // function dashboard(){
+  //   $("#main-area").html(`<h1>adams you're smart`)
+  // }
   </script>
 </html>
