@@ -1,15 +1,15 @@
 <div class="col-md-12" id="subc"><h3>Deadline</h3></div>
-{% for dead in dedline %}
-              <div class="mb-3 mb-md-0">
-                <label for="option-job-type-1">
-                  <!-- <input type="radio" value="{{dead.id}}" id="ded_line" name="job-type"> {{dead.deadline}} <small>{{dead.price}}</small> -->
-                  {% csrf_token %}
-                  <li class="deadli joos" id="ded_line"  value="{{dead.id}}">{{dead.deadline}} <small>{{dead.price}}</small></li>
-                </label>  
-              </div>
-{% endfor %}
+<select class="form-control deadli" name="" id="">
+    <option selected disabled>Choose a Deadline</option>
+    {% for dead in dedline %}
+    <option value="{{dead.id}}">{{dead.deadline}}<small> {{dead.price}}</small></option>
+    {% endfor %}
+
+    <option></option>
+</select>
+
 <script>
-        $(".deadli").unbind().click(function (e) {
+        $(".deadli").unbind().change(function (e) {
              var url = "/Job/deadlines/";
              var deadline = $(this).val();
              console.log(deadline);
@@ -30,6 +30,6 @@
                  $("#total_sum").load(location.href + " #total_sum")
                }
              });
-       
+
            });
        </script>

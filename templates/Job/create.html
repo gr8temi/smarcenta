@@ -13,8 +13,8 @@
     </div>
   </div>
 
-  
-  
+
+
 
   <div class="site-section bg-light">
     <div class="container-fluid">
@@ -22,9 +22,9 @@
         <div class="row">
         <div class="col-lg-1"></div>
         <div class=" col-lg-6">
-        
-          
-        
+
+
+
           <form action="#" class="p-5 bg-white">
               {{ form.media }}
             <!-- <div class="row form-group">
@@ -46,7 +46,7 @@
                 <input type="text" id="title" class="titles form-control" placeholder="eg. Full Stack Frontend">
               </div>
             </div>
-            
+
             {% if user.is_authenticated %}
             <div class="row form-group mb-5">
               <div class="col-md-12 mb-3 mb-md-0">
@@ -54,40 +54,43 @@
                 <input type="text" id="fullname" class="form-control" value="{{user.first_name}}">
               </div>
             </div>
-              
+
             {% else %}
-            <div class="row form-group mb-5">
+            <div class="row form-group mb-5 p-0">
               <div class="col-md-12 mb-3 mb-md-0">
                 <label class="font-weight-bold" for="fullname">Name</label>
                 <input type="text" id="fullname" class="form-control" placeholder="eg. Facebook, Inc.">
               </div>
             </div>
             {% endif %}
-              
-            
+
+
 
 
             <div class="row form-group">
-              
+
               <div class="col-md-4">
-                  <div class="col-md-12"><h3>Category</h3></div>
-              {% for cat in category %}
-              <div class="mb-3 mb-md-0">
-                <label for="option-job-type-1">
-                  <!-- <input type="radio" value="{{cat.id}}" class="jo_cate" name="cate"> {{cat.category}} -->
-                  <li class="joo"  value="{{cat.id}}">{{cat.category}} <i class="fa fa-arrow-right" style="float: right;"  aria-hidden="true"></i> </li>
-                </label>  
-              </div>
-              {% endfor %}
-            </div> 
+                  <div class="col-md-12"><h4>Category</h4></div>
+                  <div class="form-group">
+                   <select class="form-control joo" name="" id="">
+                      <option selected disabled>Choose a Category</option>
+                      {% for cat in category %}
+                      <option value="{{cat.id}}">{{cat.category}}</option>
+                      {% endfor %}
+
+                      <option></option>
+                    </select>
+                  </div>
+
+            </div>
             <div class="col-md-4 new-form">
-              
+
             </div>
             <div class="col-md-4 ded-form">
-              
+
               </div>
             </div>
-            
+
             <!-- {% if user.is_authenticated %}
             <div class="row form-group mb-4">
               <div class="col-md-12"><h3>Location</h3></div>
@@ -103,8 +106,8 @@
               </div>
             </div>
             {% endif %} -->
-              
-            
+
+
 
             <div class="row form-group">
               <div class="col-md-12"><h3>Job Description</h3></div>
@@ -114,7 +117,7 @@
                   <textarea class="form-control" name="editor1" id="" rows="3"></textarea>
                   <script>
                         CKEDITOR.replace( 'editor1' );
-                        
+
                 </script>
               </div>
             </div>
@@ -122,7 +125,7 @@
             <!-- <div class="row form-group">
               <div class="col-md-12">
                 <input type="submit" value="Post" class="btn btn-primary  py-2 px-5">
-              </div> 
+              </div>
             </div> -->
 
 
@@ -130,19 +133,19 @@
         </div>
         <!-- <div class="col-lg-1"></div> -->
         <div class="col-lg-4">
-          
+
           {% if user.is_authenticated %}
           <div class="p-4 mb-3 bg-white">
               <h3 class="h5 text-black mb-3">Contact Info</h3>
               <!-- <p class="mb-0 font-weight-bold">Address</p>
               <p class="mb-4">{{user.address}}</p> -->
-  
+
               <p class="mb-0 font-weight-bold">Phone</p>
               <p class="mb-4"><a class="text-green" href="#">{{user.phone}}</a></p>
               <input type="hidden" value="{{user.phone}}" id="phone">
               <p class="mb-0 font-weight-bold">Email Address</p>
               <p class="mb-0"><a class="text-green" href="#">{{user.email}}</a></p>
-  
+
             </div>
           {% else %}
              <div class="p-4 mb-3 bg-white">
@@ -166,8 +169,8 @@
 
           </div>
           {% endif %}
-            
-          
+
+
           <div class="p-4 mb-3 bg-white ">
             <div class="">
               <h3 class="center h5 text-black mb-3">Booking Summary</h3>
@@ -179,7 +182,7 @@
               <p>Category  <span class="cate_sum" style="float:right;">{{cate}}</span></p>
             </div>
             <div id="load_sub"style="display: none">
-                
+
                 <p id="load_sub1">Sub Category <span style="float: right;" class="sub_cat_sum mr-auto"><span id="sub_span">{{subc}}</span> <small>{{sub_price}}</small></span> </p>
             </div>
             <div id="load_deadline"style="display: none">
@@ -192,14 +195,14 @@
             </div>
             <form class="d-flex justify-content-center">
               <script src="https://js.paystack.co/v1/inline.js"></script>
-              
+
               {% if user.is_authenticated %}
-                <button class="text-center text-white btn btn-success" type="button" onclick="payWithPaystack(true)"> Pay </button> 
+                <button class="text-center text-white btn btn-success" type="button" onclick="payWithPaystack(true)"> Pay </button>
                 {% else %}
-                <button class="text-center text-white btn btn-success" type="button" onclick="payWithPaystack(false)"> Pay </button> 
+                <button class="text-center text-white btn btn-success" type="button" onclick="payWithPaystack(false)"> Pay </button>
               {% endif %}
-                
-              
+
+
             </form>
             <!-- <p><a href="#" class="btn btn-green text-white  py-2 px-4">Checkout</a></p> -->
 
@@ -207,11 +210,11 @@
         </div>
       </div>
       </div>
-      
+
     </div>
   </div>
-  
- 
+
+
 
 
   <div class="site-section">
@@ -221,7 +224,7 @@
           <h2>Frequently Ask Questions</h2>
         </div>
       </div>
-      
+
 
       <div class="row justify-content-center" data-aos="fade" data-aos-delay="100">
         <div class="col-md-8">
@@ -236,7 +239,7 @@
               </div>
             </div>
           </div> <!-- .accordion-item -->
-          
+
           <div class="accordion-item">
             <h3 class="mb-0 heading">
               <a class="btn-block" data-toggle="collapse" href="#collapseTwo" role="button" aria-expanded="false" aria-controls="collapseTwo">How much pay for 3  months?<span class="icon"></span></a>
@@ -273,11 +276,11 @@
         </div>
         </div>
       </div>
-    
+
     </div>
   </div>
 
-  
+
 <!-- Modal -->
 <div class="modal fade" id="notification" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -293,7 +296,7 @@
             </p>
          </div>
         <div class="modal-footer">
-          <a href="{% url 'account_login' %}?next={{request.path}}"><button type="button" class="btn btn-primary">log in</button></a> 
+          <a href="{% url 'account_login' %}?next={{request.path}}"><button type="button" class="btn btn-primary">log in</button></a>
           <button type="button" onclick="payWithPaystack(true)" class="btn btn-warning">proceed</button>
         </div>
       </div>
@@ -305,7 +308,7 @@
 {% block script %}
 <!-- <script src="{% static 'js/jquery-3.3.1.min.js' %} "></script> -->
 <script>
- $(".joo").unbind().click(function (e) {
+ $(".joo").unbind().change(function (e) {
       e.target.classList.toggle("active")
       $(".ded-form").hide()
       var url = "/Job/catechange/";
@@ -371,7 +374,7 @@
       },
       callback: function(response){
           // alert('success. transaction ref is ' + response.reference);
-        
+
         $.ajax({
         url: "/Job/payin/",
         // method:"POST",
@@ -382,7 +385,7 @@
             "sub_cat_sum":sub_cat_sum,
             "dead_sum":dead_sum,
             "phone":phone,
-            "title":title, 
+            "title":title,
             "description":description,
             "reference":response.reference,
             "name":name,
@@ -400,14 +403,14 @@
             else if(data >0){
               location.assign("/dashboard")
             }
-            
+
           }
       });
-          
+
 
       },
       onClose: function(){
-          
+
       }
     });
     handler.openIframe();
@@ -416,4 +419,3 @@
 </script>
 
 {% endblock script %}
-  

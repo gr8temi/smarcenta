@@ -12,17 +12,17 @@
         </div>
 
       <div class="activities">
-        <div class="heads d-flex justify-content-between pt-5">
+        <div class="heads d-flex flex-wrap justify-content-between pt-5">
             <h4>Activities</h4>
             <p>Ref.Code: {{job.reference}}</p>
             <p>Status</p>
-            
+
         </div>
         <hr class="p-0 m-1">
-    <div id="jobs-div" class="jobs-div d-flex flex-column">
-            
+    <div id="jobs-div" class="jobs-div d-flex flex-column p-1">
+
             {% for stage  in stages %}
-            
+
             {% if stage.stage == job.status %}
             <div class="d-flex jobs justify-content-between">
 
@@ -33,24 +33,24 @@
             </div>
             {% elif stage.stage > job.status %}
             <div class="d-flex jobs justify-content-between">
-                
+
             <p> <span class="flex-grow-1 text-secondary pt-2 fa fa-pause-circle pr-3"></span> {{stage.stage_name}}</p>
             <div class="p-1 alert alert-secondary" role="alert">
                 Waiting
             </div>
             </div>
             {% elif stage.stage < job.status %}
-            <div class="d-flex jobs justify-content-between">  
-                <p> <span class="text-success pt-2 fa fa-check-circle pr-3"></span>  
+            <div class="d-flex jobs justify-content-between">
+                <p> <span class="text-success pt-2 fa fa-check-circle pr-3"></span>
                 {{stage.stage_name}}</p>
                 <div class="p-1 alert alert-success" role="alert">
                     Success
                 </div>
             </div>
             {% endif %}
-                
+
             {% endfor %}
-            </div>   
+            </div>
         </div>
       </div>
 
@@ -81,14 +81,14 @@ $("#assign_form").submit(function(e){
       data:$("#assign_form").serialize(),
       success:function(data){
         console.log(data);
-        
+
         $("#showAssign").show()
         $(".frame").fadeOut()
         $("#exampleModal").modal('hide')
       }
     })
-    
+
 })
 </script>
 
-                                      
+

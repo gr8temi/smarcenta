@@ -14,10 +14,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{% static 'css/dash.css' %}">
   </head>
-  <body >
-      <div class="area">
+  <body style="height: 100%;">
+    <div class="area">
 
-      
           <div class="cube"></div>
           <div class="cube"></div>
           <div class="cube"></div>
@@ -29,17 +28,35 @@
           <div class="cube"></div>
           <div class="cube"></div>
           <div class="cube"></div>
-      <div class="container-fluid" >
+    <div class="container-fluid" >
 
-        <div class="container col-md-12">
+        <div class="container ">
+            <div class="res-nav d-flex d-md-none d-lg-none justify-content-around align-items-center " style="z-index: 10;">
+                <div class="pl-1 flex-grow-1">
+            <img class="img-fluid rounded-circle img-thumbnail" style="width: 40px; height: 40px;" src="{% static 'images/person_1.jpg' %}" alt="" srcset="">
+                </div>
+                <div class="flex-grow-1">
+                  <a href=""><img class="img-fluid" style="width: 40px; height: 40px;" src="{%static 'images/dashboard.png' %}" alt=""></a>
+                </div>
+                <div class="flex-grow-1">
+                  <a href=""><img class="img-fluid"style="width: 40px; height: 40px;" src="{%static 'images/settings.png' %}" alt=""></a>
+                </div>
+                <div class="flex-grow-1">
+                  <a href=""><img class="img-fluid"style="width: 40px; height: 40px;" src="{%static 'images/conversation.png' %}" alt=""></a>
+                </div>
+                <div class="flex-grow-1">
+                  <a href=""><img class="img-fluid"style="width: 40px; height: 40px;" src="{%static 'images/information.png' %}" alt=""></a>
+                </div>
+
+            </div>
             <div class="row">
-              <div class="sidenav col-md-2 d-flex flex-column align-items-center p-5" style="height: 100vh; background:#E7E8EB20;">
+              <div class="sidenav col-md-2 d-flex flex-column align-items-center p-lg-5" style="height: 100vh; background:#E7E8EB20;">
 
 <div class="prof-img ">
   <!-- <img class="pl-5"  src=" {% static 'images/home.png'%}" alt="" srcset=""> -->
   <div class="d-flex justify-content-center">
     <a class="text-white" href="{% url 'index' %}"><i style="font-size: 2em" class="fa fa-home" aria-hidden="true"></i></a>
-    
+
   </div>
 
   <img class="img-fluid img-thumbnail" src="{% static 'images/person_1.jpg' %}" alt="" srcset="">
@@ -52,147 +69,148 @@
 <div class="panels" style="width:100%; height: 30%; border-bottom: 1px solid rgba(17, 17, 19, 0.125)">
   <div class="text-center das pt-2 pb-3" style=" border-bottom: 1px solid white;">
     <li><a href="#dashboard">Dashboard</a></li>
-    
+
   </div>
   <div class="text-center das pt-2 pb-3" style=" border-bottom: 1px solid white;">
       <li><a href="#dashboard">Management</a></li>
-      
+
   </div>
   <div class="text-center das pt-2 pb-3" style=" border-bottom: 1px solid white;">
       <li><a href="#dashboard">FAQ</a></li>
-      
+
   </div>
 </div>
 
 </div>
-                <div class="col-md-5 me">
-                    <!-- <div class="d-flex justify-content-start align-start-end pt-2">
-                        <button class="shadow add-buttons"><i class="fa fa-bars"></i></button>
-                    </div> -->
-                  <div class=" d-flex flex-column contains align-items-start pt-lg-x">
-                      
-                    <div class="segment">
-      
-                      <div class="name">
-                        <h3 >Hi {{request.user.username}} </h3>
-                      </div>
-      
-                      <div class="p">
-                          <p > welcome back to your workspace we really miss you.</p> 
-                      </div>
-      
-                      <div class="">
-                          <div class="input-group position-relative p-lg-2 search">
-                              <i class="fa fa-search pt-2 pr-2 pl-2"></i>
-                              <input class="p-2 phones" type="text" placeholder="Search for Tasks project..." name="project" id="project">
-                          </div>
-      
-      
-                      </div>
-                      <div class="proj-icon pt-2  pt-lg-5">
-                        <h4 >Project <span><small>({{counter}})</small></span></h4>
-                        <div class=" boxes d-flex flex-wrap justify-content-between">
-                          
-                          {% for job in jobs %}
-                          {% with index=forloop.counter %}    
-                            <div class="shadow box d-flex justify-content-center align-items-center"><h6><a class="text-dark" href="javascript:void(0)" onclick="load_content('{{job.reference}}')">{{job.abbr}}</a></h6></div>
-                            {% endwith%}
-                          {% endfor %}
-                            
-                          
-                          <!-- <div class="shadow box d-flex justify-content-center align-items-center"><h6>PD</h6></div>
-                          <div class="shadow box d-flex justify-content-center align-items-center"><h6>PD</h6></div>
-                          <div class="shadow box d-flex justify-content-center align-items-center"><h6>PD</h6></div>
-                          <div class="shadow box d-flex justify-content-center align-items-center"><h6>PD</h6></div>
-                          <div class="shadow boxs d-flex justify-content-center align-items-center"><h6>8+</h6></div> -->
-                          
-                        </div> 
-                      </div>
-                      <div class="add-new proj-icon pt-2  pt-lg-5">
-                          <h4 >News Board</h4>
+<div class="col-md-5 me mt-5">
+  <!-- <div class="d-flex justify-content-start align-start-end pt-2">
+      <button class="shadow add-buttons"><i class="fa fa-bars"></i></button>
+  </div> -->
+<div class=" d-flex flex-column contains align-items-start pt-lg-x">
 
-                      </div>
-                    </div>
-                    
-                    
-                  </div>
-      
-                </div>
-                <div class="col-md-5 tasks">
-                    <div class="white-back d-flex flex-column align-items-start justify-content-start pt-lg-x loading">
-                      
-                        <div class="segment2">
-                          <div class="top-bar d-flex justify-content-between pt-2">
-                            <h3>Web Development</h3>
-                            <p>Welcome <small>{{user.username}}</small></p>
-                          </div>
-                          <div class="describe">
-                            <p>Design a website for ABC company</p>
-                          </div>
+  <div class="segment">
 
-                          <div class="activities">
-                            <div class="heads d-flex justify-content-between pt-5">
-                              <h4>Activities</h4>
-                              <p>Status</p>
-                              
-                            </div>
-                            <hr class="p-0 m-1">
-                            <div class="jobs-div d-flex flex-column">
-                                  <div class="d-flex jobs justify-content-between">
-                                      
-                                      <p> <span class="text-success pt-2 fa fa-check-circle pr-3"></span> Project handled by Designer</p>
-                                      <div class="p-1 alert alert-success" role="alert">
-                                       success
-                                      </div>
-                                  </div>
-                                  <div class="d-flex jobs justify-content-between">
-                                      
-                                      <p> <span class="text-success pt-2 fa fa-check-circle pr-3"></span> Project handled by Designer</p>
-                                      <div class="p-1 alert alert-success" role="alert">
-                                       success
-                                      </div>
-                                  </div>
-                                  <div class="d-flex jobs justify-content-between">
-                                      
-                                      <p> <span class="text-success pt-2 fa fa-check-circle pr-3"></span> Project handled by Designer</p>
-                                      <div class="p-1 alert alert-success" role="alert">
-                                       success
-                                      </div>
-                                  </div>
-                                  <div class="d-flex jobs justify-content-between">
-                                     
-                                      <p> <span class="text-warning pt-2 fa fa-spinner pr-3"></span> Project handled by Designer</p>
-                                      <div class="p-1 alert alert-warning" role="alert">
-                                       In progress
-                                      </div>
-                                  </div>
-                                  <div class="d-flex jobs justify-content-between">
-                                     
-                                      <p> <span class="text-warning pt-2 fa fa-spinner pr-3"></span> Project handled by Designer</p>
-                                      <div class="p-1 alert alert-warning" role="alert">
-                                       In progress
-                                      </div>
-                                  </div>
-                                  <div class="d-flex jobs justify-content-between">
-                                     
-                                      <p> <span class="text-secondary pt-2 fa fa-pause-circle pr-3"></span> Project handled by Designer</p>
-                                      <div class="p-1 alert alert-secondary" role="alert">
-                                       Waiting
-                                      </div>
-                                  </div>
-                            </div>
-                          </div>
+    <div class="name">
+      <h3 >Hi {{request.user.username}} </h3>
+    </div>
 
-                        </div> 
-                        <div class="d-flex justify-content-end align-items-end p-4" style="width: 100%; height: 100%;">
-                          <button class="shadow add-button" data-toggle="modal" data-target="#exampleModalScrollable">+</button>
-                        </div>
-                    </div>
-                </div>
+    <div class="p">
+        <p > welcome back to your workspace we really miss you.</p>
+    </div>
+
+    <div class="">
+        <div class="input-group position-relative p-lg-2 search">
+            <i class="fa fa-search pt-2 pr-2 pl-2"></i>
+            <input class="p-2 phones" type="text" placeholder="Search for Tasks project..." name="project" id="project">
+        </div>
+
+
+    </div>
+    <div class="proj-icon pt-2  pt-lg-5">
+      <h4 >Project <span><small>({{counter}})</small></span></h4>
+      <div class=" boxes d-flex flex-wrap justify-content-evenly">
+
+        {% for job in jobs %}
+        {% with index=forloop.counter %}
+          <div class="shadow box d-flex justify-content-center align-items-center"><h6><a class="text-dark" href="javascript:void(0)" onclick="load_content('{{job.reference}}')">{{job.abbr}}</a></h6></div>
+          {% endwith%}
+        {% endfor %}
+
+
+        <!-- <div class="shadow box d-flex justify-content-center align-items-center"><h6>PD</h6></div>
+        <div class="shadow box d-flex justify-content-center align-items-center"><h6>PD</h6></div>
+        <div class="shadow box d-flex justify-content-center align-items-center"><h6>PD</h6></div>
+        <div class="shadow box d-flex justify-content-center align-items-center"><h6>PD</h6></div>
+        <div class="shadow boxs d-flex justify-content-center align-items-center"><h6>8+</h6></div> -->
+
+      </div>
+    </div>
+    <!-- <div class="add-new proj-icon pt-2  pt-lg-5">
+        <h4 >News Board</h4>
+
+    </div> -->
+  </div>
+
+
+</div>
+
+</div>
+<div class="col-md-5 tasks">
+<div class="white-back d-flex flex-column align-items-start justify-content-start pt-lg-x loading">
+
+<div class="segment2">
+<div class="top-bar d-flex justify-content-between pt-2">
+<h3 style="font-size: 1.2rem;">Web Development</h3>
+<p>Welcome <small>{{user.username}}</small></p>
+</div>
+<div class="describe">
+<p>Design a website for ABC company</p>
+</div>
+
+<div class="activities">
+<div class="heads d-flex justify-content-between pt-5">
+<h4>Activities</h4>
+<p>Status</p>
+
+</div>
+<hr class="p-0 m-1">
+<div class="jobs-div d-flex flex-column">
+<div class="d-flex jobs justify-content-between">
+
+    <p> <span class="text-success pt-2 fa fa-check-circle pr-3"></span> Project handled by Designer</p>
+    <div class="p-1 alert alert-success" role="alert">
+      success
+    </div>
+</div>
+<div class="d-flex jobs justify-content-between">
+
+    <p> <span class="text-success pt-2 fa fa-check-circle pr-3"></span> Project handled by Designer</p>
+    <div class="p-1 alert alert-success" role="alert">
+      success
+    </div>
+</div>
+<div class="d-flex jobs justify-content-between">
+
+    <p> <span class="text-success pt-2 fa fa-check-circle pr-3"></span> Project handled by Designer</p>
+    <div class="p-1 alert alert-success" role="alert">
+      success
+    </div>
+</div>
+<div class="d-flex jobs justify-content-between">
+
+    <p> <span class="text-warning pt-2 fa fa-spinner pr-3"></span> Project handled by Designer</p>
+    <div class="p-1 alert alert-warning" role="alert">
+      In progress
+    </div>
+</div>
+<div class="d-flex jobs justify-content-between">
+
+    <p> <span class="text-warning pt-2 fa fa-spinner pr-3"></span> Project handled by Designer</p>
+    <div class="p-1 alert alert-warning" role="alert">
+      In progress
+    </div>
+</div>
+<div class="d-flex jobs justify-content-between">
+
+    <p> <span class="text-secondary pt-2 fa fa-pause-circle pr-3"></span> Project handled by Designer</p>
+    <div class="p-1 alert alert-secondary" role="alert">
+      Waiting
+    </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="d-flex justify-content-end align-items-end p-4" style="width: 100%; height: 100%;">
+<button class="shadow add-button" data-toggle="modal" data-target="#exampleModalScrollable">+</button>
+</div>
+</div>
+</div>
+
               </div>
         </div>
-       
-        
+
+
       </div>
  </div>
 
@@ -213,9 +231,9 @@
                     <div class="row">
                     <div class="col-lg-1"></div>
                     <div class=" col-lg-6">
-                    
-                      
-                    
+
+
+
                       <form action="#" class="p-5 bg-white">
                           {{ form.media }}
                         <!-- <div class="row form-group">
@@ -230,14 +248,14 @@
                             </label>
                           </div>
                         </div> -->
-            
+
                         <div class="row form-group">
                           <div class="col-md-12 mb-3 mb-md-0">
                             <label class="font-weight-bold" for="title">Job Title</label>
                             <input type="text" id="title" class="titles form-control" placeholder="eg. Full Stack Frontend">
                           </div>
                         </div>
-                        
+
                         {% if user.is_authenticated %}
                         <div class="row form-group mb-5">
                           <div class="col-md-12 mb-3 mb-md-0">
@@ -245,7 +263,7 @@
                             <input type="text" id="fullname" class="form-control" value="{{user.first_name}}">
                           </div>
                         </div>
-                          
+
                         {% else %}
                         <div class="row form-group mb-5">
                           <div class="col-md-12 mb-3 mb-md-0">
@@ -254,12 +272,12 @@
                           </div>
                         </div>
                         {% endif %}
-                          
-                        
-            
-            
+
+
+
+
                         <div class="row form-group">
-                          
+
                           <div class="col-md-4">
                               <div class="col-md-12"><h3>Category</h3></div>
                           {% for cat in category %}
@@ -267,18 +285,18 @@
                             <label for="option-job-type-1">
                               <!-- <input type="radio" value="{{cat.id}}" class="jo_cate" name="cate"> {{cat.category}} -->
                               <li class="joo"  value="{{cat.id}}">{{cat.category}} <i class="fa fa-arrow-right" style="float: right;"  aria-hidden="true"></i> </li>
-                            </label>  
+                            </label>
                           </div>
                           {% endfor %}
-                        </div> 
+                        </div>
                         <div class="col-md-4 new-form">
-                          
+
                         </div>
                         <div class="col-md-4 ded-form">
-                          
+
                           </div>
                         </div>
-                        
+
                         <!-- {% if user.is_authenticated %}
                         <div class="row form-group mb-4">
                           <div class="col-md-12"><h3>Location</h3></div>
@@ -294,9 +312,9 @@
                           </div>
                         </div>
                         {% endif %} -->
-                          
-                        
-            
+
+
+
                         <div class="row form-group">
                           <div class="col-md-12"><h3>Job Description</h3></div>
                           <div class="col-md-12 mb-3 mb-md-0">
@@ -304,42 +322,42 @@
                               <textarea class="form-control" name="editor1" id="" rows="3"></textarea>
                               <script>
                                     CKEDITOR.replace( 'editor1' );
-                                    
+
                             </script>
                           </div>
                         </div>
-            
+
                         <!-- <div class="row form-group">
                           <div class="col-md-12">
                             <input type="submit" value="Post" class="btn btn-primary  py-2 px-5">
-                          </div> 
+                          </div>
                         </div> -->
-            
-            
+
+
                       </form>
                     </div>
                     <!-- <div class="col-lg-1"></div> -->
                     <div class="col-lg-4">
-                      
+
                       {% if user.is_authenticated %}
                       <div class="p-4 mb-3 bg-white">
                           <h3 class="h5 text-black mb-3">Contact Info</h3>
                           <!-- <p class="mb-0 font-weight-bold">Address</p>
                           <p class="mb-4">{{user.address}}</p> -->
-              
+
                           <p class="mb-0 font-weight-bold">Phone</p>
                           <p class="mb-4"><a class="text-green" href="#">{{user.phone}}</a></p>
                           <input type="hidden" value="{{user.phone}}" id="phone">
                           <p class="mb-0 font-weight-bold">Email Address</p>
                           <p class="mb-0"><a class="text-green" href="#">{{user.email}}</a></p>
-              
+
                         </div>
                       {% else %}
                          <div class="p-4 mb-3 bg-white">
                         <!-- <h3 class="h5 text-black mb-3">Contact Info</h3>
                         <p class="mb-0 font-weight-bold">Address</p>
                         <p class="mb-4">{{user.adde}}</p> -->
-            
+
                         <!-- <p class="mb-0 font-weight-bold">Phone</p> -->
                         <div class="col-md-12 mb-3 mb-md-0">
                           <label class="font-weight-bold" for="phone">Phone</label>
@@ -347,29 +365,29 @@
                           <small id="phone_helpId" class="d-none form-text text-muted">Help text</small>
                         </div>
                         <!-- <p class="mb-4"><a href="#">+1 232 3235 324</a></p> -->
-            
+
                         <div class="col-md-12 mb-3 mb-md-0">
                           <label class="font-weight-bold" for="phone">Email Address</label>
                           <input type="email" id="email_hid" class="form-control email_hid" required>
                           <small id="email_helpId" class="d-none form-text text-muted">Help text</small>
                         </div>
-            
+
                       </div>
                       {% endif %}
-                        
-                      
+
+
                       <div class="p-4 mb-3 bg-white ">
                         <div class="">
                           <h3 class="center h5 text-black mb-3">Booking Summary</h3>
                         </div>
                         <div class="ko">
-            
+
                         </div>
                         <div id="load_cat">
                           <p>Category  <span class="cate_sum" style="float:right;">{{cate}}</span></p>
                         </div>
                         <div id="load_sub"style="display: none">
-                            
+
                             <p id="load_sub1">Sub Category <span style="float: right;" class="sub_cat_sum mr-auto"><span id="sub_span">{{subc}}</span> <small>{{sub_price}}</small></span> </p>
                         </div>
                         <div id="load_deadline"style="display: none">
@@ -382,22 +400,22 @@
                         </div>
                         <form class="d-flex justify-content-center">
                           <script src="https://js.paystack.co/v1/inline.js"></script>
-                          
+
                           {% if user.is_authenticated %}
-                            <button class="text-center text-white btn btn-success" type="button" onclick="payWithPaystack(true)"> Pay </button> 
+                            <button class="text-center text-white btn btn-success" type="button" onclick="payWithPaystack(true)"> Pay </button>
                             {% else %}
-                            <button class="text-center text-white btn btn-success" type="button" onclick="payWithPaystack(false)"> Pay </button> 
+                            <button class="text-center text-white btn btn-success" type="button" onclick="payWithPaystack(false)"> Pay </button>
                           {% endif %}
-                            
-                          
+
+
                         </form>
                         <!-- <p><a href="#" class="btn btn-green text-white  py-2 px-4">Checkout</a></p> -->
-            
+
                       </div>
                     </div>
                   </div>
                   </div>
-                  
+
                 </div>
               </div>
         </div>
@@ -428,7 +446,7 @@
       success:function(data){
         $(".loading").html(data)
       }
-      
+
 
     })
   }

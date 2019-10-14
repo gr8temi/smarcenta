@@ -1557,11 +1557,11 @@ a {
   text-transform: capitalize;
 }
 .log {
-  padding:2px; 
+  padding:2px;
   border-right:1px solid #fff;
 }
 .joo{
-  width: 200px; padding:5px; background:#3B945E; cursor: pointer; border:1px solid grey; color:white
+  width: 200px; padding:5px;  cursor: pointer; border:1px solid grey;
 }
 .joos{
   width: 230px; padding:5px; background:#3B945E; cursor: pointer; border:1px solid grey; color:white; word-wrap: wrap break-word;
@@ -1569,5 +1569,25 @@ a {
 @media only screen and (min-width:1200px) {
  .container{
    max-width: 1720px;
+  }
+}
+.hero-text{
+  align-items: center;
+}
+@media (max-width:336px){
+  .site-blocks-cover h1 {
+    font-size:2.5rem;
+    margin-top: 0;
+  }
+  .subc h4{
+    font-size: 20px;
+  }
+
+}
+@media (max-width:800px){
+  .hero-text{
+    width: 100%;
+    justify-content:center;
+    align-items: start;
   }
 }
