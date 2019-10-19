@@ -460,8 +460,15 @@ body{
   margin: 3% auto;
   height: 100%;
 }
+.margin-top{
+  margin-top: 50px;
+}
   }
   @media (min-width:768px){
+    .edit-image{
+      width: 100px;
+    }
+    
     .search input{
       width: 7rem;
   }
@@ -487,7 +494,12 @@ body{
 }
 }
 @media (max-width:347px){
-
+.referal p{
+  font-size:0.7rem ;
+}
+.referal small{
+  font-size:0.5rem ;
+}
 .search i{
     color: #E7E8EB;
     font-size:1.2rem
@@ -502,4 +514,63 @@ body{
 .icons{
   /* border:1px solid #fff; */
   text-align: center;
+}
+.edit-content{
+  padding: 5rem 1rem 5rem 1rem;
+  
+}
+.edit-header{
+  color: #E4CC25;
+}
+.edit-info{
+  width: 100%;
+  height: 40%;
+  background-color: #73EB08;
+  border-radius: 5px;
+}
+.edit-image{
+  /* width: 90%; */
+  border-radius:50%;
+  box-shadow: 2px 2px 3px 2px rgba(0, 0, 0, 0.2);
+}
+
+.info-stack{
+  width: 100%;
+  height: 90%;
+  /* margin: 1% auto; */
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 2px 2px 3px 2px rgba(0, 0, 0, 0.2);
+}
+.edit-checkbox{
+  border: none !important;
+  border-bottom: 2px solid #E4CC25 !important; 
+
+}
+.edit-checkbox:hover, .edit-checkbox:active,.edit-checkbox:focus {
+  /* border: none !important; */
+  box-shadow: none !important ;
+  border-bottom: 2px solid #73EB08 !important;
+  
+}
+.overlay{
+  position: absolute;
+  background: rgba(0, 0, 0, 0.3);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  border-radius: 50%;
+}
+.img-txt{
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  color:#E4CC25;
+}
+.cursor {
+  cursor: pointer;
 }

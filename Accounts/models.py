@@ -11,6 +11,7 @@ class CustomUser(AbstractUser):
 	referal_code= models.CharField(null=True, blank=True, max_length=50)
 	referal_point =models.PositiveIntegerField(default=0)
 	reward = MoneyField(decimal_places=2, max_digits=8,default_currency="NGN",default=0.00)
+	profile_picture = models.ImageField( upload_to="profile", default="empty.png")
 
 
 

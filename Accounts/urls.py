@@ -22,7 +22,9 @@ urlpatterns = [
 	path("admin_page/", my.admin_page, name="admin_page"),
 	path("load_order/", my.load_order, name="load_order"),
 	path("load_admin_order/", my.load_admin_order, name="load_admin_order"),
-	path("suspend/", my.suspend_user, name="suspend")
+	path("suspend/", my.suspend_user, name="suspend"),
+	path("settings/", my.setting, name="setting"),
+	path("edit-form/", my.edit_view, name="user_edit"),
 	# url(r'^Update-Info/(?P<pk>\d+)/$', views.Info.as_view(), name='info'),
 	# url(r'^register/$', views.UserFormView.as_view(), name='register'),
 	# url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',views.activate, name='activate'),
@@ -31,3 +33,5 @@ urlpatterns = [
 	# url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',auth_views.password_reset_confirm,{'template_name':'account/password_reset_confirm.html'}, name='password_reset_confirm'),
 	# url(r'^reset/done/$', auth_views.password_reset_complete,{'template_name':'account/password_reset_complete.html'}, name='password_reset_complete'),
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

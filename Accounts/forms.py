@@ -45,3 +45,9 @@ class MyCustomSignupForm(SignupForm):
 		# Add your own processing here.
 		# You must re
 		return user
+
+
+class ImageFileUploadForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ('username','first_name', 'last_name', 'phone', 'profile_picture','address') 
