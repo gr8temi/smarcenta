@@ -7,5 +7,6 @@ urlpatterns = [
     path('deadlines/',jv.dead_line_price,name="dead_price"),
     path('payin/',jv.payin,name="payin"),
     path('workload/',jv.workload,name="workload"),
+    path('calendar/',jv.calendar,name="calendar"),
 
 ]

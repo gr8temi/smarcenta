@@ -1,35 +1,88 @@
-<div class="col-md-12" id="subc"><h3>Deadline</h3></div>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/jquery.datetimepicker.min.css' %}">
+<div class="d-flex-flex-column">
+ <div class="col-md-12" id="subc"><h3>Deadline</h3></div>
 <select class="form-control deadli" name="" id="">
     <option selected disabled>Choose a Deadline</option>
     {% for dead in dedline %}
     <option value="{{dead.id}}">{{dead.deadline}}<small> {{dead.price}}</small></option>
     {% endfor %}
-
-    <option></option>
 </select>
+<h5>OR</h5>
+<input type="hidden" id="min-date" value="{{min_date}}">
+<input type="hidden" id="cate_id" value="{{cate_id}}">
+<div class="form-group">
+<input class="form-control" id="datetimepicker" type="text" placeholder="Select date" >
+<small id="helpId" class="form-text text-muted">The cost of this is #500 per day</small>
+<button type="button" id="calendar" class="btn btn-danger">choose</button>
+</div> 
+</div>
+<script src="{% static 'js/jquery-3.3.1.min.js'%}"></script>
+<script src="{%static 'js/jquery.datetimepicker.full.min.js' %}"></script>
+
+
 
 <script>
-        $(".deadli").unbind().change(function (e) {
-             var url = "/Job/deadlines/";
-             var deadline = $(this).val();
-             console.log(deadline);
-             $("#load_deadline").show()
-             $.ajax({
-               url: url,
-            //    method:"POST",
-               data: {
-                 'deadline': deadline
-               },
-               success: function (data) {
-                 $(".ded-form").html(data);
-                //  console.log(data)
-                //  $("#load_deadline").show()
-                 $("#load_sub2").show()
-                 $(".totals").show()
-                 $("#load_sub2").load(location.href + " #load_sub2")
-                 $("#total_sum").load(location.href + " #total_sum")
-               }
-             });
+  var minDates = parseInt($("#min-date").val())
+  console.log(minDates);
+  
+  $('#datetimepicker').datetimepicker(
+    
+    {timepicker:false,
+      format:'d/m/Y',
+      mask:true,
+      minDate:`+1970/01/0${minDates+1}`,   
+    }
+  );
+  $("#calendar").click((e)=>{
+    e.preventDefault()
+    const date= parseInt(($('#datetimepicker').val()).slice(0,2))
+    let today = new Date().getDate()
+    console.log((date-today)-minDates);
+    
+    let cate_id = $("#cate_id").val()
+    var url = "/Job/calendar/";
+    var deadline =date-today;
+    $("#load_deadline").show()
+    $.ajax({
+      url: url,
+  //    method:"POST",
+      data: {
+        'deadline': deadline,
+        'cate_id':cate_id
+      },
+      success: function (data) {
+        $(".ded-form").html(data);
+      //  console.log(data)
+      //  $("#load_deadline").show()
+        $("#load_sub2").show()
+        $(".totals").show()
+        $("#load_sub2").load(location.href + " #load_sub2")
+        $("#total_sum").load(location.href + " #total_sum")
+      }
+    });
+  })
+  $(".deadli").unbind().change(function (e) {
+        var url = "/Job/deadlines/";
+        var deadline = $(this).val();
+        console.log(deadline);
+        $("#load_deadline").show()
+        $.ajax({
+          url: url,
+      //    method:"POST",
+          data: {
+            'deadline': deadline
+          },
+          success: function (data) {
+            $(".ded-form").html(data);
+          //  console.log(data)
+          //  $("#load_deadline").show()
+            $("#load_sub2").show()
+            $(".totals").show()
+            $("#load_sub2").load(location.href + " #load_sub2")
+            $("#total_sum").load(location.href + " #total_sum")
+          }
+        });
 
-           });
+      });
        </script>

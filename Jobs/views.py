@@ -74,12 +74,15 @@ def Deadline(request):
     print (cate)
     category = jom.subcategory.objects.get(id=cate)
     dedline = jom.Deadline.objects.filter(category__id=cate)
+    min_date = category.min_date
     request.session['subcategory']=category.name
     request.session['sub_pricing']=str(category.pricing)
     csl = float(category.pricing.amount)
     request.session['sub_price']=csl
     context = {
         "dedline":dedline,
+        "min_date":min_date,
+        "cate_id":category.id
     }       
     return render(request,template, context)
 
@@ -207,3 +210,18 @@ def workload(request):
         # handler.availability=False
         # handler.save()       
         return HttpResponse(True)
+def calendar(request):
+    dea = request.GET.get("deadline")
+    cate_id =request.GET.get("cate_id")
+    sub_cat = jom.subcategory.objects.get(id=cate_id)
+    days = int(dea) - sub_cat.min_date 
+    print(sub_cat.cost_per_day.amount)
+    amount = float(sub_cat.cost_per_day.amount) * float(days)
+    print(amount)
+    dead_amount = sub_cat.cost_per_day
+    request.session["dead_amount"]=str(dead_amount)
+    request.session["amount"]=amount
+    request.session["deadlines"]=str(days)+" days @" 
+    total = request.session['sub_price']+ amount
+    request.session['total']= total
+    return HttpResponse(status=204)  
