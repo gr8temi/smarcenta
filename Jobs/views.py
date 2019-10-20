@@ -5,10 +5,12 @@ from Accounts import models as acct
 from . import models as jom
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage, send_mail, EmailMultiAlternatives
+from django.http import JsonResponse
 # Create your views here.
 def JobCreate(request):
     template = 'Job/create.html'
     jobform = forms.JobForm()
+    form = forms.CustomizeForm()
     category = acct.Categories.objects.all()
     # user = acct.Finder.objects.get(user=request.user)
 
@@ -50,7 +52,8 @@ def JobCreate(request):
         "amount":amount,
         "dead_price":dead_price,
         "sub_price":sub_price,
-        "deadlines":deadlines
+        "deadlines":deadlines,
+        "form":form
     }
     return render(request,template,context)
 def CatChange(request):
@@ -225,3 +228,31 @@ def calendar(request):
     total = request.session['sub_price']+ amount
     request.session['total']= total
     return HttpResponse(status=204)  
+
+def customize(request):
+    if request.method == 'POST':
+        form = forms.CustomizeForm(request.POST)
+        if form.is_valid():
+            
+            email = form.cleaned_data.get('email')
+            title = form.cleaned_data.get('title')
+            name = form.cleaned_data.get('name')
+            mail_subject = 'Order successfully placed'
+            message = render_to_string('home/order_mail.txt', {            
+                'name': name,
+                'Job_title':title,
+                })
+            to_email = [
+                email,
+                ]
+            msg_html = render_to_string('home/order_mail.html', {            
+                    'name': name,
+                    'Job_title':title,
+
+                })
+            send_mail(mail_subject, message, 'adamstemii@gmail.com', to_email, fail_silently=False, html_message=msg_html,)
+            form.save()
+            return JsonResponse({'error': False, 'message': "Upload Successful"})
+        else:
+            print(form.errors)
+            return JsonResponse({'error': True, 'errors': form.errors})

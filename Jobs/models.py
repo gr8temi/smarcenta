@@ -72,3 +72,20 @@ class Workload(models.Model):
     def __str__(self):
         """Unicode representation of Workload."""
         return self.project_id.title
+
+
+class Customize(models.Model):
+    """Model definition for Customize."""
+
+    # TODO: Define fields here
+    title = models.CharField( max_length=50)
+    name  = models.CharField( max_length=50)
+    email = models.EmailField( max_length=254)
+    phone = models.CharField( max_length=13)
+    description = RichTextField(null=True)
+
+
+    def __str__(self):
+        return self.title
+
+    # TODO: Define custom methods here

@@ -9,3 +9,7 @@ class JobForm(forms.ModelForm):
         #     "description":CKEditorWidget,
         # }
         
+class CustomizeForm(forms.ModelForm):
+    class Meta:
+        model = models.Customize
+        fields = ('title','name', 'email', 'phone', 'description') 

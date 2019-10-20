@@ -8,5 +8,6 @@ urlpatterns = [
     path('payin/',jv.payin,name="payin"),
     path('workload/',jv.workload,name="workload"),
     path('calendar/',jv.calendar,name="calendar"),
+    path('customize/',jv.customize,name="customize"),
 
 ]

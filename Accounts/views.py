@@ -108,7 +108,7 @@ def edit_view(request):
 		form = ImageFileUploadForm(request.POST, request.FILES, instance=request.user)
 		if form.is_valid():
 			form.save()
-			return HttpResponse("successfully Uploaded")
+			return JsonResponse({'error': False, 'message': "Successfully Updated"})
 		else:
-			return HttpResponse({'error': True, 'errors': form.errors})
+			return JsonResponse({'error': True, 'errors': form.errors})
         

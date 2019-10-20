@@ -79,9 +79,10 @@
       enctype:'multipart/form-data',
       data:$("#edit-form").serialize(),
       success:function(data){
-        console.log(data);
-        // $("#showAssign").show()
-        // $(".frame").fadeOut()
+        if (data.error==false){
+          alert(data.message)
+          
+        }
       }
     })
     return false;

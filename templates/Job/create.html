@@ -9,7 +9,7 @@
 <div class="unit-5 overlay" style="background-image: url('/static/images/hero_bg_2.jpg');">
     <div class="container text-center">
       <h2 class="mb-0">Post a Job</h2>
-      <p class="mb-0 unit-6"><a class="text-orange"href="{% url 'index' %}">Home</a> <span class="sep">></span> <span>Post a Job</span></p>
+      <p class="mb-0 unit-6"><a class="text-orange"href="{% url 'index' %}">Home</a> <span class="sep">></span> <span>Post a Task</span></p>
     </div>
   </div>
   <div class="site-section bg-light">
@@ -18,7 +18,12 @@
         <div class="row">
         <div class="col-lg-1"></div>
         <div class=" col-lg-6">
+         
+
           <form action="#" class="p-5 bg-white">
+            <div class="d-flex justify-content-end flex-wrap">
+              <button data-toggle="modal" data-target="#customizeModal" type="button" name="customize" id="customize" class="btn  btn-success text-white" >Customize <i class="fa fa-plus" aria-hidden="true"></i></button>
+            </div>
               {{ form.media }}
             <div class="row form-group">
               <div class="col-md-12 mb-3 mb-md-0">
@@ -26,7 +31,6 @@
                 <input type="text" id="title" class="titles form-control" placeholder="eg. Full Stack Frontend">
               </div>
             </div>
-
             {% if user.is_authenticated %}
             <div class="row form-group mb-5">
               <div class="col-md-12 mb-3 mb-md-0">
@@ -34,7 +38,6 @@
                 <input type="text" id="fullname" class="form-control" value="{{user.first_name}}">
               </div>
             </div>
-
             {% else %}
             <div class="row form-group mb-5 p-0">
               <div class="col-md-12 mb-3 mb-md-0">
@@ -43,10 +46,6 @@
               </div>
             </div>
             {% endif %}
-
-
-
-
             <div class="row form-group">
 
               <div class="col-md-4">
@@ -65,10 +64,10 @@
             </div>
             <div class="col-md-4 new-form">
 
-            </div>
-            <div class="col-md-4 ded-form">
-
               </div>
+              <div class="col-md-4 ded-form">
+  
+                </div> 
             </div>
             <div class="row form-group">
               <div class="col-md-12"><h3>Job Description</h3></div>
@@ -245,11 +244,120 @@
     </div>
   </div>
 
+  <div class="modal fade bd-example-modal-xl" id="customizeModal" tabindex="-1" role="dialog" aria-labelledby="customizeModal" aria-hidden="true">
+      <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Customize Task</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form action="{% url 'customize' %}" id="customizeForm" method="POST">
+           {% csrf_token %} 
+          <div class="modal-body">
+            <h5>Customize to your needs and we would send you a quotation in 24hrs</h5>
+            
+                <div class="row form-group">
+                    <div class="col-md-12 mb-3 mb-md-0">
+                      <label class="font-weight-bold" for="title">Job Title</label>
+                      <input type="text" name="title" id="title" class="titles form-control" placeholder="eg. Full Stack Frontend" required>
+                    </div>
+                  </div>
+                  {% if user.is_authenticated %}
+                  <div class="row form-group mb-5">
+                    <div class="col-md-12 mb-3 mb-md-0">
+                      <label class="font-weight-bold" for="fullname">Name</label>
+                      <input type="text" name="name" id="fullname" class="form-control" value="{{user.first_name}}" required>
+                    </div>
+                  </div>
+                  {% else %}
+                  <div class="row form-group mb-5 p-0">
+                    <div class="col-md-12 mb-3 mb-md-0">
+                      <label class="font-weight-bold" for="fullname">Name</label>
+                      <input type="text" name="name" id="fullname" class="form-control" placeholder="eg. Facebook, Inc." required>
+                    </div>
+                  </div>
+                  {% endif %}
+                  
+              {% if user.is_authenticated %}
+              <div class=" mb-3 ">
+                <div class="row">
+                  <div class="col-6 mb-3 mb-md-0">
+                    <label class="font-weight-bold" for="phone">Phone</label>
+                    <input type="text" id="phone" class="form-control" name="phone" value="{{user.phone}}" required>
+                    <small id="phone_helpId" class="d-none form-text text-muted">Help text</small>
+                  </div>
+                  <!-- <p class="mb-4"><a href="#">+1 232 3235 324</a></p> -->
+      
+                  <div class="col-6 mb-3 mb-md-0">
+                    <label class="font-weight-bold" for="email">Email Address</label>
+                    <input type="email" id="email_hid" class="form-control email_hid" name="email"  value="{{user.email}}" required>
+                    <small id="email_helpId" class="d-none form-text text-muted">Help text</small>
+                  </div>
+                </div>
+                  
+      
+                </div>
+              {% else %}
+                 <div class="p-4 mb-3 ">
+                <div class="col-md-6 mb-3 mb-md-0">
+                  <label class="font-weight-bold" for="phone">Phone</label>
+                  <input type="text" id="phone" name="phone" class="form-control" required>
+                  <small id="phone_helpId" class="d-none form-text text-muted">Help text</small>
+                </div>
+                <!-- <p class="mb-4"><a href="#">+1 232 3235 324</a></p> -->
+    
+                <div class="col-md-6 mb-3 mb-md-0">
+                  <label class="font-weight-bold" for="phone">Email Address</label>
+                  <input type="email" name="email" id="email_hid" class="form-control email_hid" required>
+                  <small id="email_helpId" class="d-none form-text text-muted">Help text</small>
+                </div>
+    
+              </div>
+              {% endif %}
+              {{form.description|as_crispy_field}}
+               </div>
+            <!-- {{form}} -->
+            
+          <div class="modal-footer">
+            <button type="submit" name="submitQuote" id="submitQuote" class="btn btn-success">Submit</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
 {% endblock content %}
 
 {% block script %}
 <!-- <script src="{% static 'js/jquery-3.3.1.min.js' %} "></script> -->
 <script>
+
+$("#customizeForm").submit((e)=>{
+  e.preventDefault()
+
+  url= $("#customizeForm").attr("action")
+    $.ajax({
+      url:url,
+      method:"POST",
+      enctype:'multipart/form-data',
+      data:$("#customizeForm").serialize(),
+      success:function(data){
+        console.log(data);
+        if (data.error==false){
+          alert(data.message)
+
+        }
+        
+        // $("#showAssign").show()
+        // $(".frame").fadeOut()
+      }
+    })
+
+})
+
  $(".joo").unbind().change(function (e) {
       e.target.classList.toggle("active")
       $(".ded-form").hide()
