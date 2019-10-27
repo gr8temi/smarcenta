@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from djmoney.models.fields import MoneyField
+from ckeditor.fields import RichTextField
 
 class CustomUser(AbstractUser):
 	# username=models.CharField(max_length=50, default='User', unique=True)
@@ -58,4 +59,10 @@ class Categories(models.Model):
 	image = models.ImageField(default="me.png", upload_to="categories/")
 	def __str__(self):
 		return self.category
-	
+
+class Terms(models.Model):
+	name= models.CharField(max_length=50, default="Terms and condition")
+	terms_condition = RichTextField()
+
+	def __str__(self):
+		return self.name
