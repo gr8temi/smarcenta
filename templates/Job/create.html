@@ -138,11 +138,11 @@
               <script src="https://js.paystack.co/v1/inline.js"></script>
 
               {% if user.is_authenticated %}
-                <button class="text-center text-white btn btn-success" type="button" onclick="payWithPaystack(true)"> Pay </button>
+                <button class="text-center text-white btn btn-success pay" type="button" style="display: none;" onclick="payWithPaystack(true)"> Pay </button>
                 {% else %}
-                <button class="text-center text-white btn btn-success" type="button" onclick="payWithPaystack(false)"> Pay </button>
+                <button class="text-center text-white btn btn-success pay " type="button" style="display:none" onclick="payWithPaystack(false)"> Pay </button>
               {% endif %}
-
+              <button class="text-center text-white btn btn-success quote " type="button" style="display:none"> Request quote </button>
 
             </form>
             <!-- <p><a href="#" class="btn btn-green text-white  py-2 px-4">Checkout</a></p> -->
@@ -358,7 +358,7 @@ $("#customizeForm").submit((e)=>{
 
 })
 
- $(".joo").unbind().change(function (e) {
+ $(".joo").unbind().click(function (e) {
       e.target.classList.toggle("active")
       $(".ded-form").hide()
       var url = "/Job/catechange/";
@@ -377,6 +377,7 @@ $("#customizeForm").submit((e)=>{
           $("#load_sub").hide()
           $(".totals").hide()
           $("#load_sub2").hide()
+         
 
         }
       });
@@ -467,6 +468,57 @@ function payWithPaystack(proceed){
     handler.openIframe();
   }
       }
+
+$(".quote").click((e)=>{
+      let email = $("#email_hid").val();
+      let total = $("#total_sum").text()*100;
+      let category = $(".cate_sum").text()
+      let sub_cat_sum = $("#sub_span").text()
+      let phone = $("#phone").val()
+      let title = $(".titles").val()
+      let name = $("#fullname").val()
+      let id = $("#user_id").val()
+      let phoneS = `${phone}` 
+      
+      var description = CKEDITOR.instances.editor1.getData();
+      if (phoneS ==="" || phoneS.match(/\+?234[789][0-2]\d{8}|0[87][0-2]\d{8}/)===null){
+      $("#phone").addClass("invalid")
+      }
+      if ( email===""){
+        $(".email_hid").addClass("invalid")
+      }
+     if(title===""){
+        $(".titles").addClass("invalid")
+     }
+     if(name===""){
+     $("#fullname").addClass("invalid")
+      }
+
+      if(phoneS!=="" && phoneS.match(/\+?234[789][0-2]\d{8}|0[87][0-2]\d{8}/)!==null && email!=="" &&title!=="" & name!==""){
+        // alert("ready to submit")
+        $.ajax({
+        url: "/Job/payin/",
+          data: {
+            "email":email,
+            "total":total,
+            "category":category,
+            "sub_cat_sum":sub_cat_sum,
+            "phone":phoneS,
+            "title":title,
+            "description":description,
+            "reference":"quote",
+            "name":name,
+            "id" :id,
+          },
+          success:(data)=>{
+            alert("successfully booked")
+          }
+        });
+
+      }
+      
+      
+})
 </script>
 
 {% endblock script %}

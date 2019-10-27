@@ -1,0 +1,10 @@
+<h3>Hi</h3>
+<p>Good day, Here is the latest Quote request</p>
+<h5>Task Title: {{Job_title}}</h5>
+<h5>Customer Name: {{name}}</h5>
+<h5>Customer Email:{{email}}</h5>
+<div>
+    {{description|safe}}
+</div>
+<h6>Best Regards</h6>
+<h5>Smartcenta Team.</h5>

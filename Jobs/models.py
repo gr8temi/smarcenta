@@ -28,7 +28,7 @@ class subcategory(models.Model):
     min_date = models.IntegerField(default=3)
     pricing = MoneyField(decimal_places=2, max_digits=8,default_currency="NGN",default=0.00)
     cost_per_day = MoneyField(decimal_places=2, max_digits=8, default_currency="NGN", default=500.00)
-
+    quote =  models.BooleanField(default=False)
     def __str__(self):
         return self.name
 

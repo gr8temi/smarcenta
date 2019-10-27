@@ -10,39 +10,47 @@
 </select>
 <h5>OR</h5>
 <input type="hidden" id="min-date" value="{{min_date}}">
+<input type="hidden" id="max-date" value="{{max_date}}">
 <input type="hidden" id="cate_id" value="{{cate_id}}">
 <div class="form-group">
 <input class="form-control" id="datetimepicker" type="text" placeholder="Select date" >
-<small id="helpId" class="form-text text-muted">The cost of this is #500 per day</small>
+<!-- <small id="helpId" class="form-text text-muted">The cost of this is #500 per day</small> -->
 <button type="button" id="calendar" class="btn btn-danger">choose</button>
 </div> 
 </div>
 <script src="{% static 'js/jquery-3.3.1.min.js'%}"></script>
+<script src="{% static 'js/moment.js'%}"></script>
 <script src="{%static 'js/jquery.datetimepicker.full.min.js' %}"></script>
 
 
 
 <script>
   var minDates = parseInt($("#min-date").val())
+  var maxDates = parseInt($("#max-date").val())
   console.log(minDates);
   
   $('#datetimepicker').datetimepicker(
     
     {timepicker:false,
-      format:'d/m/Y',
+      format:'Y/m/d',
       mask:true,
       minDate:`+1970/01/0${minDates+1}`,   
+      maxDate:`+1970/01/0${maxDates}`,   
     }
   );
   $("#calendar").click((e)=>{
     e.preventDefault()
-    const date= parseInt(($('#datetimepicker').val()).slice(0,2))
-    let today = new Date().getDate()
-    console.log((date-today)-minDates);
+    const date= $('#datetimepicker').val()
+    let today = new Date()
+    // console.log(moment(date.replace("/",""),"YYYYMMDD").diff( moment(today),'days') );
+    // console.log(today);
+    
+    
+    // console.log((date-today)-minDates);
     
     let cate_id = $("#cate_id").val()
     var url = "/Job/calendar/";
-    var deadline =date-today;
+    var deadline =moment(date.replace("/",""),"YYYYMMDD").diff( moment(today),'days');
     $("#load_deadline").show()
     $.ajax({
       url: url,
@@ -61,6 +69,8 @@
         $("#total_sum").load(location.href + " #total_sum")
       }
     });
+
+
   })
   $(".deadli").unbind().change(function (e) {
         var url = "/Job/deadlines/";

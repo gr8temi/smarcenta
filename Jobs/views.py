@@ -1,4 +1,4 @@
-from django.shortcuts import render,HttpResponse
+from django.shortcuts import render, HttpResponse
 from django.contrib.auth.decorators import login_required
 from . import forms
 from Accounts import models as acct
@@ -7,6 +7,8 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMessage, send_mail, EmailMultiAlternatives
 from django.http import JsonResponse
 # Create your views here.
+
+
 def JobCreate(request):
     template = 'Job/create.html'
     jobform = forms.JobForm()
@@ -17,11 +19,11 @@ def JobCreate(request):
     try:
         cate = request.session['category']
     except KeyError:
-        cate=""
+        cate = ""
     try:
-        subc = request.session['subcategory'] 
+        subc = request.session['subcategory']
     except KeyError:
-        subc=""
+        subc = ""
     try:
         sub_price = request.session['sub_pricing']
     except KeyError:
@@ -42,82 +44,112 @@ def JobCreate(request):
         amount = request.session['amount']
     except KeyError:
         amount = 0
-    context ={
-        "jobform":jobform,
+    context = {
+        "jobform": jobform,
         # "user":user,
-        "category":category,
-        "cate":cate,
-        "subc":subc,
-        "tota":tota,
-        "amount":amount,
-        "dead_price":dead_price,
-        "sub_price":sub_price,
-        "deadlines":deadlines,
-        "form":form
+        "category": category,
+        "cate": cate,
+        "subc": subc,
+        "tota": tota,
+        "amount": amount,
+        "dead_price": dead_price,
+        "sub_price": sub_price,
+        "deadlines": deadlines,
+        "form": form
     }
-    return render(request,template,context)
+    return render(request, template, context)
+
+
 def CatChange(request):
     template = "Job/catechange.html"
     cate = request.GET.get("category")
-    category= acct.Categories.objects.get(id=cate)
+    category = acct.Categories.objects.get(id=cate)
     subcat = jom.subcategory.objects.filter(category=cate)
-    request.session['category']=category.category
+    request.session['category'] = category.category
     print(request.session['category'])
-    request.session['total']=0
+    request.session['total'] = 0
     # print(deadlines)
     context = {
-        "subcat":subcat,
+        "subcat": subcat,
     }
 
-    return render(request,template, context)
+    return render(request, template, context)
+
 
 def Deadline(request):
     template = "Job/deadline.html"
     cate = request.GET.get("sub_cat")
-    print (cate)
     category = jom.subcategory.objects.get(id=cate)
-    dedline = jom.Deadline.objects.filter(category__id=cate)
-    min_date = category.min_date
-    request.session['subcategory']=category.name
-    request.session['sub_pricing']=str(category.pricing)
-    csl = float(category.pricing.amount)
-    request.session['sub_price']=csl
-    context = {
-        "dedline":dedline,
-        "min_date":min_date,
-        "cate_id":category.id
-    }       
-    return render(request,template, context)
+    if category.quote == False:
+        dedline = jom.Deadline.objects.filter(category__id=cate)
+        min_date = category.min_date
+        deadlines = jom.Deadline.objects.filter(category=category.id).first()
+        maxDate = deadlines.deadline[:2]
+        request.session['subcategory'] = category.name
+        request.session['sub_pricing'] = str(category.pricing)
+        csl = float(category.pricing.amount)
+        request.session['sub_price'] = csl
+        context = {
+            "dedline": dedline,
+            "min_date": min_date,
+            "cate_id": category.id,
+            "max_date":maxDate
+        }
+        return render(request, template, context)
+    else:
+        request.session['subcategory'] = category.name
+        request.session['sub_pricing'] = ""
+        return HttpResponse("quote")
+
 
 def dead_line_price(request):
     dea = request.GET.get("deadline")
     deadlines = jom.Deadline.objects.get(id=dea)
     amount = float(deadlines.price.amount)
     dead_amount = deadlines.price
-    request.session["dead_amount"]=str(dead_amount)
-    request.session["amount"]=amount
-    request.session["deadlines"]=str(deadlines.deadline)
-    total = request.session['sub_price']+ amount
-    request.session['total']= total  
+    request.session["dead_amount"] = str(dead_amount)
+    request.session["amount"] = amount
+    request.session["deadlines"] = str(deadlines.deadline)
+    total = request.session['sub_price'] + amount
+    request.session['total'] = total
 
-    return HttpResponse(status=204)    
+    return HttpResponse(status=204)
+
+
 def payin(request):
     title = request.GET.get("title")
     email = request.GET.get("email")
-    total= float(request.GET.get("total"))/100
-    category=request.GET.get("category")
-    sub_cat= request.GET.get("sub_cat_sum")
+    total = float(request.GET.get("total"))/100
+    category = request.GET.get("category")
+    sub_cat = request.GET.get("sub_cat_sum")
     deadline = request.GET.get("dead_sum")
     phone = request.GET.get("phone")
-    reference= request.GET.get("reference")
+    reference = request.GET.get("reference")
     name = request.GET.get("name")
     description = request.GET.get("description")
     user_id = request.GET.get("id")
-    print(category)
-    acronyms ="".join([ leter[0] for leter in title.split(" ")]) 
-    if user_id =="None":
-        user_id=0
 
+    acronyms = "".join([leter[0] for leter in title.split(" ")])
+    if user_id == "None":
+        user_id = 0
+    if reference == "quote":
+        deadline="undefined"
+        mail_subject = 'New Quotation'
+        message = render_to_string('home/quotation.txt', {
+			'name': name,
+			'Job_title': title,
+            'email':email,
+            'description': description})
+         
+        to_email = ["gr8temi@gmail.com"]
+        msg_html = render_to_string('home/quotation.html', {            
+			'name': name,
+			'Job_title':title,
+            'email':email,
+            'description':description
+		})
+
+        send_mail(mail_subject, message, 'adamstemii@gmail.com', to_email, fail_silently=False, html_message=msg_html,)
     jom.Order.objects.create(
         title=title,
         abbr=acronyms,
@@ -155,11 +187,6 @@ def payin(request):
     return HttpResponse(user_id)
 
 def workload(request):
-    # if request.method == "GET":
-    #     reference = request.GET.get("reference")
-    #     stage_id = request.GET.get("stage_id")
-    #     stage_info = jom.stage.objects.get(id=stage_id)
-    #     return HttpResponse(stage_id)
     if request.method=="GET":
         handlers = request.GET.get("handlers")
         managers = request.GET.get("manager")
@@ -174,7 +201,7 @@ def workload(request):
             project_manager=manager.name,
             project_handler=handler.name,
         )
-        #manager's mail
+        # manager's mail
         mail_subject = 'Job assigned to you'
         message = render_to_string('Job/assign_mail.txt', {            
                 'name': manager.name,
@@ -193,7 +220,7 @@ def workload(request):
         # manager.availability=False
         # manager.save()
 
-        #handlers Mail
+        # handlers Mail
         mail_subject = 'Job assigned to you'
         message = render_to_string('Job/assign_mail.txt', {            
                 'name': handler.name,
@@ -216,15 +243,15 @@ def workload(request):
 def calendar(request):
     dea = request.GET.get("deadline")
     cate_id =request.GET.get("cate_id")
+    print(dea)
     sub_cat = jom.subcategory.objects.get(id=cate_id)
-    days = int(dea) - sub_cat.min_date 
-    print(sub_cat.cost_per_day.amount)
+    deadlines = jom.Deadline.objects.filter(category=sub_cat.id).first()
+    days = int(deadlines.deadline[:2]) - (int(dea)) 
     amount = float(sub_cat.cost_per_day.amount) * float(days)
-    print(amount)
     dead_amount = sub_cat.cost_per_day
-    request.session["dead_amount"]=str(dead_amount)
+    request.session["dead_amount"]=str(dead_amount * days)
     request.session["amount"]=amount
-    request.session["deadlines"]=str(days)+" days @" 
+    request.session["deadlines"]=str(dea)+" days @" 
     total = request.session['sub_price']+ amount
     request.session['total']= total
     return HttpResponse(status=204)  

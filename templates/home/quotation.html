@@ -9,21 +9,17 @@
   <script src="{% static 'jq/jquery.js' %}"></script>
 </head>
 <body>
-<h3>Hi, {{name}}</h3>
-<p>Good day, We write to notify you that your order for {{title}} job has been placed successfully</p>
-{% if reference == "quote" %}
-<p>We would contact you via mail on how to proceed</p>
-{% else %}
- <p>Your reference code is {{reference}}</p> 
-{% endif %}
-  
-
+<h3>Hi</h3>
+<p>Good day, Here is the latest Quote request</p>
+<h5>Task Title: {{Job_title}}</h5>
+<h5>Customer Name: {{name}}</h5>
+<h5>Customer Email:{{email}}</h5>
+<div>
+    {{description|safe}}
+</div>
 <h6>Best Regards</h6>
 <h5>Smartcenta Team.</h5>
 
-{% if reference is not "quote" %}
- <p>To track your jobs progress click <a href="#">here</a></p> 
-{% endif %}
 </body>
 <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
 </html>

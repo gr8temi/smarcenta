@@ -1594,3 +1594,8 @@ a {
     align-items: start;
   }
 }
+
+.invalid{
+  border: 2px solid red !important;
+  box-shadow: 0 0 15px red;
+}
