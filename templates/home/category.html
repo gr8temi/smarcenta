@@ -1,0 +1,531 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load djmoney %}
+
+{% money_localize money %}
+
+{% block content %}
+<div class="unit-5 overlay" style="background-image: url('/static/images/hero_bg_2.jpg');">
+    <div class="container text-center">
+      <h2 class="mb-0">{{category.category}}</h2>
+      <p class="mb-0 unit-6"><a class="text-orange"href="{% url 'index' %}">Home</a> <span class="sep">></span> <span>Post a Task</span></p>
+    </div>
+  </div>
+  <div class="site-section bg-light">
+    <div class="container-fluid">
+      <div class="container">
+        <div class="row">
+        <div class="col-lg-1"></div>
+        <div class=" col-lg-6">
+         
+
+          <form action="#" class="p-5 bg-white">
+            <div class="d-flex justify-content-end flex-wrap">
+              <button data-toggle="modal" data-target="#customizeModal" type="button" name="customize" id="customize" class="btn  btn-success text-white" >Customize <i class="fa fa-plus" aria-hidden="true"></i></button>
+            </div>
+              {{ form.media }}
+            <div class="row form-group">
+              <div class="col-md-12 mb-3 mb-md-0">
+                <label class="font-weight-bold" for="title">Job Title</label>
+                <input type="text" id="title" class="titles form-control" placeholder="eg. Full Stack Frontend">
+              </div>
+            </div>
+            {% if user.is_authenticated %}
+            <div class="row form-group mb-5">
+              <div class="col-md-12 mb-3 mb-md-0">
+                <label class="font-weight-bold" for="fullname">Name</label>
+                <input type="text" id="fullname" class="form-control" value="{{user.first_name}}">
+              </div>
+            </div>
+            {% else %}
+            <div class="row form-group mb-5 p-0">
+              <div class="col-md-12 mb-3 mb-md-0">
+                <label class="font-weight-bold" for="fullname">Name</label>
+                <input type="text" id="fullname" class="form-control" placeholder="eg. Facebook, Inc.">
+              </div>
+            </div>
+            {% endif %}
+            <div class="row form-group">
+
+              <div class="col-md-4">
+                <div class="col-md-12 subc" id="subc"><h4>Sub-Category</h4></div>
+                <div class="form-group">
+                  <select class="form-control jo_cate" name="" id="">
+                    <option selected disabled>Choose a Category</option>
+                    {% for sub in sub_cat %} {% if sub.quote is False %}
+                    <option value="{{ sub.id }}"
+                      >{{ sub.name }}<small> {{ sub.pricing }}</small></option
+                    >
+                    {% else %}
+                    <option value="{{ sub.id }}">{{ sub.name }}</option>
+                    {% endif %} {% endfor %}
+                  </select>
+                </div>
+
+            </div>
+              <div class="col-md-4 ded-form">
+  
+                </div> 
+            </div>
+            <div class="row form-group">
+              <div class="col-md-12"><h3>Job Description</h3></div>
+              <div class="col-md-12 mb-3 mb-md-0">
+                  <textarea class="form-control" name="editor1" id="" rows="3"></textarea>
+                  <script>
+                        CKEDITOR.replace( 'editor1' );
+
+                </script>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-lg-4">
+
+          {% if user.is_authenticated %}
+          <div class="p-4 mb-3 bg-white">
+              <h3 class="h5 text-black mb-3">Contact Info</h3>
+              <p class="mb-0 font-weight-bold">Phone</p>
+              <p class="mb-4"><a class="text-green" href="#">{{user.phone}}</a></p>
+              <input type="hidden" value="{{user.phone}}" id="phone">
+              <p class="mb-0 font-weight-bold">Email Address</p>
+              <p class="mb-0"><a class="text-green" href="#">{{user.email}}</a></p>
+
+            </div>
+          {% else %}
+             <div class="p-4 mb-3 bg-white">
+            <div class="col-md-12 mb-3 mb-md-0">
+              <label class="font-weight-bold" for="phone">Phone</label>
+              <input type="text" id="phone" class="form-control" required>
+              <small id="phone_helpId" class="d-none form-text text-muted">Help text</small>
+            </div>
+            <!-- <p class="mb-4"><a href="#">+1 232 3235 324</a></p> -->
+
+            <div class="col-md-12 mb-3 mb-md-0">
+              <label class="font-weight-bold" for="phone">Email Address</label>
+              <input type="email" id="email_hid" class="form-control email_hid" required>
+              <small id="email_helpId" class="d-none form-text text-muted">Help text</small>
+            </div>
+
+          </div>
+          {% endif %}
+
+
+          <div class="p-4 mb-3 bg-white ">
+            <div class="">
+              <h3 class="center h5 text-black mb-3">Booking Summary</h3>
+            </div>
+            <div class="ko">
+
+            </div>
+            <div id="load_cat">
+              <p>Category  <span class="cate_sum" style="float:right;">{{category.category}}</span></p>
+            </div>
+            <div id="load_sub"style="display: none">
+
+                <p id="load_sub1">Sub Category <span style="float: right;" class="sub_cat_sum mr-auto"><span id="sub_span">{{subc}}</span> <small>{{sub_price}}</small></span> </p>
+            </div>
+            <div id="load_deadline"style="display: none">
+                <p id="load_sub2">Deadline<span style="float: right;" class="dead_sum mr-auto ">{{deadlines}} <small>{{dead_price}}</small></span> </p>
+            </div>
+            <div class="total">
+                <input type="hidden" value="{{user.email}}" id="email_hid">
+                <input type="hidden" name="user_id" id="user_id" value="{{user.id}}">
+                <p class="totals" style="display: none"><b>Total</b> <span style="float: right;" class="mr-auto">&#8358;<span id="total_sum">{{tota}}</span></p>
+            </div>
+            <form class="d-flex justify-content-center">
+              <script src="https://js.paystack.co/v1/inline.js"></script>
+
+              {% if user.is_authenticated %}
+                <button class="text-center text-white btn btn-success pay" type="button" style="display: none;" onclick="payWithPaystack(true)"> Pay </button>
+                {% else %}
+                <button class="text-center text-white btn btn-success pay " type="button" style="display:none" onclick="payWithPaystack(false)"> Pay </button>
+              {% endif %}
+              <button class="text-center text-white btn btn-success quote " type="button" style="display:none"> Request quote </button>
+
+            </form>
+            <!-- <p><a href="#" class="btn btn-green text-white  py-2 px-4">Checkout</a></p> -->
+
+          </div>
+        </div>
+      </div>
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+  <div class="site-section">
+    <div class="container">
+      <div class="row justify-content-center text-center mb-5">
+        <div class="col-md-6" data-aos="fade" >
+          <h2>Frequently Ask Questions</h2>
+        </div>
+      </div>
+
+
+      <div class="row justify-content-center" data-aos="fade" data-aos-delay="100">
+        <div class="col-md-8">
+          <div class="accordion unit-8" id="accordion">
+          <div class="accordion-item">
+            <h3 class="mb-0 heading">
+              <a class="btn-block" data-toggle="collapse" href="#collapseOne" role="button" aria-expanded="true" aria-controls="collapseOne">What is the name of your company<span class="icon"></span></a>
+            </h3>
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+              <div class="body-text">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur quae cumque perspiciatis aperiam accusantium facilis provident aspernatur nisi optio debitis dolorum, est eum eligendi vero aut ad necessitatibus nulla sit labore doloremque magnam! Ex molestiae, dolor tempora, ad fuga minima enim mollitia consequuntur, necessitatibus praesentium eligendi officia recusandae culpa tempore eaque quasi ullam magnam modi quidem in amet. Quod debitis error placeat, tempore quasi aliquid eaque vel facilis culpa voluptate.</p>
+              </div>
+            </div>
+          </div> <!-- .accordion-item -->
+
+          <div class="accordion-item">
+            <h3 class="mb-0 heading">
+              <a class="btn-block" data-toggle="collapse" href="#collapseTwo" role="button" aria-expanded="false" aria-controls="collapseTwo">How much pay for 3  months?<span class="icon"></span></a>
+            </h3>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+              <div class="body-text">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel ad laborum expedita. Nostrum iure atque enim quisquam minima distinctio omnis, consequatur aliquam suscipit, quidem, esse aspernatur! Libero, excepturi animi repellendus porro impedit nihil in doloremque a quaerat enim voluptatum, perspiciatis, quas dignissimos maxime ut cum reiciendis eius dolorum voluptatem aliquam!</p>
+              </div>
+            </div>
+          </div> <!-- .accordion-item -->
+
+          <div class="accordion-item">
+            <h3 class="mb-0 heading">
+              <a class="btn-block" data-toggle="collapse" href="#collapseThree" role="button" aria-expanded="false" aria-controls="collapseThree">Do I need to register?  <span class="icon"></span></a>
+            </h3>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+              <div class="body-text">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel ad laborum expedita. Nostrum iure atque enim quisquam minima distinctio omnis, consequatur aliquam suscipit, quidem, esse aspernatur! Libero, excepturi animi repellendus porro impedit nihil in doloremque a quaerat enim voluptatum, perspiciatis, quas dignissimos maxime ut cum reiciendis eius dolorum voluptatem aliquam!</p>
+              </div>
+            </div>
+          </div> <!-- .accordion-item -->
+
+          <div class="accordion-item" >
+            <h3 class="mb-0 heading">
+              <a class="btn-block" data-toggle="collapse" href="#collapseFour" role="button" aria-expanded="false" aria-controls="collapseFour">Who should I contact in case of support.<span class="icon"></span></a>
+            </h3>
+            <div id="collapseFour" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+              <div class="body-text">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel ad laborum expedita. Nostrum iure atque enim quisquam minima distinctio omnis, consequatur aliquam suscipit, quidem, esse aspernatur! Libero, excepturi animi repellendus porro impedit nihil in doloremque a quaerat enim voluptatum, perspiciatis, quas dignissimos maxime ut cum reiciendis eius dolorum voluptatem aliquam!</p>
+              </div>
+            </div>
+          </div> <!-- .accordion-item -->
+
+        </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="notification" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p> We advice you log in before completing this payment. If you dont't you'll still be able to track this jobs progress but would be missing out a great deal of packages we have for you.
+            </p>
+         </div>
+        <div class="modal-footer">
+          <a href="{% url 'account_login' %}?next={{request.path}}"><button type="button" class="btn btn-primary">log in</button></a>
+          <button type="button" onclick="payWithPaystack(true)" class="btn btn-warning">proceed</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade bd-example-modal-xl" id="customizeModal" tabindex="-1" role="dialog" aria-labelledby="customizeModal" aria-hidden="true">
+      <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Customize Task</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form action="{% url 'customize' %}" id="customizeForm" method="POST">
+           {% csrf_token %} 
+          <div class="modal-body">
+            <h5>Customize to your needs and we would send you a quotation in 24hrs</h5>
+            
+                <div class="row form-group">
+                    <div class="col-md-12 mb-3 mb-md-0">
+                      <label class="font-weight-bold" for="title">Job Title</label>
+                      <input type="text" name="title" id="title" class="titles form-control" placeholder="eg. Full Stack Frontend" required>
+                    </div>
+                  </div>
+                  {% if user.is_authenticated %}
+                  <div class="row form-group mb-5">
+                    <div class="col-md-12 mb-3 mb-md-0">
+                      <label class="font-weight-bold" for="fullname">Name</label>
+                      <input type="text" name="name" id="fullname" class="form-control" value="{{user.first_name}}" required>
+                    </div>
+                  </div>
+                  {% else %}
+                  <div class="row form-group mb-5 p-0">
+                    <div class="col-md-12 mb-3 mb-md-0">
+                      <label class="font-weight-bold" for="fullname">Name</label>
+                      <input type="text" name="name" id="fullname" class="form-control" placeholder="eg. Facebook, Inc." required>
+                    </div>
+                  </div>
+                  {% endif %}
+                  
+              {% if user.is_authenticated %}
+              <div class=" mb-3 ">
+                <div class="row">
+                  <div class="col-6 mb-3 mb-md-0">
+                    <label class="font-weight-bold" for="phone">Phone</label>
+                    <input type="text" id="phone" class="form-control" name="phone" value="{{user.phone}}" required>
+                    <small id="phone_helpId" class="d-none form-text text-muted">Help text</small>
+                  </div>
+                  <!-- <p class="mb-4"><a href="#">+1 232 3235 324</a></p> -->
+      
+                  <div class="col-6 mb-3 mb-md-0">
+                    <label class="font-weight-bold" for="email">Email Address</label>
+                    <input type="email" id="email_hid" class="form-control email_hid" name="email"  value="{{user.email}}" required>
+                    <small id="email_helpId" class="d-none form-text text-muted">Help text</small>
+                  </div>
+                </div>
+                  
+      
+                </div>
+              {% else %}
+                 <div class="p-4 mb-3 ">
+                <div class="col-md-6 mb-3 mb-md-0">
+                  <label class="font-weight-bold" for="phone">Phone</label>
+                  <input type="text" id="phone" name="phone" class="form-control" required>
+                  <small id="phone_helpId" class="d-none form-text text-muted">Help text</small>
+                </div>
+                <!-- <p class="mb-4"><a href="#">+1 232 3235 324</a></p> -->
+    
+                <div class="col-md-6 mb-3 mb-md-0">
+                  <label class="font-weight-bold" for="phone">Email Address</label>
+                  <input type="email" name="email" id="email_hid" class="form-control email_hid" required>
+                  <small id="email_helpId" class="d-none form-text text-muted">Help text</small>
+                </div>
+    
+              </div>
+              {% endif %}
+              {{form.description|as_crispy_field}}
+               </div>
+            <!-- {{form}} -->
+            
+          <div class="modal-footer">
+            <button type="submit" name="submitQuote" id="submitQuote" class="btn btn-success">Submit</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+{% endblock content %}
+
+{% block script %}
+<!-- <script src="{% static 'js/jquery-3.3.1.min.js' %} "></script> -->
+<script>
+
+$("#customizeForm").submit((e)=>{
+  e.preventDefault()
+
+  url= $("#customizeForm").attr("action")
+    $.ajax({
+      url:url,
+      method:"POST",
+      enctype:'multipart/form-data',
+      data:$("#customizeForm").serialize(),
+      success:function(data){
+        // console.log(data);
+        if (data.error==false){
+          alert(data.message)
+
+        }
+        
+        // $("#showAssign").show()
+        // $(".frame").fadeOut()
+      }
+    })
+
+})
+
+$(".jo_cate")
+    .unbind()
+    .change(function(e) {
+      $(".ded-form").show();
+      var url = "/Job/deadline/";
+      var sub_cat = $(this).val();
+    //   console.log(sub_cat);
+      $.ajax({
+        url: url,
+        data: {
+          sub_cat: sub_cat
+        },
+        success: function(data) {
+          if (data==="quote"){
+             $(".quote").show();
+             $(".pay").hide()
+            $(".ded-form").hide()
+            $("#load_sub").hide();
+            $("#load_sub2").hide()
+            $(".totals").hide()
+          }
+          else{
+            $(".quote").hide();
+             $(".pay").show()
+            $(".ded-form").html(data);
+          }
+          
+          
+          $("#load_sub").show();
+          $("#load_sub1").load(location.href + " #load_sub1");
+        }
+      });
+    });
+
+function payWithPaystack(proceed){
+      // let amount = parseInt($("#total_sum").val())*100;
+      // console.log(amount)
+      let email = $("#email_hid").val();
+      if (email==""){
+        $(".email_hid").addClass(".invalid")
+      }
+      let total = $("#total_sum").text()*100;
+      let category = $(".cate_sum").text()
+      let sub_cat_sum = $("#sub_span").text()
+      let dead_sum = $(".dead_sum").text()
+      let phone = $("#phone").val()
+      let title = $(".titles").val()
+      let name = $("#fullname").val()
+      let id = $("#user_id").val()
+      // let proceed = false;
+      var description = CKEDITOR.instances.editor1.getData();
+      if (id=="None"){
+              $('#notification').modal('show')
+
+      }
+    //   console.log(proceed)
+      if (proceed==true){
+        // $('#notification').modal('hide')
+        // console.log(proceed)
+        var handler = PaystackPop.setup({
+      key: 'pk_test_018d63ee14fff968b6765fbe71b4eb1215a6ea78',
+      email: email,
+      amount: total,
+      currency: "NGN",
+      // ref: ''+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+      metadata: {
+         custom_fields: [
+            {
+                display_name: "adams",
+                variable_name: "name",
+                value: "+2348093615224"
+            }
+         ]
+      },
+      callback: function(response){
+          // alert('success. transaction ref is ' + response.reference);
+
+        $.ajax({
+        url: "/Job/payin/",
+        // method:"POST",
+          data: {
+            "email":email,
+            "total":total,
+            "category":category,
+            "sub_cat_sum":sub_cat_sum,
+            "dead_sum":dead_sum,
+            "phone":phone,
+            "title":title,
+            "description":description,
+            "reference":response.reference,
+            "name":name,
+            "id" :id,
+          },
+          success: function (data) {
+            // alert("success");
+            // $(".ko").html(data)
+            // console.log(typeof (data))
+            data=parseInt(data)
+            // console.log(typeof(data))
+            if (data == 0){
+              location.assign("/Track")
+            }
+            else if(data >0){
+              location.assign("/dashboard")
+            }
+
+          }
+      });
+
+
+      },
+      onClose: function(){
+
+      }
+    });
+    handler.openIframe();
+  }
+      }
+
+$(".quote").click((e)=>{
+      let email = $("#email_hid").val();
+      let total = $("#total_sum").text()*100;
+      let category = $(".cate_sum").text()
+      let sub_cat_sum = $("#sub_span").text()
+      let phone = $("#phone").val()
+      let title = $(".titles").val()
+      let name = $("#fullname").val()
+      let id = $("#user_id").val()
+      let phoneS = `${phone}` 
+      
+      var description = CKEDITOR.instances.editor1.getData();
+      if (phoneS ==="" || phoneS.match(/\+?234[789][0-2]\d{8}|0[87][0-2]\d{8}/)===null){
+      $("#phone").addClass("invalid")
+      }
+      if ( email===""){
+        $(".email_hid").addClass("invalid")
+      }
+     if(title===""){
+        $(".titles").addClass("invalid")
+     }
+     if(name===""){
+     $("#fullname").addClass("invalid")
+      }
+
+      if(phoneS!=="" && phoneS.match(/\+?234[789][0-2]\d{8}|0[87][0-2]\d{8}/)!==null && email!=="" &&title!=="" & name!==""){
+        // alert("ready to submit")
+        $.ajax({
+        url: "/Job/payin/",
+          data: {
+            "email":email,
+            "total":total,
+            "category":category,
+            "sub_cat_sum":sub_cat_sum,
+            "phone":phoneS,
+            "title":title,
+            "description":description,
+            "reference":"quote",
+            "name":name,
+            "id" :id,
+          },
+          success:(data)=>{
+            alert("successfully booked")
+          }
+        });
+
+      }
+      
+      
+})
+</script>
+
+{% endblock script %}

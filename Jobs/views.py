@@ -55,7 +55,8 @@ def JobCreate(request):
         "dead_price": dead_price,
         "sub_price": sub_price,
         "deadlines": deadlines,
-        "form": form
+        "form": form,
+        "cate_top":category
     }
     return render(request, template, context)
 
@@ -82,6 +83,8 @@ def Deadline(request):
     category = jom.subcategory.objects.get(id=cate)
     if category.quote == False:
         dedline = jom.Deadline.objects.filter(category__id=cate)
+        print(dedline)
+        print(category.name)
         min_date = category.min_date
         deadlines = jom.Deadline.objects.filter(category=category.id).first()
         maxDate = deadlines.deadline[:2]

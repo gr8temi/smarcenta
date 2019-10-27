@@ -71,9 +71,10 @@
                 <li class="has-children">
                   <a href="category.html">Category</a>
                   <ul class="dropdown">
-                    <li><a href="#">Graphics Design</a></li>
-                    <li><a href="#">Writing and research</a></li>
-                    <li><a href="#">Programming And Tech</a></li>
+                    
+                    {% for cate in cate_top %}
+                      <li><a href="{% url 'category_d' cate.pk  %}">{{cate.category}}</a></li>
+                    {% endfor %}
                   </ul>
                 </li>
                 <li><a href="{% url 'jobCreate' %}"><span class="rounded bg-gold py-2 px-3 h6 text-black"><span class=" mr-2"></span>Hire Now</span></a></li>

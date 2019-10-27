@@ -55,7 +55,7 @@ class Categories(models.Model):
 
 	category = models.CharField(max_length=50)
 	about  = models.TextField(default="info about category")
-
+	image = models.ImageField(default="me.png", upload_to="categories/")
 	def __str__(self):
 		return self.category
 	

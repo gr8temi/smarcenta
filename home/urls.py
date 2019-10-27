@@ -15,6 +15,8 @@ urlpatterns = [
 	path("verify/", views.verify, name="verify"),
 	path("users/", views.users, name="users"),
 	path("ad_category/", views.Categories, name="ad_category"),
+	url(r"^category/(?P<pk>\d+)/$", views.Category, name="category_d"),
+	
 	
 ]
 urlpatterns+=staticfiles_urlpatterns()
