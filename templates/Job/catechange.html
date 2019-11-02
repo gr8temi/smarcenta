@@ -15,7 +15,9 @@
   $(".jo_cate")
     .unbind()
     .change(function(e) {
-      $(".ded-form").show();
+      $("#load_deadline").hide()
+      $(".totals").hide()
+      $(".pay").hide()
       var url = "/Job/deadline/";
       var sub_cat = $(this).val();
       // console.log(sub_cat);
@@ -26,20 +28,19 @@
         },
         success: function(data) {
           if (data==="quote"){
-             $(".quote").show();
-             $(".pay").hide()
-            $(".ded-form").hide()
+             $(".quote").show();            
             $("#load_sub").hide();
             $("#load_sub2").hide()
+            $(".pay").hide()
             $(".totals").hide()
           }
           else{
             $(".quote").hide();
-             $(".pay").show()
+            $(".ded-form").show();
             $(".ded-form").html(data);
           }
           
-          
+          $("#coupondiv").hide()
           $("#load_sub").show();
           $("#load_sub1").load(location.href + " #load_sub1");
         }

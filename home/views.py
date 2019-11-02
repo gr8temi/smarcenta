@@ -5,6 +5,9 @@ from Jobs import models as jo
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage, send_mail, EmailMultiAlternatives
 from Jobs import forms as j_forms
+from .forms import CouponForm, Coupons, ValidityForm, MaxUseForm, DiscountForm,CouponUsers
+from django.http import JsonResponse
+from django_simple_coupons import models as co_models
 # Create your views here.
 
 
@@ -207,3 +210,56 @@ def Category(request, pk):
         "deadlines": deadlines,
     }
     return render(request, template, context)
+
+
+def coupon(request):
+    if request.method == 'POST':
+        form = CouponForm(request.POST)
+        coup = Coupons(request.POST)
+        validity= ValidityForm(request.POST)
+        maxUse= MaxUseForm(request.POST)
+        discount = DiscountForm(request.POST)
+        Cusers = CouponUsers(request.POST)
+        if coup.is_valid() and  validity.is_valid() and maxUse.is_valid() and discount.is_valid() and Cusers.is_valid():
+            validity.save()
+            maxUse.save()
+            Cusers.save()
+            discount.save()
+            valid = co_models.ValidityRule.objects.filter(expiration_date=validity.cleaned_data["expiration_date"]).first()
+            maxi= co_models.MaxUsesRule.objects.filter(max_uses=maxUse.cleaned_data["max_uses"]).first()
+            maxi.is_active=True
+            maxi.save()
+            coup_user = co_models.AllowedUsersRule.objects.filter(all_users=Cusers.cleaned_data["all_users"]).first()
+            co_models.Ruleset.objects.create(
+                max_uses = maxi,
+                validity = valid,
+                allowed_users=coup_user
+            )
+            rules =co_models.Ruleset.objects.filter( max_uses__id = maxi.id,validity__id = valid.id, allowed_users__id=coup_user.id).first()
+            disc = co_models.Discount.objects.filter(value = discount.cleaned_data["value"], is_percentage=discount.cleaned_data["is_percentage"] ).first()
+            co_models.Coupon.objects.create(
+                code = coup.cleaned_data["code"],
+                ruleset=rules,
+                discount=disc
+            )
+            return JsonResponse({'error': False, 'message': "Successfully Updated"})
+        else:
+            print(form.errors)
+            return JsonResponse({'error': True, 'errors': form.errors})
+    if request.method == 'GET':
+        template = "home/promotion.html"
+        form = CouponForm()
+        coup = Coupons()
+        validity= ValidityForm()
+        maxUse= MaxUseForm()
+        discount = DiscountForm()
+        Cusers = CouponUsers()
+        context = {
+            "form":form,
+            "coup":coup,
+            "validity":validity,
+            "maxUse":maxUse,
+            "discount":discount,
+            "Cusers":Cusers
+        }
+        return render (request,template,context)

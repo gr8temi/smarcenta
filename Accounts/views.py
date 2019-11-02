@@ -111,4 +111,4 @@ def edit_view(request):
 			return JsonResponse({'error': False, 'message': "Successfully Updated"})
 		else:
 			return JsonResponse({'error': True, 'errors': form.errors})
-        
+

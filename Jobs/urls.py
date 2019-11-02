@@ -9,5 +9,6 @@ urlpatterns = [
     path('workload/',jv.workload,name="workload"),
     path('calendar/',jv.calendar,name="calendar"),
     path('customize/',jv.customize,name="customize"),
+    path('coupons/',jv.coupons,name="coupon"),
 
 ]

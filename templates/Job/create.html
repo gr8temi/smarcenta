@@ -132,14 +132,23 @@
             <div class="total">
                 <input type="hidden" value="{{user.email}}" id="email_hid">
                 <input type="hidden" name="user_id" id="user_id" value="{{user.id}}">
+                <p class="discount_value" style="display: none"><b>Discount</b><span class="diSpan" style="float: right;"></span></p>
                 <p class="totals" style="display: none"><b>Total</b> <span style="float: right;" class="mr-auto">&#8358;<span id="total_sum">{{tota}}</span></p>
+            </div>
+            <div class="col-md-12 d-flex mb-md-4"  >
+                <div style="display: none;"id="coupondiv">
+                  <input type="text" name="coupon" id="couponinp" class="form-control" placeholder="Enter Coupon" aria-describedby="helpId">
+                  <small id="helpId" style="display: none;" class="text-muted coupError">Help text</small>
+                  <button class="text-center text-white btn btn-success couponBtn">Apply</button>
+            </div>
+                
             </div>
             <form class="d-flex justify-content-center">
               <script src="https://js.paystack.co/v1/inline.js"></script>
 
               {% if user.is_authenticated %}
-                <button class="text-center text-white btn btn-success pay" type="button" style="display: none;" onclick="payWithPaystack(true)"> Pay </button>
-                {% else %}
+                 <button class="text-center text-white btn btn-success pay" type="button" style="display: none;" onclick="payWithPaystack(true)"> Pay </button>
+                 {% else %}
                 <button class="text-center text-white btn btn-success pay " type="button" style="display:none" onclick="payWithPaystack(false)"> Pay </button>
               {% endif %}
               <button class="text-center text-white btn btn-success quote " type="button" style="display:none"> Request quote </button>
@@ -358,9 +367,10 @@ $("#customizeForm").submit((e)=>{
 
 })
 
- $(".joo").unbind().click(function (e) {
+ $(".joo").unbind().change(function (e) {
       e.target.classList.toggle("active")
       $(".ded-form").hide()
+      $(".pay").hide()
       var url = "/Job/catechange/";
       var category = $(this).val();
       console.log(category);
@@ -377,7 +387,7 @@ $("#customizeForm").submit((e)=>{
           $("#load_sub").hide()
           $(".totals").hide()
           $("#load_sub2").hide()
-         
+          $("#coupondiv").hide()
 
         }
       });
@@ -518,6 +528,32 @@ $(".quote").click((e)=>{
       }
       
       
+})
+
+$(".couponBtn").click((e)=>{
+  let code=$("#couponinp").val()
+  console.log(code);
+  
+  $.ajax({
+    url:"/Job/coupons",
+    method:"GET",
+    data:{
+      "code":code
+    },
+    success: (e)=>{
+      if (e.error==true){
+        $("#couponinp").addClass("invalid")
+        $(".coupError").show().text(e.status) 
+      }
+      else{
+        $(".coupError").show().text(e.message)
+        $(".discount_value").show()
+        $(".diSpan").text(e.discount)
+        $("#total_sum").load(location.href + " #total_sum") 
+      }
+      
+    }
+  })
 })
 </script>
 

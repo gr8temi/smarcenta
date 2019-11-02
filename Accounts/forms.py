@@ -24,6 +24,7 @@ def random_string_generator(size=8, chars=string.ascii_lowercase + string.digits
 
 class MyCustomSignupForm(SignupForm):
 	referal = forms.CharField(max_length=8, required=False)
+	phone = forms.CharField(max_length=11, required=True)
 	def save(self, request):
 		# Ensure you call the parent class's save.
 		# .save() returns a User object. 
@@ -38,7 +39,6 @@ class MyCustomSignupForm(SignupForm):
 		for use in users:
 			if use.referal_code == refer:
 				refer = random_string_generator()
-
 		custom = CustomUser.objects.get(id=user.id)
 		custom.referal_code= refer
 		custom.save()

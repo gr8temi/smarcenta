@@ -66,3 +66,11 @@ class Terms(models.Model):
 
 	def __str__(self):
 		return self.name
+
+class Coupon(models.Model):
+	coupon= models.CharField( max_length=50)
+	expiry_date = models.DateField(auto_now=False, auto_now_add=False)
+	amount= MoneyField(decimal_places=2, max_digits=8,default_currency="NGN",default=0.00)
+
+	def __str__(self):
+		return self.coupon
