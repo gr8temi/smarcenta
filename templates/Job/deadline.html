@@ -2,13 +2,12 @@
 <link rel="stylesheet" href="{% static 'css/jquery.datetimepicker.min.css' %}">
 <div class="d-flex-flex-column">
  <div class="col-md-12" id="subc"><h4 style="font-size: 1.2rem;">Deadline</h4></div>
-<select class="form-control deadli" name="" id="">
+<!-- <select class="form-control deadli" name="" id="">
     <option selected disabled>Choose a Deadline</option>
     {% for dead in dedline %}
     <option value="{{dead.id}}">{{dead.deadline}}<small> {{dead.price}}</small></option>
     {% endfor %}
-</select>
-<h5>OR</h5>
+</select> -->
 <input type="hidden" id="min-date" value="{{min_date}}">
 <input type="hidden" id="max-date" value="{{max_date}}">
 <input type="hidden" id="cate_id" value="{{cate_id}}">
@@ -33,7 +32,7 @@
       format:'Y/m/d',
       mask:true,
       minDate:`+1970/01/0${minDates+1}`,   
-      maxDate:`+1970/01/0${maxDates}`,   
+      maxDate:`+1970/01/0${maxDates+2}`,   
     }
   );
   $("#calendar").click((e)=>{
