@@ -8,14 +8,10 @@ class CustomUser(AbstractUser):
 	is_active=models.BooleanField(default=True)
 	address = models.CharField(max_length=150, default="lagos")
 	phone = models.CharField(max_length=150, default="08000012345")
-	# Candidate = models.BooleanField(default=True)
 	referal_code= models.CharField(null=True, blank=True, max_length=50)
 	referal_point =models.PositiveIntegerField(default=0)
 	reward = MoneyField(decimal_places=2, max_digits=8,default_currency="NGN",default=0.00)
-	profile_picture = models.ImageField( upload_to="profile", default="empty.png")
-
-
-
+	profile_picture = models.ImageField( upload_to="profile", default="profile/logo.png")
 	def __str__(self):
 		return self.email
 class project_managers(models.Model):

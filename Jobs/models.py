@@ -30,7 +30,7 @@ class subcategory(models.Model):
     cost_per_day = MoneyField(decimal_places=2, max_digits=8, default_currency="NGN", default=500.00)
     quote =  models.BooleanField(default=False)
     def __str__(self):
-        return self.name
+        return self.name + " "+ self.category.category
 
 class Order(models.Model):
     title = models.CharField(max_length=50)

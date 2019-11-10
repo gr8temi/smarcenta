@@ -18,7 +18,6 @@
 <button type="button" id="calendar" class="btn btn-danger">choose</button>
 </div> 
 </div>
-<script src="{% static 'js/jquery-3.3.1.min.js'%}"></script>
 <script src="{% static 'js/moment.js'%}"></script>
 <script src="{%static 'js/jquery.datetimepicker.full.min.js' %}"></script>
 
@@ -27,7 +26,6 @@
 <script>
   var minDates = parseInt($("#min-date").val())
   var maxDates = parseInt($("#max-date").val())
-  console.log(minDates);
   
   $('#datetimepicker').datetimepicker(
     
@@ -42,11 +40,11 @@
     e.preventDefault()
     const date= $('#datetimepicker').val()
     let today = new Date()
-    // console.log(moment(date.replace("/",""),"YYYYMMDD").diff( moment(today),'days') );
-    // console.log(today);
     
     
-    // console.log((date-today)-minDates);
+    
+    
+    
     
     let cate_id = $("#cate_id").val()
     var url = "/Job/calendar/";
@@ -54,15 +52,15 @@
     $("#load_deadline").show()
     $.ajax({
       url: url,
-  //    method:"POST",
+  
       data: {
         'deadline': deadline,
         'cate_id':cate_id
       },
       success: function (data) {
         $(".ded-form").html(data);
-      //  console.log(data)
-      //  $("#load_deadline").show()
+      
+      
         $("#load_sub2").show()
         $(".totals").show()
         $("#coupondiv").show()
@@ -76,18 +74,18 @@
   $(".deadli").unbind().change(function (e) {
         var url = "/Job/deadlines/";
         var deadline = $(this).val();
-        console.log(deadline);
+      
         $("#load_deadline").show()
         $.ajax({
           url: url,
-      //    method:"POST",
+      
           data: {
             'deadline': deadline
           },
           success: function (data) {
             $(".ded-form").html(data);
-          //  console.log(data)
-          //  $("#load_deadline").show()
+          
+          
             $("#load_sub2").show()
             $(".totals").show()
             $("#coupondiv").show()

@@ -341,7 +341,6 @@
 {% endblock content %}
 
 {% block script %}
-<!-- <script src="{% static 'js/jquery-3.3.1.min.js' %} "></script> -->
 <script>
 
 $("#customizeForm").submit((e)=>{
@@ -354,14 +353,11 @@ $("#customizeForm").submit((e)=>{
       enctype:'multipart/form-data',
       data:$("#customizeForm").serialize(),
       success:function(data){
-        console.log(data);
+        
         if (data.error==false){
           alert(data.message)
 
         }
-        
-        // $("#showAssign").show()
-        // $(".frame").fadeOut()
       }
     })
 
@@ -373,7 +369,7 @@ $("#customizeForm").submit((e)=>{
       $(".pay").hide()
       var url = "/Job/catechange/";
       var category = $(this).val();
-      console.log(category);
+    
       $.ajax({
         url: url,
         data: {
@@ -395,12 +391,7 @@ $("#customizeForm").submit((e)=>{
     });
 
 function payWithPaystack(proceed){
-      // let amount = parseInt($("#total_sum").val())*100;
-      // console.log(amount)
       let email = $("#email_hid").val();
-      if (email==""){
-        $(".email_hid").addClass(".invalid")
-      }
       let total = $("#total_sum").text()*100;
       let category = $(".cate_sum").text()
       let sub_cat_sum = $("#sub_span").text()
@@ -409,34 +400,40 @@ function payWithPaystack(proceed){
       let title = $(".titles").val()
       let name = $("#fullname").val()
       let id = $("#user_id").val()
-      // let proceed = false;
+      let phoneS= `${phone}`
       var description = CKEDITOR.instances.editor1.getData();
       if (id=="None"){
-              $('#notification').modal('show')
-
+        $('#notification').modal('show')
       }
-      console.log(proceed)
       if (proceed==true){
-        // $('#notification').modal('hide')
-        // console.log(proceed)
+        if (phoneS ==="" || phoneS.match(/\+?234[789][0-2]\d{8}|0[87][0-2]\d{8}/)===null){
+      $("#phone").addClass("invalid")
+      $('#notification').modal('hide')
+      }
+      if ( email===""){
+        $(".email_hid").addClass("invalid")
+        $('#notification').modal('hide')
+      }
+     if(title===""){
+        $(".titles").addClass("invalid")
+        $('#notification').modal('hide')
+     }
+     if(name===""){
+     $("#fullname").addClass("invalid")
+     $('#notification').modal('hide')
+      }
+
+      if(phoneS!=="" && phoneS.match(/\+?234[789][0-2]\d{8}|0[87][0-2]\d{8}/)!==null && email!=="" &&title!=="" & name!==""){
+        $("#phone").removeClass("invalid")
+        $(".email_hid").removeClass("invalid")
+        $(".titles").removeClass("invalid")
+        $("#fullname").removeClass("invalid")
         var handler = PaystackPop.setup({
       key: 'pk_test_018d63ee14fff968b6765fbe71b4eb1215a6ea78',
       email: email,
       amount: total,
       currency: "NGN",
-      // ref: ''+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
-      metadata: {
-         custom_fields: [
-            {
-                display_name: "adams",
-                variable_name: "name",
-                value: "+2348093615224"
-            }
-         ]
-      },
       callback: function(response){
-          // alert('success. transaction ref is ' + response.reference);
-
         $.ajax({
         url: "/Job/payin/",
         // method:"POST",
@@ -456,9 +453,9 @@ function payWithPaystack(proceed){
           success: function (data) {
             // alert("success");
             // $(".ko").html(data)
-            console.log(typeof (data))
+            
             data=parseInt(data)
-            console.log(typeof(data))
+            
             if (data == 0){
               location.assign("/Track")
             }
@@ -475,7 +472,10 @@ function payWithPaystack(proceed){
 
       }
     });
+
     handler.openIframe();
+
+  }
   }
       }
 
@@ -506,6 +506,10 @@ $(".quote").click((e)=>{
 
       if(phoneS!=="" && phoneS.match(/\+?234[789][0-2]\d{8}|0[87][0-2]\d{8}/)!==null && email!=="" &&title!=="" & name!==""){
         // alert("ready to submit")
+        $("#phone").removeClass("invalid")
+        $(".email_hid").removeClass("invalid")
+        $(".titles").removeClass("invalid")
+        $("#fullname").removeClass("invalid")
         $.ajax({
         url: "/Job/payin/",
           data: {
@@ -532,7 +536,7 @@ $(".quote").click((e)=>{
 
 $(".couponBtn").click((e)=>{
   let code=$("#couponinp").val()
-  console.log(code);
+  
   
   $.ajax({
     url:"/Job/coupons",
