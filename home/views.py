@@ -13,14 +13,19 @@ from home import models as homes
 
 
 def Home(request):
+
     template = "home/home.html"
     cate_top = Acct.Categories.objects.all()
     jobs = jo.Jobs.objects.all()
     info = homes.CompanyInfo.objects.all()
+    terms = Acct.Terms.objects.get(id=1)
+    testimony = homes.Testimonials.objects.all()
     context = {
         'jobs': jobs,
         "cate_top": cate_top,
-        'info':info
+        'info':info,
+        'terms':terms,
+        'testimony':testimony
     }
     return render(request, template, context)
 
@@ -173,6 +178,7 @@ def Category(request, pk):
     info = homes.CompanyInfo.objects.all()
     jobform = j_forms.JobForm()
     form = j_forms.CustomizeForm()
+    terms = Acct.Terms.objects.get(id=1)
     try:
         cate = request.session['category']
     except KeyError:
@@ -214,7 +220,8 @@ def Category(request, pk):
         "dead_price": dead_price,
         "sub_price": sub_price,
         "deadlines": deadlines,
-        "info":info
+        "info":info,
+        "terms":terms
     }
     return render(request, template, context)
 

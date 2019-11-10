@@ -27,8 +27,19 @@ class FAQ(models.Model):
         """Unicode representation of FAQ."""
         return self.faq
 
-class Archives(models.Model):
+class Testimonials(models.Model):
     """Model definition for Archives."""
+    name = models.CharField( max_length=50, blank=True)
+    image = models.ImageField(upload_to="customers/",blank=True)
+    company = models.CharField(max_length=50, blank=True)
+    testimony = RichTextField()
+    def __str__(self):
+        """Unicode representation of FAQ."""
+        if len(self.name)>1:
+            return self.name
+        else:
+            return self.company
+         
 
     # TODO: Define fields here
 

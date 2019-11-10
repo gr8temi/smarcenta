@@ -17,93 +17,17 @@
         <div class="col-md-6 col-lg-3 mb-5 mb-lg-5">
           <a href="{% url 'jobCreate' %}"><button type="submit" class="btn btn-gold btn-block">Hire Now</button></a>
                   </div>
+          <!-- <svg viewBox="0,0,300,100">
+              <text x="" y="50">
+                  A moving text
+                  <animate attributeName="x" from="-100" to="700" dur="20s" repeatCount="indefinite">
+              </text>
+          </svg> -->
         </div>
       </div>
     </div>
   </div>
 </div>
-
-<!-- <div class="site-section bg-light">
-  <div class="container">
-    <div class="row justify-content-start text-left mb-5">
-      <div class="col-md-9" data-aos="fade">
-        <h2 class="font-weight-bold text-black">Recent Jobs</h2>
-      </div>
-      <div class="col-md-3" data-aos="fade" data-aos-delay="200">
-        <a href="{% url 'jobCreate' %}" class="btn text-black btn-gold py-3 btn-block"
-          ><span class="h5">+</span> Post a Job</a
-        >
-      </div>
-    </div>
-
-    {% for job in jobs %}
-         <div class="row" data-aos="fade">
-      <div class="col-md-12">
-        <div class="job-post-item bg-white p-4 d-block d-md-flex align-items-center">
-          <div class="mb-4 mb-md-0 mr-5">
-            <div class="job-post-item-header d-flex align-items-center">
-              <h2 class="mr-3 text-black h4">{{job.job_title}}</h2>
-              <div class="badge-wrap">
-                <span class="bg-gold text-white badge py-2 px-4">{{job.category}}</span>
-              </div>
-            </div>
-            <div class="job-post-item-body d-block d-md-flex">
-              <div class="mr-3">
-                <span class="fl-bigmug-line-portfolio23"></span>
-                <a href="#">{{job.company}}</a>
-              </div>
-              <div>
-                <span class="fl-bigmug-line-big104"></span>
-                <span>{{job.company.user.address}}</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="ml-auto">
-            <a
-              href="#"
-              class="btn btn-secondary rounded-circle btn-favorite text-gray-500"
-              ><span class="icon-heart"></span
-            ></a>
-            <a
-              href="job-single.html"
-              class="btn btn-green-outline text-black py-2"
-              >Apply Job</a
-            >
-          </div>
-        </div>
-      </div>
-    </div>
-    {% endfor %}
-
-
-
-    <div class="row mt-5">
-      <div class="col-md-12 text-center">
-        <div class="site-block-27">
-          <ul>
-            <li>
-              <a class="text-black" href="#"
-                ><i class="icon-keyboard_arrow_left h5"></i
-              ></a>
-            </li>
-            <li class="active"><span>1</span></li>
-            <li><a class="text-black" href="#">2</a></li>
-            <li><a class="text-black" href="#">3</a></li>
-            <li><a class="text-black" href="#">4</a></li>
-            <li><a class="text-black" href="#">5</a></li>
-            <li>
-              <a class="text-black" href="#"
-                ><i class="icon-keyboard_arrow_right h5"></i
-              ></a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
-
 <div class="site-section">
   <div class="container">
     <div class="row justify-content-center text-center mb-5">
@@ -289,25 +213,28 @@
     </div>
 
     <div class="nonloop-block-4 owl-carousel" data-aos="fade">
-      <div class="item col-md-8 mx-auto">
+      
+      {% for test in testimony %}
+        <div class="item col-md-8 mx-auto">
         <div class="block-38 text-center bg-white p-4">
           <div class="block-38-img">
             <div class="block-38-header">
-              <img src="images/person_1.jpg" alt="Image placeholder" />
-              <h3 class="block-38-heading">Elizabeth Graham</h3>
-              <p class="block-38-subheading">Creative Director, XYG Company</p>
+              <img src="{{test.image.url}}" alt="Image placeholder" />
+              <h3 class="block-38-heading">{{test.name}}</h3>
+              <p class="block-38-subheading">{{test.company}}</p>
             </div>
             <div class="block-38-body">
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae
-                aut minima nihil sit distinctio recusandae doloribus ut fugit
-                officia voluptate soluta.
+               {{test.testimony|safe}}
               </p>
             </div>
           </div>
         </div>
       </div>
-      <div class="item col-md-8 mx-auto">
+      {% endfor %}
+        
+      
+      <!-- <div class="item col-md-8 mx-auto">
         <div class="block-38 text-center bg-white p-4">
           <div class="block-38-img">
             <div class="block-38-header">
@@ -370,7 +297,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>
