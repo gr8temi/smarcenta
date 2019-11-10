@@ -179,6 +179,7 @@ def Category(request, pk):
     jobform = j_forms.JobForm()
     form = j_forms.CustomizeForm()
     terms = Acct.Terms.objects.get(id=1)
+    faqs = homes.FAQ.objects.all()
     try:
         cate = request.session['category']
     except KeyError:
@@ -221,7 +222,8 @@ def Category(request, pk):
         "sub_price": sub_price,
         "deadlines": deadlines,
         "info":info,
-        "terms":terms
+        "terms":terms,
+        "faqs":faqs
     }
     return render(request, template, context)
 
