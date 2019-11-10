@@ -8,6 +8,7 @@ from Jobs import forms as j_forms
 from .forms import CouponForm, Coupons, ValidityForm, MaxUseForm, DiscountForm,CouponUsers
 from django.http import JsonResponse
 from django_simple_coupons import models as co_models
+from home import models as homes
 # Create your views here.
 
 
@@ -101,7 +102,8 @@ def verify(request):
     status = request.GET.get("stage")
     order = jo.Order.objects.get(reference=reference)
     stage = jo.stage.objects.get(stage=status, category__name=order.sub_cat)
-
+    info = homes.CompanyInfo.objects.get(id=1)
+    company_email = info.email
     mail_subject = 'Job Status'
     message = render_to_string('home/job_status.txt', {
         "order": order,
@@ -115,7 +117,7 @@ def verify(request):
         "order": order,
         "stage": stage
     })
-    send_mail(mail_subject, message, "Smartcentanigeria@gmail.com",
+    send_mail(mail_subject, message, company_email,
               to_email, fail_silently=False, html_message=msg_html,)
     order.status += 1
     order.save()
@@ -136,9 +138,6 @@ def users(request):
             user_id=user.id, status__gte=6).count()
         user_list.append({"username": user.username,
                           "id": user.id, "is_active": user.is_active, "email": user.email, "order": order, "pending": pending, "complete": complete, "referal": user.referal_point})
-
-    print(user_list)
-
     users = Acct.CustomUser.objects.filter(is_staff=False)
     context = {
         "users": users,
@@ -244,7 +243,7 @@ def coupon(request):
             )
             return JsonResponse({'error': False, 'message': "Successfully Updated"})
         else:
-            print(form.errors)
+
             return JsonResponse({'error': True, 'errors': form.errors})
     if request.method == 'GET':
         template = "home/promotion.html"

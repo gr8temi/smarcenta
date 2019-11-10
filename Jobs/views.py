@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from . import forms
 from Accounts import models as acct
 from . import models as jom
+from home import models as homes
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage, send_mail, EmailMultiAlternatives
 from django.http import JsonResponse
@@ -16,6 +17,7 @@ def JobCreate(request):
     jobform = forms.JobForm()
     form = forms.CustomizeForm()
     category = acct.Categories.objects.all()
+    faqs = homes.FAQ.objects.all()
     # user = acct.Finder.objects.get(user=request.user)
     try:
         cate = request.session['category']
@@ -57,7 +59,8 @@ def JobCreate(request):
         "sub_price": sub_price,
         "deadlines": deadlines,
         "form": form,
-        "cate_top": category
+        "cate_top": category,
+        "faqs":faqs
     }
     return render(request, template, context)
 
@@ -132,6 +135,8 @@ def payin(request):
     name = request.GET.get("name")
     description = request.GET.get("description")
     user_id = request.GET.get("id")
+    info = homes.CompanyInfo.objects.get(id=1)
+    company_email = info.email
 
     acronyms = "".join([leter[0] for leter in title.split(" ")])
     if user_id == "None":
@@ -145,7 +150,7 @@ def payin(request):
             'email': email,
             'description': description})
 
-        to_email = ["gr8temi@gmail.com"]
+        to_email = email
         msg_html = render_to_string('home/quotation.html', {
             'name': name,
             'Job_title': title,
@@ -153,7 +158,7 @@ def payin(request):
             'description': description
         })
 
-        send_mail(mail_subject, message, 'adamstemii@gmail.com',
+        send_mail(mail_subject, message, company_email,
                   to_email, fail_silently=False, html_message=msg_html,)
     jom.Order.objects.create(
         title=title,
@@ -184,7 +189,7 @@ def payin(request):
         'Job_title': title,
         'reference': reference,
     })
-    send_mail(mail_subject, message, 'adamstemii@gmail.com', to_email, fail_silently=False, html_message=msg_html,
+    send_mail(mail_subject, message, company_email, to_email, fail_silently=False, html_message=msg_html,
               )
 
     # print (description)
@@ -200,6 +205,8 @@ def workload(request):
         handler = acct.project_handlers.objects.get(id=handlers)
         manager = acct.project_managers.objects.get(id=managers)
         project_id = jom.Order.objects.get(reference=reference)
+        info = homes.CompanyInfo.objects.get(id=1)
+        company_email = info.email
         status = jom.stage.objects.get(
             stage_name="Assign Task", category__name=project_id.sub_cat)
         jom.Workload.objects.create(
@@ -223,7 +230,7 @@ def workload(request):
             'Job': project_id,
         })
 
-        send_mail(mail_subject, message, 'adamstemii@gmail.com',
+        send_mail(mail_subject, message, company_email,
                   to_email, fail_silently=False, html_message=msg_html,)
         # manager.availability=False
         # manager.save()
@@ -272,7 +279,8 @@ def customize(request):
     if request.method == 'POST':
         form = forms.CustomizeForm(request.POST)
         if form.is_valid():
-
+            info = homes.CompanyInfo.objects.get(id=1)
+            company_email = info.email      
             email = form.cleaned_data.get('email')
             title = form.cleaned_data.get('title')
             name = form.cleaned_data.get('name')
@@ -289,7 +297,7 @@ def customize(request):
                 'Job_title': title,
 
             })
-            send_mail(mail_subject, message, 'adamstemii@gmail.com',
+            send_mail(mail_subject, message, company_email,
                       to_email, fail_silently=False, html_message=msg_html,)
             form.save()
             return JsonResponse({'error': False, 'message': "Upload Successful"})
