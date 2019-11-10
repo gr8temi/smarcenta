@@ -161,7 +161,6 @@ function rewardBtn(rewardId){
 }
 function suspend(userId,active){
     $("#suspendModal").modal("toggle")
-    console.log( active)
     if (active == "False"){
         $("#message-self").text(`Reason For Activation:`)
          $(".sus-button").html(`
@@ -202,7 +201,6 @@ $("#suspend-form").submit((e)=>{
       method:"GET",
       data:$("#suspend-form").serialize(),
       success:function(data){
-        console.log(data);
         $("#showAssign").show()
         $(".frame").fadeOut()
       }

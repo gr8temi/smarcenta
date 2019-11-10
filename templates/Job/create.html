@@ -49,7 +49,7 @@
             <div class="row form-group">
 
               <div class="col-md-4">
-                  <div class="col-md-12"><h4>Category</h4></div>
+                  <div class="col-md-12"><h4 style="font-size: 1.2rem;">Category</h4></div>
                   <div class="form-group">
                    <select class="form-control joo" name="" id="">
                       <option selected disabled>Choose a Category</option>
@@ -135,11 +135,15 @@
                 <p class="discount_value" style="display: none"><b>Discount</b><span class="diSpan" style="float: right;"></span></p>
                 <p class="totals" style="display: none"><b>Total</b> <span style="float: right;" class="mr-auto">&#8358;<span id="total_sum">{{tota}}</span></p>
             </div>
-            <div class="col-md-12 d-flex mb-md-4"  >
+            <div class="col-md-12 d-flex justify-content-end mb-md-4"  >
                 <div style="display: none;"id="coupondiv">
-                  <input type="text" name="coupon" id="couponinp" class="form-control" placeholder="Enter Coupon" aria-describedby="helpId">
                   <small id="helpId" style="display: none;" class="text-muted coupError">Help text</small>
-                  <button class="text-center text-white btn btn-success couponBtn">Apply</button>
+                  
+                  <div class="d-flex">
+                      <input type="text" name="coupon" id="couponinp" class="form-control" placeholder="Enter Coupon" aria-describedby="helpId">
+                      <button class="ml-3 text-center text-white btn btn-success couponBtn">Apply</button>
+                  </div>
+                 
             </div>
                 
             </div>
@@ -179,49 +183,21 @@
       <div class="row justify-content-center" data-aos="fade" data-aos-delay="100">
         <div class="col-md-8">
           <div class="accordion unit-8" id="accordion">
-          <div class="accordion-item">
+            
+            {% for faq  in faqs  %}
+              <div class="accordion-item">
             <h3 class="mb-0 heading">
-              <a class="btn-block" data-toggle="collapse" href="#collapseOne" role="button" aria-expanded="true" aria-controls="collapseOne">What is the name of your company<span class="icon"></span></a>
+              <a class="btn-block" data-toggle="collapse" href="#{{faq.tag}}" role="button" aria-expanded="true" aria-controls="{{faq.id}}">{{faq.faq}}<span class="icon"></span></a>
             </h3>
-            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+            <div id="{{faq.tag}}" class="collapse {% if faq.id == 1%}show {%endif%}" aria-labelledby="headingOne" data-parent="#accordion">
               <div class="body-text">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur quae cumque perspiciatis aperiam accusantium facilis provident aspernatur nisi optio debitis dolorum, est eum eligendi vero aut ad necessitatibus nulla sit labore doloremque magnam! Ex molestiae, dolor tempora, ad fuga minima enim mollitia consequuntur, necessitatibus praesentium eligendi officia recusandae culpa tempore eaque quasi ullam magnam modi quidem in amet. Quod debitis error placeat, tempore quasi aliquid eaque vel facilis culpa voluptate.</p>
+                <p>{{faq.answer|safe}}</p>
               </div>
             </div>
           </div> <!-- .accordion-item -->
-
-          <div class="accordion-item">
-            <h3 class="mb-0 heading">
-              <a class="btn-block" data-toggle="collapse" href="#collapseTwo" role="button" aria-expanded="false" aria-controls="collapseTwo">How much pay for 3  months?<span class="icon"></span></a>
-            </h3>
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-              <div class="body-text">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel ad laborum expedita. Nostrum iure atque enim quisquam minima distinctio omnis, consequatur aliquam suscipit, quidem, esse aspernatur! Libero, excepturi animi repellendus porro impedit nihil in doloremque a quaerat enim voluptatum, perspiciatis, quas dignissimos maxime ut cum reiciendis eius dolorum voluptatem aliquam!</p>
-              </div>
-            </div>
-          </div> <!-- .accordion-item -->
-
-          <div class="accordion-item">
-            <h3 class="mb-0 heading">
-              <a class="btn-block" data-toggle="collapse" href="#collapseThree" role="button" aria-expanded="false" aria-controls="collapseThree">Do I need to register?  <span class="icon"></span></a>
-            </h3>
-            <div id="collapseThree" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-              <div class="body-text">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel ad laborum expedita. Nostrum iure atque enim quisquam minima distinctio omnis, consequatur aliquam suscipit, quidem, esse aspernatur! Libero, excepturi animi repellendus porro impedit nihil in doloremque a quaerat enim voluptatum, perspiciatis, quas dignissimos maxime ut cum reiciendis eius dolorum voluptatem aliquam!</p>
-              </div>
-            </div>
-          </div> <!-- .accordion-item -->
-
-          <div class="accordion-item" >
-            <h3 class="mb-0 heading">
-              <a class="btn-block" data-toggle="collapse" href="#collapseFour" role="button" aria-expanded="false" aria-controls="collapseFour">Who should I contact in case of support.<span class="icon"></span></a>
-            </h3>
-            <div id="collapseFour" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-              <div class="body-text">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel ad laborum expedita. Nostrum iure atque enim quisquam minima distinctio omnis, consequatur aliquam suscipit, quidem, esse aspernatur! Libero, excepturi animi repellendus porro impedit nihil in doloremque a quaerat enim voluptatum, perspiciatis, quas dignissimos maxime ut cum reiciendis eius dolorum voluptatem aliquam!</p>
-              </div>
-            </div>
-          </div> <!-- .accordion-item -->
+            {% endfor %}
+              
+          
 
         </div>
         </div>
@@ -546,6 +522,7 @@ $(".couponBtn").click((e)=>{
     },
     success: (e)=>{
       if (e.error==true){
+        
         $("#couponinp").addClass("invalid")
         $(".coupError").show().text(e.status) 
       }

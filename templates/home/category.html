@@ -344,7 +344,8 @@ $("#customizeForm").submit((e)=>{
       enctype:'multipart/form-data',
       data:$("#customizeForm").serialize(),
       success:function(data){
-        // console.log(data);
+        
+
         if (data.error==false){
           alert(data.message)
 
@@ -363,7 +364,8 @@ $(".jo_cate")
       $(".ded-form").show();
       var url = "/Job/deadline/";
       var sub_cat = $(this).val();
-    //   console.log(sub_cat);
+    
+
       $.ajax({
         url: url,
         data: {
@@ -393,7 +395,8 @@ $(".jo_cate")
 
 function payWithPaystack(proceed){
       // let amount = parseInt($("#total_sum").val())*100;
-      // console.log(amount)
+      
+
       let email = $("#email_hid").val();
       if (email==""){
         $(".email_hid").addClass(".invalid")
@@ -412,10 +415,12 @@ function payWithPaystack(proceed){
               $('#notification').modal('show')
 
       }
-    //   console.log(proceed)
+    
+
       if (proceed==true){
         // $('#notification').modal('hide')
-        // console.log(proceed)
+        
+
         var handler = PaystackPop.setup({
       key: 'pk_test_018d63ee14fff968b6765fbe71b4eb1215a6ea78',
       email: email,
@@ -453,9 +458,11 @@ function payWithPaystack(proceed){
           success: function (data) {
             // alert("success");
             // $(".ko").html(data)
-            // console.log(typeof (data))
+            
+
             data=parseInt(data)
-            // console.log(typeof(data))
+            
+
             if (data == 0){
               location.assign("/Track")
             }
