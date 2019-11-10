@@ -9,6 +9,7 @@ from .forms import ImageFileUploadForm
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 from home import models as homes
+
 # Create your views here.
 
 
