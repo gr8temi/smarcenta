@@ -94,8 +94,8 @@ def Deadline(request):
         print(dedline)
         print(category.name)
         min_date = category.min_date
-        deadlines = jom.Deadline.objects.filter(category=category.id).first()
-        maxDate = deadlines.deadline[:2]
+        # deadlines = jom.Deadline.objects.filter(category=category.id).first()
+        maxDate = category.max_date
         request.session['subcategory'] = category.name
         request.session['sub_pricing'] = str(category.pricing)
         csl = float(category.pricing.amount)
@@ -268,7 +268,7 @@ def calendar(request):
     print(dea)
     sub_cat = jom.subcategory.objects.get(id=cate_id)
     deadlines = jom.Deadline.objects.filter(category=sub_cat.id).first()
-    days = int(deadlines.deadline[:2]) - (int(dea))
+    days = int(sub_cat.max_date) - (int(dea))
     amount = float(sub_cat.cost_per_day.amount) * float(days)
     dead_amount = sub_cat.cost_per_day
     request.session["dead_amount"] = str(dead_amount * days)
