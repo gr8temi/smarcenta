@@ -18,6 +18,7 @@ def JobCreate(request):
     form = forms.CustomizeForm()
     category = acct.Categories.objects.all()
     faqs = homes.FAQ.objects.all()
+    info = homes.CompanyInfo.objects.all()
     # user = acct.Finder.objects.get(user=request.user)
     try:
         cate = request.session['category']
@@ -60,7 +61,8 @@ def JobCreate(request):
         "deadlines": deadlines,
         "form": form,
         "cate_top": category,
-        "faqs":faqs
+        "faqs":faqs,
+        "info":info
     }
     return render(request, template, context)
 

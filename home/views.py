@@ -16,12 +16,18 @@ def Home(request):
     template = "home/home.html"
     cate_top = Acct.Categories.objects.all()
     jobs = jo.Jobs.objects.all()
+    info = homes.CompanyInfo.objects.all()
     context = {
         'jobs': jobs,
         "cate_top": cate_top,
+        'info':info
     }
     return render(request, template, context)
 
+def website(request):
+    template = "home/website_home.html"
+
+    return render(request,template)
 
 @login_required(login_url='/account/login')
 def dashboard(request):
@@ -164,6 +170,7 @@ def Category(request, pk):
     category = Acct.Categories.objects.get(pk=pk)
     sub_cat = jo.subcategory.objects.filter(category__pk=pk)
     cate_top = Acct.Categories.objects.all()
+    info = homes.CompanyInfo.objects.all()
     jobform = j_forms.JobForm()
     form = j_forms.CustomizeForm()
     try:
@@ -207,6 +214,7 @@ def Category(request, pk):
         "dead_price": dead_price,
         "sub_price": sub_price,
         "deadlines": deadlines,
+        "info":info
     }
     return render(request, template, context)
 

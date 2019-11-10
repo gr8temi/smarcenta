@@ -27,3 +27,10 @@ class FAQ(models.Model):
         """Unicode representation of FAQ."""
         return self.faq
 
+class Archives(models.Model):
+    """Model definition for Archives."""
+
+    # TODO: Define fields here
+
+
+
