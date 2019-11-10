@@ -49,6 +49,7 @@
     var url = "/Job/calendar/";
     var deadline =moment(date.replace("/",""),"YYYYMMDD").diff( moment(today),'days');
     $("#load_deadline").show()
+    $(".pay").show()
     $.ajax({
       url: url,
   
