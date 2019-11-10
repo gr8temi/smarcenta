@@ -8,6 +8,7 @@ from django.core.files.storage import FileSystemStorage
 from .forms import ImageFileUploadForm
 from django.http import JsonResponse
 from django.urls import reverse_lazy
+from home import models as homes
 # Create your views here.
 
 
@@ -52,6 +53,8 @@ def suspend_user(request):
     user_id = request.GET.get("user_id")
     reason = request.GET.get("reason")
     status = request.GET.get("active_user")
+    info = homes.CompanyInfo.objects.get(id=1)
+    company_email = info.email
     user = ac.CustomUser.objects.get(id=user_id)
     if status == "True":
         mail_subject = 'Suspension Notice'
@@ -66,7 +69,7 @@ def suspend_user(request):
             "user": user,
             "reason": reason
         })
-        send_mail(mail_subject, message, "Smartcentanigeria@gmail.com",
+        send_mail(mail_subject, message, company_email,
                   to_email, fail_silently=False, html_message=msg_html,)
         user.is_active = False
         user.save()
@@ -84,7 +87,7 @@ def suspend_user(request):
             "user": user,
             "reason": reason
         })
-        send_mail(mail_subject, message, "Smartcentanigeria@gmail.com",
+        send_mail(mail_subject, message, company_email,
                   to_email, fail_silently=False, html_message=msg_html,)
         user.is_active = True
         user.save()
