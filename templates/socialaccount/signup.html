@@ -1,0 +1,46 @@
+{% extends 'account/signbase.html'%}
+{% load staticfiles%}
+{% load socialaccount %}
+{% load crispy_forms_tags%}
+{%block style%}
+<style type="text/css">
+	label {
+		display: none;
+	}
+</style>
+{% endblock%}
+{% block content %}
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100">
+            <div class="push d-flex align-items-center login100-pic js-tilt" data-tilt>
+                <img src="{% static 'log/images/img-01.png' %} " alt="IMG">
+            </div>
+            <form method="post" id="signup_form" action="{% url 'account_signup' %}" class="login100-form validate-form">
+              {% for error in form.non_field_errors%}
+                    {{error|escape}}
+                {% endfor %}
+              {% csrf_token %}
+              <div class="d-flex justify-content-center" style="width:100%">
+                <a href="{% url 'index'%}"><img class="img-fluid" src="{%static 'images/logo.png' %}" alt="logo"></a>
+                </div>
+                <span class="login100-form-title">
+                    Member Sign Up
+                </span>
+                {% csrf_token%}
+                {{form|crispy}}
+
+                <div class="container-login100-form-btn">
+                    
+                    <button type="submit" class="login100-form-btn">
+                        Sign Up
+                    </button>
+
+                </div>
+
+                
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

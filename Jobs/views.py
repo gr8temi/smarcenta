@@ -6,6 +6,8 @@ from . import models as jom
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage, send_mail, EmailMultiAlternatives
 from django.http import JsonResponse
+from django_simple_coupons.validations import validate_coupon
+from django_simple_coupons.models import Coupon
 # Create your views here.
 
 
@@ -15,7 +17,6 @@ def JobCreate(request):
     form = forms.CustomizeForm()
     category = acct.Categories.objects.all()
     # user = acct.Finder.objects.get(user=request.user)
-
     try:
         cate = request.session['category']
     except KeyError:
@@ -56,7 +57,7 @@ def JobCreate(request):
         "sub_price": sub_price,
         "deadlines": deadlines,
         "form": form,
-        "cate_top":category
+        "cate_top": category
     }
     return render(request, template, context)
 
@@ -96,7 +97,7 @@ def Deadline(request):
             "dedline": dedline,
             "min_date": min_date,
             "cate_id": category.id,
-            "max_date":maxDate
+            "max_date": maxDate
         }
         return render(request, template, context)
     else:
@@ -136,27 +137,28 @@ def payin(request):
     if user_id == "None":
         user_id = 0
     if reference == "quote":
-        deadline="undefined"
+        deadline = "undefined"
         mail_subject = 'New Quotation'
         message = render_to_string('home/quotation.txt', {
-			'name': name,
-			'Job_title': title,
-            'email':email,
+            'name': name,
+            'Job_title': title,
+            'email': email,
             'description': description})
-         
-        to_email = ["gr8temi@gmail.com"]
-        msg_html = render_to_string('home/quotation.html', {            
-			'name': name,
-			'Job_title':title,
-            'email':email,
-            'description':description
-		})
 
-        send_mail(mail_subject, message, 'adamstemii@gmail.com', to_email, fail_silently=False, html_message=msg_html,)
+        to_email = ["gr8temi@gmail.com"]
+        msg_html = render_to_string('home/quotation.html', {
+            'name': name,
+            'Job_title': title,
+            'email': email,
+            'description': description
+        })
+
+        send_mail(mail_subject, message, 'adamstemii@gmail.com',
+                  to_email, fail_silently=False, html_message=msg_html,)
     jom.Order.objects.create(
         title=title,
         abbr=acronyms,
-        name = name,
+        name=name,
         category=category,
         sub_cat=sub_cat,
         deadlines=deadline,
@@ -167,122 +169,152 @@ def payin(request):
         description=description,
         user_id=user_id,
     )
-    
+
     mail_subject = 'Order successfully placed'
-    message = render_to_string('home/order_mail.txt', {            
-			'name': name,
-			'Job_title':title,
-			'reference':reference,
-		})
+    message = render_to_string('home/order_mail.txt', {
+        'name': name,
+        'Job_title': title,
+        'reference': reference,
+    })
     to_email = [
-		email,
-		]
-    msg_html = render_to_string('home/order_mail.html', {            
-			'name': name,
-			'Job_title':title,
-			'reference':reference,
-		})
+        email,
+    ]
+    msg_html = render_to_string('home/order_mail.html', {
+        'name': name,
+        'Job_title': title,
+        'reference': reference,
+    })
     send_mail(mail_subject, message, 'adamstemii@gmail.com', to_email, fail_silently=False, html_message=msg_html,
- )
+              )
 
     # print (description)
-    
+
     return HttpResponse(user_id)
 
+
 def workload(request):
-    if request.method=="GET":
+    if request.method == "GET":
         handlers = request.GET.get("handlers")
         managers = request.GET.get("manager")
         reference = request.GET.get("cur_reference")
         handler = acct.project_handlers.objects.get(id=handlers)
-        manager =acct.project_managers.objects.get(id=managers)
+        manager = acct.project_managers.objects.get(id=managers)
         project_id = jom.Order.objects.get(reference=reference)
-        status = jom.stage.objects.get(stage_name="Assign Task",category__name=project_id.sub_cat)
+        status = jom.stage.objects.get(
+            stage_name="Assign Task", category__name=project_id.sub_cat)
         jom.Workload.objects.create(
             project_id=project_id,
-            status_code= status.stage,
+            status_code=status.stage,
             project_manager=manager.name,
             project_handler=handler.name,
         )
         # manager's mail
         mail_subject = 'Job assigned to you'
-        message = render_to_string('Job/assign_mail.txt', {            
-                'name': manager.name,
-                'Job':project_id,
-        
-            })
+        message = render_to_string('Job/assign_mail.txt', {
+            'name': manager.name,
+            'Job': project_id,
+
+        })
         to_email = [
             manager.email,
-            ]
-        msg_html = render_to_string('Job/assign_mail.html', {            
-                'name': manager.name,
-                'Job':project_id,
-            })
+        ]
+        msg_html = render_to_string('Job/assign_mail.html', {
+            'name': manager.name,
+            'Job': project_id,
+        })
 
-        send_mail(mail_subject, message, 'adamstemii@gmail.com', to_email, fail_silently=False, html_message=msg_html,)
+        send_mail(mail_subject, message, 'adamstemii@gmail.com',
+                  to_email, fail_silently=False, html_message=msg_html,)
         # manager.availability=False
         # manager.save()
 
         # handlers Mail
         mail_subject = 'Job assigned to you'
-        message = render_to_string('Job/assign_mail.txt', {            
-                'name': handler.name,
-                'Job':project_id,
-        
-            })
+        message = render_to_string('Job/assign_mail.txt', {
+            'name': handler.name,
+            'Job': project_id,
+
+        })
         to_email = [
             handler.email,
-            ]
-        msg_html = render_to_string('Job/assign_mail.html', {            
-                'name': handler.name,
-                'Job':project_id,
-            })
-        send_mail(mail_subject, message, manager.email, to_email, fail_silently=False, html_message=msg_html,) 
-        project_id.status+=1
+        ]
+        msg_html = render_to_string('Job/assign_mail.html', {
+            'name': handler.name,
+            'Job': project_id,
+        })
+        send_mail(mail_subject, message, manager.email, to_email,
+                  fail_silently=False, html_message=msg_html,)
+        project_id.status += 1
         project_id.save()
         # handler.availability=False
-        # handler.save()       
+        # handler.save()
         return HttpResponse(True)
+
+
 def calendar(request):
     dea = request.GET.get("deadline")
-    cate_id =request.GET.get("cate_id")
+    cate_id = request.GET.get("cate_id")
     print(dea)
     sub_cat = jom.subcategory.objects.get(id=cate_id)
     deadlines = jom.Deadline.objects.filter(category=sub_cat.id).first()
-    days = int(deadlines.deadline[:2]) - (int(dea)) 
+    days = int(deadlines.deadline[:2]) - (int(dea))
     amount = float(sub_cat.cost_per_day.amount) * float(days)
     dead_amount = sub_cat.cost_per_day
-    request.session["dead_amount"]=str(dead_amount * days)
-    request.session["amount"]=amount
-    request.session["deadlines"]=str(dea)+" days @" 
-    total = request.session['sub_price']+ amount
-    request.session['total']= total
-    return HttpResponse(status=204)  
+    request.session["dead_amount"] = str(dead_amount * days)
+    request.session["amount"] = amount
+    request.session["deadlines"] = str(dea)+" days @"
+    total = request.session['sub_price'] + amount
+    request.session['total'] = total
+    return HttpResponse(status=204)
+
 
 def customize(request):
     if request.method == 'POST':
         form = forms.CustomizeForm(request.POST)
         if form.is_valid():
-            
+
             email = form.cleaned_data.get('email')
             title = form.cleaned_data.get('title')
             name = form.cleaned_data.get('name')
             mail_subject = 'Order successfully placed'
-            message = render_to_string('home/order_mail.txt', {            
+            message = render_to_string('home/order_mail.txt', {
                 'name': name,
-                'Job_title':title,
-                })
+                'Job_title': title,
+            })
             to_email = [
                 email,
-                ]
-            msg_html = render_to_string('home/order_mail.html', {            
-                    'name': name,
-                    'Job_title':title,
+            ]
+            msg_html = render_to_string('home/order_mail.html', {
+                'name': name,
+                'Job_title': title,
 
-                })
-            send_mail(mail_subject, message, 'adamstemii@gmail.com', to_email, fail_silently=False, html_message=msg_html,)
+            })
+            send_mail(mail_subject, message, 'adamstemii@gmail.com',
+                      to_email, fail_silently=False, html_message=msg_html,)
             form.save()
             return JsonResponse({'error': False, 'message': "Upload Successful"})
         else:
             print(form.errors)
             return JsonResponse({'error': True, 'errors': form.errors})
+
+
+def coupons(request):
+    coupon_code = request.GET.get("code")
+    print(coupon_code)
+    user = acct.CustomUser.objects.get(username=request.user.username)
+
+    status = validate_coupon(coupon_code=coupon_code, user=user)
+    if status['valid']:
+        coupon = Coupon.objects.get(code=coupon_code)
+        coupon.use_coupon(user=user)
+        discount = coupon.discount
+        discount_value = coupon.get_discounted_value(
+            initial_value=request.session['total'])
+        
+        discounted = request.session['total']-discount_value
+        request.session['total'] =discount_value
+        return JsonResponse({'error': False, "message": "Coupon added successfully","discount":discounted})
+
+    else:
+        print(status["message"])
+        return JsonResponse({'error': True, "status": status['message']})

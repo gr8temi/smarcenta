@@ -15,6 +15,7 @@ urlpatterns = [
 	path("verify/", views.verify, name="verify"),
 	path("users/", views.users, name="users"),
 	path("ad_category/", views.Categories, name="ad_category"),
+	path("ad_promotion/", views.coupon, name="ad_promotion"),
 	url(r"^category/(?P<pk>\d+)/$", views.Category, name="category_d"),
 	
 	

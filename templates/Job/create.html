@@ -132,14 +132,23 @@
             <div class="total">
                 <input type="hidden" value="{{user.email}}" id="email_hid">
                 <input type="hidden" name="user_id" id="user_id" value="{{user.id}}">
+                <p class="discount_value" style="display: none"><b>Discount</b><span class="diSpan" style="float: right;"></span></p>
                 <p class="totals" style="display: none"><b>Total</b> <span style="float: right;" class="mr-auto">&#8358;<span id="total_sum">{{tota}}</span></p>
+            </div>
+            <div class="col-md-12 d-flex mb-md-4"  >
+                <div style="display: none;"id="coupondiv">
+                  <input type="text" name="coupon" id="couponinp" class="form-control" placeholder="Enter Coupon" aria-describedby="helpId">
+                  <small id="helpId" style="display: none;" class="text-muted coupError">Help text</small>
+                  <button class="text-center text-white btn btn-success couponBtn">Apply</button>
+            </div>
+                
             </div>
             <form class="d-flex justify-content-center">
               <script src="https://js.paystack.co/v1/inline.js"></script>
 
               {% if user.is_authenticated %}
-                <button class="text-center text-white btn btn-success pay" type="button" style="display: none;" onclick="payWithPaystack(true)"> Pay </button>
-                {% else %}
+                 <button class="text-center text-white btn btn-success pay" type="button" style="display: none;" onclick="payWithPaystack(true)"> Pay </button>
+                 {% else %}
                 <button class="text-center text-white btn btn-success pay " type="button" style="display:none" onclick="payWithPaystack(false)"> Pay </button>
               {% endif %}
               <button class="text-center text-white btn btn-success quote " type="button" style="display:none"> Request quote </button>
@@ -332,7 +341,6 @@
 {% endblock content %}
 
 {% block script %}
-<!-- <script src="{% static 'js/jquery-3.3.1.min.js' %} "></script> -->
 <script>
 
 $("#customizeForm").submit((e)=>{
@@ -345,25 +353,23 @@ $("#customizeForm").submit((e)=>{
       enctype:'multipart/form-data',
       data:$("#customizeForm").serialize(),
       success:function(data){
-        console.log(data);
+        
         if (data.error==false){
           alert(data.message)
 
         }
-        
-        // $("#showAssign").show()
-        // $(".frame").fadeOut()
       }
     })
 
 })
 
- $(".joo").unbind().click(function (e) {
+ $(".joo").unbind().change(function (e) {
       e.target.classList.toggle("active")
       $(".ded-form").hide()
+      $(".pay").hide()
       var url = "/Job/catechange/";
       var category = $(this).val();
-      console.log(category);
+    
       $.ajax({
         url: url,
         data: {
@@ -377,7 +383,7 @@ $("#customizeForm").submit((e)=>{
           $("#load_sub").hide()
           $(".totals").hide()
           $("#load_sub2").hide()
-         
+          $("#coupondiv").hide()
 
         }
       });
@@ -385,12 +391,7 @@ $("#customizeForm").submit((e)=>{
     });
 
 function payWithPaystack(proceed){
-      // let amount = parseInt($("#total_sum").val())*100;
-      // console.log(amount)
       let email = $("#email_hid").val();
-      if (email==""){
-        $(".email_hid").addClass(".invalid")
-      }
       let total = $("#total_sum").text()*100;
       let category = $(".cate_sum").text()
       let sub_cat_sum = $("#sub_span").text()
@@ -399,34 +400,40 @@ function payWithPaystack(proceed){
       let title = $(".titles").val()
       let name = $("#fullname").val()
       let id = $("#user_id").val()
-      // let proceed = false;
+      let phoneS= `${phone}`
       var description = CKEDITOR.instances.editor1.getData();
       if (id=="None"){
-              $('#notification').modal('show')
-
+        $('#notification').modal('show')
       }
-      console.log(proceed)
       if (proceed==true){
-        // $('#notification').modal('hide')
-        // console.log(proceed)
+        if (phoneS ==="" || phoneS.match(/\+?234[789][0-2]\d{8}|0[87][0-2]\d{8}/)===null){
+      $("#phone").addClass("invalid")
+      $('#notification').modal('hide')
+      }
+      if ( email===""){
+        $(".email_hid").addClass("invalid")
+        $('#notification').modal('hide')
+      }
+     if(title===""){
+        $(".titles").addClass("invalid")
+        $('#notification').modal('hide')
+     }
+     if(name===""){
+     $("#fullname").addClass("invalid")
+     $('#notification').modal('hide')
+      }
+
+      if(phoneS!=="" && phoneS.match(/\+?234[789][0-2]\d{8}|0[87][0-2]\d{8}/)!==null && email!=="" &&title!=="" & name!==""){
+        $("#phone").removeClass("invalid")
+        $(".email_hid").removeClass("invalid")
+        $(".titles").removeClass("invalid")
+        $("#fullname").removeClass("invalid")
         var handler = PaystackPop.setup({
-      key: 'pk_test_018d63ee14fff968b6765fbe71b4eb1215a6ea78',
+      key: 'pk_live_94249b86d23ef8c4ae4a2bbc63139a0df96514c9',
       email: email,
       amount: total,
       currency: "NGN",
-      // ref: ''+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
-      metadata: {
-         custom_fields: [
-            {
-                display_name: "adams",
-                variable_name: "name",
-                value: "+2348093615224"
-            }
-         ]
-      },
       callback: function(response){
-          // alert('success. transaction ref is ' + response.reference);
-
         $.ajax({
         url: "/Job/payin/",
         // method:"POST",
@@ -446,9 +453,9 @@ function payWithPaystack(proceed){
           success: function (data) {
             // alert("success");
             // $(".ko").html(data)
-            console.log(typeof (data))
+            
             data=parseInt(data)
-            console.log(typeof(data))
+            
             if (data == 0){
               location.assign("/Track")
             }
@@ -465,7 +472,10 @@ function payWithPaystack(proceed){
 
       }
     });
+
     handler.openIframe();
+
+  }
   }
       }
 
@@ -496,6 +506,10 @@ $(".quote").click((e)=>{
 
       if(phoneS!=="" && phoneS.match(/\+?234[789][0-2]\d{8}|0[87][0-2]\d{8}/)!==null && email!=="" &&title!=="" & name!==""){
         // alert("ready to submit")
+        $("#phone").removeClass("invalid")
+        $(".email_hid").removeClass("invalid")
+        $(".titles").removeClass("invalid")
+        $("#fullname").removeClass("invalid")
         $.ajax({
         url: "/Job/payin/",
           data: {
@@ -518,6 +532,32 @@ $(".quote").click((e)=>{
       }
       
       
+})
+
+$(".couponBtn").click((e)=>{
+  let code=$("#couponinp").val()
+  
+  
+  $.ajax({
+    url:"/Job/coupons",
+    method:"GET",
+    data:{
+      "code":code
+    },
+    success: (e)=>{
+      if (e.error==true){
+        $("#couponinp").addClass("invalid")
+        $(".coupError").show().text(e.status) 
+      }
+      else{
+        $(".coupError").show().text(e.message)
+        $(".discount_value").show()
+        $(".diSpan").text(e.discount)
+        $("#total_sum").load(location.href + " #total_sum") 
+      }
+      
+    }
+  })
 })
 </script>
 
