@@ -2,10 +2,10 @@
       {% load static %}
       {% load crispy_forms_tags %}
       <link rel="stylesheet" href="{% static 'css/dash.css'%}">
-      <div class="mt-sm-5 d-flex flex-column align-items-center bg-white p-2 margin-top" style="width:100%;">
+      <div class="mt-sm-5 d-flex flex-column bg-white p-2 margin-top">
           <div class="edit-content pt-5 ">
             <h3 class="edit-header text-center">Edit Profile</h3>
-            <form method="POST" id="edit-form" action="{% url 'setting' pk=request.user.pk %}" style="height: 100%;" enctype="multipart/form-data">
+            <form method="POST" id="edit-form" action="{% url 'setting' pk=request.user.pk %}" style="height: 100%; width: 100%;" enctype="multipart/form-data">
               {% csrf_token %}
             {{form|crispy}}
         <div class="form-group d-flex justify-content-center" style="width: 100%;">
