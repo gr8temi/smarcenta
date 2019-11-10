@@ -137,9 +137,7 @@ $("#assign_form").submit(function(e){
       url:url,
       method:"GET",
       data:$("#assign_form").serialize(),
-      success:function(data){
-        console.log(data);
-        
+      success:function(data){        
         $("#showAssign").show()
         $(".frame").fadeOut()
         $("#exampleModal").modal('hide')

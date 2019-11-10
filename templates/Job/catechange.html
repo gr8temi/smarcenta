@@ -1,4 +1,4 @@
-<div class="col-md-12 subc" id="subc"><h4>Sub-Category</h4></div>
+<div class="col-md-12 subc" id="subc"><h4 style="font-size: 1.2rem;">Sub-Category</h4></div>
 <div class="form-group">
   <select class="form-control jo_cate" name="" id="">
     <option selected disabled>Choose a Category</option>
@@ -20,7 +20,6 @@
       $(".pay").hide()
       var url = "/Job/deadline/";
       var sub_cat = $(this).val();
-      // console.log(sub_cat);
       $.ajax({
         url: url,
         data: {
