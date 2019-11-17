@@ -10,5 +10,6 @@ urlpatterns = [
     path('calendar/',jv.calendar,name="calendar"),
     path('customize/',jv.customize,name="customize"),
     path('coupons/',jv.coupons,name="coupon"),
+    path('payin_package/',jv.payin_package,name="payin_package"),
 
 ]

@@ -90,3 +90,41 @@ class Customize(models.Model):
         return self.title
 
     # TODO: Define custom methods here
+
+class Package(models.Model):
+    """Model definition for Package."""
+
+    # TODO: Define fields here
+    name = models.CharField( max_length=50)
+    pricing = MoneyField(decimal_places=2, max_digits=8,default_currency="NGN",default=0.00)
+    image = models.ImageField(upload_to="package/")
+    details = RichTextField()
+    class Meta:
+        """Meta definition for Package."""
+
+        verbose_name = 'Package'
+        verbose_name_plural = 'Packages'
+
+    def __str__(self):
+        """Unicode representation of Package."""
+        return self.name
+class OrderPackage(models.Model):
+    """Model definition for OrderPackage."""
+
+    # TODO: Define fields here
+
+    email= models.EmailField( max_length=254)
+    package_amount = MoneyField(decimal_places=2, max_digits=8,default_currency="NGN",default=0.00)
+    package_name = models.CharField( max_length=50)
+    phone  = models.CharField( max_length=50) 
+    reference = models.CharField( max_length=50)
+    name = models.CharField( max_length=50)
+    class Meta:
+        """Meta definition for OrderPackage."""
+
+        verbose_name = 'OrderPackage'
+        verbose_name_plural = 'OrderPackages'
+
+    def __str__(self):
+        """Unicode representation of OrderPackage."""
+        return self.email

@@ -9,6 +9,7 @@ from .forms import CouponForm, Coupons, ValidityForm, MaxUseForm, DiscountForm,C
 from django.http import JsonResponse
 from django_simple_coupons import models as co_models
 from home import models as homes
+from django.db.models import Count
 # Create your views here.
 
 
@@ -227,6 +228,15 @@ def Category(request, pk):
     }
     return render(request, template, context)
 
+def cat_main(request):
+    template = "home/main_cat.html"
+    categories = Acct.Categories.objects.annotate(sub_count=Count('subcategory'))
+    packages = jo.Package.objects.all()
+    context = {
+        "categories":categories,
+        "packages":packages
+    }
+    return render(request, template, context)
 
 def coupon(request):
     if request.method == 'POST':

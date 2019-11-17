@@ -75,9 +75,7 @@ def CatChange(request):
     category = acct.Categories.objects.get(id=cate)
     subcat = jom.subcategory.objects.filter(category=cate)
     request.session['category'] = category.category
-    print(request.session['category'])
     request.session['total'] = 0
-    # print(deadlines)
     context = {
         "subcat": subcat,
     }
@@ -91,8 +89,6 @@ def Deadline(request):
     category = jom.subcategory.objects.get(id=cate)
     if category.quote == False:
         dedline = jom.Deadline.objects.filter(category__id=cate)
-        print(dedline)
-        print(category.name)
         min_date = category.min_date
         # deadlines = jom.Deadline.objects.filter(category=category.id).first()
         maxDate = category.max_date
@@ -330,3 +326,43 @@ def coupons(request):
     else:
         print(status["message"])
         return JsonResponse({'error': True, "status": status['message']})
+def payin_package(request):
+    email = request.GET.get("email")
+    total = float(request.GET.get("packageAmount"))/100
+    phone = request.GET.get("phone")
+    reference = request.GET.get("reference")
+    name = request.GET.get("name")
+    package = request.GET.get("packageName")
+    # user_id = request.GET.get("id")
+    info = homes.CompanyInfo.objects.get(id=1)
+    company_email = info.email
+    # if user_id == "None":
+    #     user_id = 0
+    jom.OrderPackage.objects.create(
+        name=name,
+        package_amount=total,
+        email=email,
+        phone=phone,
+        reference=reference,
+        package_name=package
+    )
+
+    mail_subject = 'Order successfully placed'
+    message = render_to_string('home/order_mail.txt', {
+        'name': name,
+        'Job_title': package,
+        'reference': reference,
+    })
+    to_email = [
+        email,
+    ]
+    msg_html = render_to_string('home/order_mail.html', {
+        'name': name,
+        'Job_title': package,
+        'reference': reference,
+    })
+    send_mail(mail_subject, message, company_email, to_email, fail_silently=False, html_message=msg_html,
+              )
+
+    return JsonResponse({'error': False, 'message': "Payment Successful"})
+    

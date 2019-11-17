@@ -18,15 +18,18 @@
     <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %} ">
     <link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.css' %} ">
     <link rel="stylesheet" href="{% static 'css/animate.css' %} ">
-    <link rel="stylesheet" href="{% static 'css/style.css'%}  ">
-
+    <script src="https://js.paystack.co/v1/inline.js"></script>
     <link rel="stylesheet" href="{% static 'fonts/flaticon/font/flaticon.css' %} ">
     <link rel="stylesheet" href="{% static 'css/fl-bigmug-line.css' %} ">
 
     <link rel="stylesheet" href="{% static 'css/aos.css' %} ">
 
     <link rel="stylesheet" href="{% static 'css/style.css' %} ">
-
+    
+    {% block styles %}
+      
+    {% endblock styles %}
+      
   </head>
   <body class="body">
 
@@ -69,7 +72,7 @@
               <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
                 <li class="active"><a href="{% url 'index' %}">Home</a></li>
                 <li class="has-children">
-                  <a href="category.html">Category</a>
+                  <a href="{% url 'cat_main' %}">Category</a>
                   <ul class="dropdown">
                     
                     {% for cate in cate_top %}

@@ -17,8 +17,9 @@ urlpatterns = [
 	path("ad_category/", views.Categories, name="ad_category"),
 	path("ad_promotion/", views.coupon, name="ad_promotion"),
 	url(r"^category/(?P<pk>\d+)/$", views.Category, name="category_d"),
-	path("smartcenta/", views.website, name="website")
-	
+	path("smartcenta/", views.website, name="website"),
+	path("category_info/", views.cat_main, name="cat_main")
+
 	
 ]
 urlpatterns+=staticfiles_urlpatterns()

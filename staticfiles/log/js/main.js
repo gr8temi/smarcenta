@@ -2,6 +2,8 @@
 (function ($) {
     "use strict";
 
+    $("textinput").addClass("input100")
+	console.log("123");
     
     /*==================================================================
     [ Validate ]*/
