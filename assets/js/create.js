@@ -133,6 +133,7 @@ function payWithPaystack(proceed) {
 }
 
 $(".quote").click(e => {
+
   let email = $("#email_hid").val();
   let total = $("#total_sum").text() * 100;
   let category = $(".cate_sum").text();
@@ -166,6 +167,7 @@ $(".quote").click(e => {
     email !== "" &&
     (title !== "") & (name !== "")
   ) {
+    $(".frame").show()
     // alert("ready to submit")
     $("#phone").removeClass("invalid");
     $(".email_hid").removeClass("invalid");
@@ -186,6 +188,7 @@ $(".quote").click(e => {
         id: id
       },
       success: data => {
+        $(".frame").hide()
         alert("successfully booked");
       }
     });

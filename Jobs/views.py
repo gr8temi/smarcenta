@@ -150,7 +150,7 @@ def payin(request):
             'email': email,
             'description': description})
 
-        to_email = email
+        to_email = [email]
         msg_html = render_to_string('home/quotation.html', {
             'name': name,
             'Job_title': title,
@@ -191,8 +191,6 @@ def payin(request):
     })
     send_mail(mail_subject, message, company_email, to_email, fail_silently=False, html_message=msg_html,
               )
-
-    # print (description)
 
     return HttpResponse(user_id)
 
@@ -261,7 +259,7 @@ def workload(request):
 def calendar(request):
     dea = request.GET.get("deadline")
     cate_id = request.GET.get("cate_id")
-    print(dea)
+    
     sub_cat = jom.subcategory.objects.get(id=cate_id)
     deadlines = jom.Deadline.objects.filter(category=sub_cat.id).first()
     days = int(sub_cat.max_date) - (int(dea))
@@ -302,13 +300,13 @@ def customize(request):
             form.save()
             return JsonResponse({'error': False, 'message': "Upload Successful"})
         else:
-            print(form.errors)
+            
             return JsonResponse({'error': True, 'errors': form.errors})
 
 
 def coupons(request):
     coupon_code = request.GET.get("code")
-    print(coupon_code)
+    
     user = acct.CustomUser.objects.get(username=request.user.username)
 
     status = validate_coupon(coupon_code=coupon_code, user=user)
@@ -324,7 +322,7 @@ def coupons(request):
         return JsonResponse({'error': False, "message": "Coupon added successfully","discount":discounted})
 
     else:
-        print(status["message"])
+        
         return JsonResponse({'error': True, "status": status['message']})
 def payin_package(request):
     email = request.GET.get("email")
