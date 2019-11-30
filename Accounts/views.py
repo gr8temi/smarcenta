@@ -9,10 +9,10 @@ from .forms import ImageFileUploadForm
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 from home import models as homes
-
+from django.contrib.admin.views.decorators import staff_member_required
 # Create your views here.
 
-
+@staff_member_required
 def admin_page(request):
     template = "home/admin_page.html"
     order = jo.Order.objects.all().count()
@@ -31,7 +31,7 @@ def admin_page(request):
 
     return render(request, template, context)
 
-
+@staff_member_required
 def load_order(request):
     template = "home/load_order.html"
     order = jo.Order.objects.all()
@@ -40,7 +40,7 @@ def load_order(request):
     }
     return render(request, template, context)
 
-
+@staff_member_required
 def load_admin_order(request):
     template = "home/load_admin_order.html"
     order = jo.Order.objects.all()
@@ -49,7 +49,7 @@ def load_admin_order(request):
     }
     return render(request, template, context)
 
-
+@staff_member_required
 def suspend_user(request):
     user_id = request.GET.get("user_id")
     reason = request.GET.get("reason")
@@ -101,26 +101,3 @@ class UserUpdateView(UpdateView):
     fields = ['email','last_name','first_name','phone', 'address', 'profile_picture']
     template_name = "account/settings.html"
     success_url= reverse_lazy('dashboard')
-
-
-# def setting(request):
-
-# 	template= "account/settings.html"
-# 	user_id = request.GET.get("user")
-# 	user_info = ac.CustomUser.objects.get(id=user_id)
-# 	form = ImageFileUploadForm()
-# 	context ={
-# 		"user_info":user_info,
-# 		"form":form
-# 	}
-# 	return render(request,template, context)
-
-# def edit_view(request):
-# 	if request.method == 'POST':
-# 		form = ImageFileUploadForm(request.POST, request.FILES, instance=request.user)
-# 		if form.is_valid():
-# 			print(form.cleaned_data["profile_picture"])
-# 			form.save()
-# 			return JsonResponse({'error': False, 'message': "Successfully Updated"})
-# 		else:
-# 			return JsonResponse({'error': True, 'errors': form.errors})
