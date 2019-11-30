@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from Accounts import models as Acct
 from django.contrib.auth.decorators import login_required
 from Jobs import models as jo
@@ -37,6 +37,8 @@ def website(request):
 
 @login_required(login_url='/account/login')
 def dashboard(request):
+    if request.user.is_staff == True:
+        return redirect("admin_page")
     template = "home/dashboard.html"
     jobs = jo.Order.objects.filter(user_id=request.user.id)
     acronyms = ["".join([leter[0] for leter in job.title.split(" ")])

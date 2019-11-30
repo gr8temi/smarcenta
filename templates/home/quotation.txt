@@ -1,10 +1,14 @@
 <h3>Hi</h3>
-<p>Good day, Here is the latest Quote request</p>
+<p>Good day, Here is the latest Order</p>
+{% if reference=="quote"%}
+  <h4>This is a Quotation request</h4>
 <h5>Task Title: {{Job_title}}</h5>
 <h5>Customer Name: {{name}}</h5>
-<h5>Customer Email:{{email}}</h5>
-<div>
-    {{description|safe}}
-</div>
+<h5>Customer Email: {{email}}</h5>
+<h5>Job Category: {{category}}</h5>
+<h5>Job Sub Category: {{sub_cat}}</h5>
+<h5>Job Description:</h5>
+{{description|safe}}
+<h5>Job Deadline:{{deadline}}</h5>
 <h6>Best Regards</h6>
 <h5>Smartcenta Team.</h5>
