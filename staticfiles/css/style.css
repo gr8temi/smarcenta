@@ -561,6 +561,9 @@ a {
     -webkit-box-shadow: 0 5px 20px -2px rgba(0, 0, 0, 0.1);
     box-shadow: 0 5px 20px -2px rgba(0, 0, 0, 0.1); }
 
+.text-orange {
+  color: orange;
+}
 .text-white-opacity-5 {
   color: rgba(255, 255, 255, 0.5); }
 
@@ -1557,11 +1560,11 @@ a {
   text-transform: capitalize;
 }
 .log {
-  padding:2px; 
+  padding:2px;
   border-right:1px solid #fff;
 }
 .joo{
-  width: 200px; padding:5px; background:#3B945E; cursor: pointer; border:1px solid grey; color:white
+  width: 200px; padding:5px;  cursor: pointer; border:1px solid grey;
 }
 .joos{
   width: 230px; padding:5px; background:#3B945E; cursor: pointer; border:1px solid grey; color:white; word-wrap: wrap break-word;
@@ -1569,5 +1572,162 @@ a {
 @media only screen and (min-width:1200px) {
  .container{
    max-width: 1720px;
+  }
+}
+.hero-text{
+  align-items: center;
+}
+@media (max-width:336px){
+  .site-blocks-cover h1 {
+    font-size:2.5rem;
+    margin-top: 0;
+  }
+  .subc h4{
+    font-size: 20px;
+  }
+
+}
+@media (max-width:800px){
+  .hero-text{
+    width: 100%;
+    justify-content:center;
+    align-items: start;
+  }
+}
+
+.invalid{
+  border: 2px solid red !important;
+  box-shadow: 0 0 15px red;
+}
+.frame {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 2px;
+  background: #00000050;
+  color: #3B945E;
+}
+.center {
+  position: absolute;
+  /* width: 220px; */
+  /* height: 220px; */
+  top:30%;
+  left: 40%;
+}
+.dot-1 {
+  position: absolute;
+  z-index: 3;
+  width: 30px;
+  height: 30px;
+  top: 95px;
+  left: 95px;
+  background: #3B945E;
+  border-radius: 50%;
+  -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
+  -webkit-animation: jump-jump-1 2s cubic-bezier(0.21, 0.98, 0.6, 0.99) infinite alternate;
+          animation: jump-jump-1 2s cubic-bezier(0.21, 0.98, 0.6, 0.99) infinite alternate;
+}
+
+.dot-2 {
+  position: absolute;
+  z-index: 2;
+  width: 60px;
+  height: 60px;
+  top: 80px;
+  left: 80px;
+  background: #fff;
+  border-radius: 50%;
+  -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
+  -webkit-animation: jump-jump-2 2s cubic-bezier(0.21, 0.98, 0.6, 0.99) infinite alternate;
+          animation: jump-jump-2 2s cubic-bezier(0.21, 0.98, 0.6, 0.99) infinite alternate;
+}
+
+.dot-3 {
+  position: absolute;
+  z-index: 1;
+  width: 90px;
+  height: 90px;
+  top: 65px;
+  left: 65px;
+  background: #3B945E;
+  border-radius: 50%;
+  -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
+  -webkit-animation: jump-jump-3 2s cubic-bezier(0.21, 0.98, 0.6, 0.99) infinite alternate;
+          animation: jump-jump-3 2s cubic-bezier(0.21, 0.98, 0.6, 0.99) infinite alternate;
+}
+@-webkit-keyframes jump-jump-1 {
+  0%, 70% {
+    box-shadow: 2px 2px 3px 2px rgba(0, 0, 0, 0.2);
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  }
+  100% {
+    box-shadow: 10px 10px 15px 0 rgba(0, 0, 0, 0.3);
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+
+@keyframes jump-jump-1 {
+  0%, 70% {
+    box-shadow: 2px 2px 3px 2px rgba(0, 0, 0, 0.2);
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  }
+  100% {
+    box-shadow: 10px 10px 15px 0 rgba(0, 0, 0, 0.3);
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+@-webkit-keyframes jump-jump-2 {
+  0%, 40% {
+    box-shadow: 2px 2px 3px 2px rgba(0, 0, 0, 0.2);
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  }
+  100% {
+    box-shadow: 10px 10px 15px 0 rgba(0, 0, 0, 0.3);
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+@keyframes jump-jump-2 {
+  0%, 40% {
+    box-shadow: 2px 2px 3px 2px rgba(0, 0, 0, 0.2);
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  }
+  100% {
+    box-shadow: 10px 10px 15px 0 rgba(0, 0, 0, 0.3);
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+@-webkit-keyframes jump-jump-3 {
+  0%, 10% {
+    box-shadow: 2px 2px 3px 2px rgba(0, 0, 0, 0.2);
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  }
+  100% {
+    box-shadow: 10px 10px 15px 0 rgba(0, 0, 0, 0.3);
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+@keyframes jump-jump-3 {
+  0%, 10% {
+    box-shadow: 2px 2px 3px 2px rgba(0, 0, 0, 0.2);
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  }
+  100% {
+    box-shadow: 10px 10px 15px 0 rgba(0, 0, 0, 0.3);
+    -webkit-transform: scale(1);
+            transform: scale(1);
   }
 }
