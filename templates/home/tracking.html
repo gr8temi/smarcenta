@@ -135,7 +135,7 @@ $("#assign_form").submit(function(e){
     url= $("#assign_form").attr("action")
     $.ajax({
       url:url,
-      method:"GET",
+      method:"POST",
       data:$("#assign_form").serialize(),
       success:function(data){        
         $("#showAssign").show()

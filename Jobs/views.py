@@ -129,7 +129,7 @@ def payin(request):
     total = float(request.GET.get("total"))/100
     category = request.GET.get("category")
     sub_cat = request.GET.get("sub_cat_sum")
-    deadline = request.GET.get("dead_sum")
+    deadline = request.GET.get("dead_sum").split("@")[0]
     phone = request.GET.get("phone")
     reference = request.GET.get("reference")
     name = request.GET.get("name")
@@ -144,22 +144,32 @@ def payin(request):
     if reference == "quote":
         deadline = "undefined"
         mail_subject = 'New Quotation'
-        message = render_to_string('home/quotation.txt', {
-            'name': name,
-            'Job_title': title,
-            'email': email,
-            'description': description})
+    else:
+        mail_subject = 'New Order'
+    message = render_to_string('home/quotation.txt', {
+        'name': name,
+        'Job_title': title,
+        'email': email,
+        'deadline':deadline,
+        'category':category,
+        'sub_cat':sub_cat,
+        'reference':reference,
+        'description': description})
 
-        to_email = [email]
-        msg_html = render_to_string('home/quotation.html', {
-            'name': name,
-            'Job_title': title,
-            'email': email,
-            'description': description
-        })
+    to_email = [company_email]
+    msg_html = render_to_string('home/quotation.html', {
+        'name': name,
+        'Job_title': title,
+        'email': email,
+        'deadline':deadline,
+        'category':category,
+        'sub_cat':sub_cat,
+        'reference':reference,
+        'description': description
+    })
 
-        send_mail(mail_subject, message, company_email,
-                  to_email, fail_silently=False, html_message=msg_html,)
+    send_mail(mail_subject, message, company_email,
+                to_email, fail_silently=False, html_message=msg_html,)
     jom.Order.objects.create(
         title=title,
         abbr=acronyms,
@@ -181,9 +191,7 @@ def payin(request):
         'Job_title': title,
         'reference': reference,
     })
-    to_email = [
-        email,
-    ]
+    to_email = [email,]
     msg_html = render_to_string('home/order_mail.html', {
         'name': name,
         'Job_title': title,
@@ -196,10 +204,10 @@ def payin(request):
 
 
 def workload(request):
-    if request.method == "GET":
-        handlers = request.GET.get("handlers")
-        managers = request.GET.get("manager")
-        reference = request.GET.get("cur_reference")
+    if request.method == "POST":
+        handlers = request.POST.get("handlers")
+        managers = request.POST.get("manager")
+        reference = request.POST.get("cur_reference")
         handler = acct.project_handlers.objects.get(id=handlers)
         manager = acct.project_managers.objects.get(id=managers)
         project_id = jom.Order.objects.get(reference=reference)
@@ -218,6 +226,8 @@ def workload(request):
         message = render_to_string('Job/assign_mail.txt', {
             'name': manager.name,
             'Job': project_id,
+            'deadline':int(project_id.deadlines) - 3,
+            'details':project_id.description
 
         })
         to_email = [
@@ -226,19 +236,21 @@ def workload(request):
         msg_html = render_to_string('Job/assign_mail.html', {
             'name': manager.name,
             'Job': project_id,
+            'deadline':int(project_id.deadlines) - 3,
+            'details':project_id.description
         })
 
         send_mail(mail_subject, message, company_email,
                   to_email, fail_silently=False, html_message=msg_html,)
-        # manager.availability=False
-        # manager.save()
+        
 
         # handlers Mail
         mail_subject = 'Job assigned to you'
         message = render_to_string('Job/assign_mail.txt', {
             'name': handler.name,
             'Job': project_id,
-
+            'deadline':int(project_id.deadlines) - 3,
+            'details':project_id.description
         })
         to_email = [
             handler.email,
@@ -246,14 +258,18 @@ def workload(request):
         msg_html = render_to_string('Job/assign_mail.html', {
             'name': handler.name,
             'Job': project_id,
+            'deadline':int(project_id.deadlines) - 3,
+            'details':project_id.description
         })
-        send_mail(mail_subject, message, manager.email, to_email,
-                  fail_silently=False, html_message=msg_html,)
-        project_id.status += 1
-        project_id.save()
-        # handler.availability=False
-        # handler.save()
-        return HttpResponse(True)
+        if send_mail(mail_subject, message, manager.email, to_email,
+                  fail_silently=False, html_message=msg_html,):
+            project_id.status += 1
+            project_id.save()
+            handler.availability=False
+            handler.save()
+            return HttpResponse(True)
+        return HttpResponse(False)
+    return HttpResponse(False)
 
 
 def calendar(request):
