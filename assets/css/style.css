@@ -561,9 +561,6 @@ a {
     -webkit-box-shadow: 0 5px 20px -2px rgba(0, 0, 0, 0.1);
     box-shadow: 0 5px 20px -2px rgba(0, 0, 0, 0.1); }
 
-.text-orange {
-  color: orange;
-}
 .text-white-opacity-5 {
   color: rgba(255, 255, 255, 0.5); }
 
@@ -1524,6 +1521,9 @@ a {
   .top-destination .place p {
     font-size: 13px;
     color: #ccc; }
+    .text-orange {
+      color: orange;
+    }
 
 .logo{
   width: 40px;
@@ -1606,13 +1606,6 @@ a {
   border-radius: 2px;
   background: #00000050;
   color: #3B945E;
-}
-.center {
-  position: absolute;
-  /* width: 220px; */
-  /* height: 220px; */
-  top:30%;
-  /* left: 40%; */
 }
 .dot-1 {
   position: absolute;
@@ -1730,4 +1723,8 @@ a {
     -webkit-transform: scale(1);
             transform: scale(1);
   }
+}
+.pos-center{
+  left:40%;
+  top: 50%;
 }

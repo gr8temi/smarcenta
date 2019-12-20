@@ -96,7 +96,9 @@ def user_track(request):
     if request.method == "GET":
         template = "home/user_track.html"
         refer = str(request.GET.get("reference")).rstrip()
-        job = jo.Order.objects.get(reference=refer)
+        if refer == "quote":
+            return render(request, "account/404.html")
+        job = jo.Order.objects.filter(reference=refer).first()
         sub_cat = jo.subcategory.objects.get(name=job.sub_cat)
         stages = jo.stage.objects.filter(category=sub_cat)
         managers = Acct.project_managers.objects.all()
