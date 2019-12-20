@@ -62,9 +62,9 @@ def JobCreate(request):
         "deadlines": deadlines,
         "form": form,
         "cate_top": category,
-        "faqs":faqs,
-        "info":info,
-        "terms":terms
+        "faqs": faqs,
+        "info": info,
+        "terms": terms
     }
     return render(request, template, context)
 
@@ -129,7 +129,10 @@ def payin(request):
     total = float(request.GET.get("total"))/100
     category = request.GET.get("category")
     sub_cat = request.GET.get("sub_cat_sum")
-    deadline = request.GET.get("dead_sum").split("@")[0]
+    try:
+        deadline = request.GET.get("dead_sum").split("@")[0]
+    except:
+        deadline = "undefined"
     phone = request.GET.get("phone")
     reference = request.GET.get("reference")
     name = request.GET.get("name")
@@ -150,10 +153,10 @@ def payin(request):
         'name': name,
         'Job_title': title,
         'email': email,
-        'deadline':deadline,
-        'category':category,
-        'sub_cat':sub_cat,
-        'reference':reference,
+        'deadline': deadline,
+        'category': category,
+        'sub_cat': sub_cat,
+        'reference': reference,
         'description': description})
 
     to_email = [company_email]
@@ -161,15 +164,15 @@ def payin(request):
         'name': name,
         'Job_title': title,
         'email': email,
-        'deadline':deadline,
-        'category':category,
-        'sub_cat':sub_cat,
-        'reference':reference,
+        'deadline': deadline,
+        'category': category,
+        'sub_cat': sub_cat,
+        'reference': reference,
         'description': description
     })
 
     send_mail(mail_subject, message, company_email,
-                to_email, fail_silently=False, html_message=msg_html,)
+              to_email, fail_silently=False, html_message=msg_html,)
     jom.Order.objects.create(
         title=title,
         abbr=acronyms,
@@ -191,7 +194,7 @@ def payin(request):
         'Job_title': title,
         'reference': reference,
     })
-    to_email = [email,]
+    to_email = [email, ]
     msg_html = render_to_string('home/order_mail.html', {
         'name': name,
         'Job_title': title,
@@ -226,8 +229,8 @@ def workload(request):
         message = render_to_string('Job/assign_mail.txt', {
             'name': manager.name,
             'Job': project_id,
-            'deadline':int(project_id.deadlines) - 3,
-            'details':project_id.description
+            'deadline': int(project_id.deadlines) - 3,
+            'details': project_id.description
 
         })
         to_email = [
@@ -236,21 +239,20 @@ def workload(request):
         msg_html = render_to_string('Job/assign_mail.html', {
             'name': manager.name,
             'Job': project_id,
-            'deadline':int(project_id.deadlines) - 3,
-            'details':project_id.description
+            'deadline': int(project_id.deadlines) - 3,
+            'details': project_id.description
         })
 
         send_mail(mail_subject, message, company_email,
                   to_email, fail_silently=False, html_message=msg_html,)
-        
 
         # handlers Mail
         mail_subject = 'Job assigned to you'
         message = render_to_string('Job/assign_mail.txt', {
             'name': handler.name,
             'Job': project_id,
-            'deadline':int(project_id.deadlines) - 3,
-            'details':project_id.description
+            'deadline': int(project_id.deadlines) - 3,
+            'details': project_id.description
         })
         to_email = [
             handler.email,
@@ -258,14 +260,14 @@ def workload(request):
         msg_html = render_to_string('Job/assign_mail.html', {
             'name': handler.name,
             'Job': project_id,
-            'deadline':int(project_id.deadlines) - 3,
-            'details':project_id.description
+            'deadline': int(project_id.deadlines) - 3,
+            'details': project_id.description
         })
         if send_mail(mail_subject, message, manager.email, to_email,
-                  fail_silently=False, html_message=msg_html,):
+                     fail_silently=False, html_message=msg_html,):
             project_id.status += 1
             project_id.save()
-            handler.availability=False
+            handler.availability = False
             handler.save()
             return HttpResponse(True)
         return HttpResponse(False)
@@ -275,7 +277,7 @@ def workload(request):
 def calendar(request):
     dea = request.GET.get("deadline")
     cate_id = request.GET.get("cate_id")
-    
+
     sub_cat = jom.subcategory.objects.get(id=cate_id)
     deadlines = jom.Deadline.objects.filter(category=sub_cat.id).first()
     days = int(sub_cat.max_date) - (int(dea))
@@ -294,7 +296,7 @@ def customize(request):
         form = forms.CustomizeForm(request.POST)
         if form.is_valid():
             info = homes.CompanyInfo.objects.get(id=1)
-            company_email = info.email      
+            company_email = info.email
             email = form.cleaned_data.get('email')
             title = form.cleaned_data.get('title')
             name = form.cleaned_data.get('name')
@@ -316,13 +318,13 @@ def customize(request):
             form.save()
             return JsonResponse({'error': False, 'message': "Upload Successful"})
         else:
-            
+
             return JsonResponse({'error': True, 'errors': form.errors})
 
 
 def coupons(request):
     coupon_code = request.GET.get("code")
-    
+
     user = acct.CustomUser.objects.get(username=request.user.username)
 
     status = validate_coupon(coupon_code=coupon_code, user=user)
@@ -332,14 +334,16 @@ def coupons(request):
         discount = coupon.discount
         discount_value = coupon.get_discounted_value(
             initial_value=request.session['total'])
-        
+
         discounted = request.session['total']-discount_value
-        request.session['total'] =discount_value
-        return JsonResponse({'error': False, "message": "Coupon added successfully","discount":discounted})
+        request.session['total'] = discount_value
+        return JsonResponse({'error': False, "message": "Coupon added successfully", "discount": discounted})
 
     else:
-        
+
         return JsonResponse({'error': True, "status": status['message']})
+
+
 def payin_package(request):
     email = request.GET.get("email")
     total = float(request.GET.get("packageAmount"))/100
@@ -379,4 +383,3 @@ def payin_package(request):
               )
 
     return JsonResponse({'error': False, 'message': "Payment Successful"})
-    
