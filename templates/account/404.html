@@ -1,0 +1,18 @@
+{% extends 'home/base.html'%} 
+{% load static from staticfiles%}
+{%block content%}
+
+<div class="d-flex justify-content-center align-items-center">
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <strong>We Can't process your request right now. Kindly refresh after a few minutes</strong> 
+    </div>
+    
+    <script>
+      $(".alert").alert();
+    </script>
+</div>
+
+{% endblock %}

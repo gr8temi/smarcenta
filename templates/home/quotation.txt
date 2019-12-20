@@ -1,7 +1,8 @@
 <h3>Hi</h3>
 <p>Good day, Here is the latest Order</p>
-{% if reference=="quote"%}
+{% if reference is "quote"%}
   <h4>This is a Quotation request</h4>
+{% endif %}
 <h5>Task Title: {{Job_title}}</h5>
 <h5>Customer Name: {{name}}</h5>
 <h5>Customer Email: {{email}}</h5>

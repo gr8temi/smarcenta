@@ -96,7 +96,6 @@ function payWithPaystack(proceed) {
         callback: function(response) {
           $.ajax({
             url: "/Job/payin/",
-            // method:"POST",
             data: {
               email: email,
               total: total,
@@ -111,9 +110,6 @@ function payWithPaystack(proceed) {
               id: id
             },
             success: function(data) {
-              // alert("success");
-              // $(".ko").html(data)
-
               data = parseInt(data);
 
               if (data == 0) {
@@ -133,7 +129,6 @@ function payWithPaystack(proceed) {
 }
 
 $(".quote").click(e => {
-
   let email = $("#email_hid").val();
   let total = $("#total_sum").text() * 100;
   let category = $(".cate_sum").text();
@@ -167,8 +162,8 @@ $(".quote").click(e => {
     email !== "" &&
     (title !== "") & (name !== "")
   ) {
-    $(".frame").show()
-    // alert("ready to submit")
+    $(".frame").show();
+    let shown = 1;
     $("#phone").removeClass("invalid");
     $(".email_hid").removeClass("invalid");
     $(".titles").removeClass("invalid");
@@ -187,8 +182,20 @@ $(".quote").click(e => {
         name: name,
         id: id
       },
+      check: setTimeout(function() {
+        if (shown === 1) {
+          $(".frame").hide();
+          shown = 0;
+          alert(
+            "Sorry we can't process your bokking right now try again in a bit thanks"
+          );
+        } else {
+          return;
+        }
+      }, 10000),
       success: data => {
-        $(".frame").hide()
+        $(".frame").hide();
+        shown = 0;
         alert("successfully booked");
       }
     });
