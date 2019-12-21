@@ -39,8 +39,7 @@
                                     <div class="jobs-div d-flex flex-column">
                                         
                                         {% for stage in stages %}
-                                            
-                                            {% if stage.status == "Waiting" %}
+                                            {% if stage.stage > job.status %}
                                                <div class="d-flex jobs justify-content-between">
                                               
                                               <p> <span class="text-secondary pt-2 fa fa-pause-circle pr-3"></span> {{stage.stage_name}}</p>
@@ -48,26 +47,26 @@
                                                {{stage.status}}
                                               </div>
                                           </div> 
-                                          {% elif stage.status == "In progress" %}
+                                          {% elif stage.stage == job.status %}
                                           <div class="d-flex jobs justify-content-between">
                                              
-                                                <p> <span class="text-warning pt-2 fa fa-spinner pr-3"></span> Project handled by Designer</p>
+                                                <p> <span class="text-warning pt-2 fa fa-spinner pr-3"></span> {{stage.stage_name}}</p>
                                                 <div class="p-1 alert alert-warning" role="alert">
                                                  In progress
                                                 </div>
                                             </div>
-                                            {% elif stage.status == "success" %}
+                                            {% elif stage.stage < job.status %}
                                             <div class="d-flex jobs justify-content-between">
                                               
-                                              <p> <span class="text-success pt-2 fa fa-check-circle pr-3"></span> Project handled by Designer</p>
+                                              <p> <span class="text-success pt-2 fa fa-check-circle pr-3"></span> {{stage.stage_name}}</p>
                                               <div class="p-1 alert alert-success" role="alert">
                                                success
                                               </div>
                                           </div>
-                                            {% endif %}
+
                                                 
                                             
-                                        {% endfor %}
+                                        {% endif %} {% endfor %}
                                     </div>
                                   </div>
             

@@ -2,24 +2,13 @@
 <style>
   .fixed_header {
     width: 100%;
-    /* table-layout: fixed; */
-    /* border-collapse: collapse; */
   }
 
   .fixed_header tbody {
-    /* display:block; */
     overflow: auto;
     height: 300px;
   }
 
-  /* .fixed_header thead tr {
-   display: block;
-} */
-
-  /* .fixed_header thead {
-  background: black;
-  color:#fff;
-} */
 </style>
 
 <div class="segment2 ">
@@ -43,11 +32,11 @@
             <th>Customer</th>
             <th>Reference</th>
             <th>Activity</th>
-            <!-- <th>Stage</th> -->
           </tr>
         </thead>
         <tbody>
           {% for orders in order %}
+              {% if orders.reference != "quote" %}
           <tr>
             <td scope="row">{{ orders.title }}</td>
             <td>{{ orders.name }}</td>
@@ -58,6 +47,7 @@
               </button></a>
             </td>
           </tr>
+              {% endif %}
           {% endfor %}
         </tbody>
       </table>
