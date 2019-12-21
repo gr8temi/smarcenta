@@ -1,15 +1,15 @@
-from django.shortcuts import render, HttpResponse
-from Jobs import models as jo
-from . import models as ac
-from django.core.mail import EmailMessage, send_mail, EmailMultiAlternatives
-from django.template.loader import render_to_string
-from django.views.generic.edit import UpdateView
-from django.core.files.storage import FileSystemStorage
-from .forms import ImageFileUploadForm
-from django.http import JsonResponse
-from django.urls import reverse_lazy
-from home import models as homes
 from django.contrib.admin.views.decorators import staff_member_required
+from django.core.mail import send_mail
+from django.shortcuts import render, HttpResponse
+from django.template.loader import render_to_string
+from django.urls import reverse_lazy
+from django.views.generic.edit import UpdateView
+
+from Jobs import models as jo
+from home import models as homes
+from . import models as ac
+
+
 # Create your views here.
 
 @staff_member_required
