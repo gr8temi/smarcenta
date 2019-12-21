@@ -119,7 +119,7 @@ def verify(request):
     reference = request.GET.get("reference")
     status = request.GET.get("stage")
     order = jo.Order.objects.get(reference=reference)
-    stage = jo.stage.objects.get(stage=status, category__name=order.sub_cat)
+    stage = jo.stage.objects.get(stage=status, category__name="Research")
     info = homes.CompanyInfo.objects.get(id=1)
     company_email = info.email
     mail_subject = 'Job Status'
