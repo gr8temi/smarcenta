@@ -1,25 +1,10 @@
 {% load static %}
 <style>
-  .fixed_header {
-    width: 100%;
-    /* table-layout: fixed; */
-    /* border-collapse: collapse; */
-  }
 
-  .fixed_header tbody {
-    /* display:block; */
+    .fixed_header tbody {
     overflow: auto;
     height: 300px;
   }
-
-  /* .fixed_header thead tr {
-   display: block;
-} */
-
-  /* .fixed_header thead {
-  background: black;
-  color:#fff;
-} */
 </style>
 
 <div class="segment2 ">
@@ -37,7 +22,7 @@
         <div class="d-flex justify-content-between">
             <div class="form-group d-flex flex-column">
                 <label for="categories mr-2">Categories</label>
-                <div class="d-flex justify-content-between ">
+                <div class="d-flex justify-content-between flex-wrap">
                     <select class="custom-select mr-2" name="categories" id="categories">
 
                         <option selected disabled>Select one</option>
@@ -59,7 +44,7 @@
         <div class="d-flex justify-content-between">
                 <div class="form-group d-flex flex-column">
                     <label for="categories mr-2">Sub Categories</label>
-                    <div class="d-flex justify-content-between ">
+                    <div class="d-flex justify-content-between flex-wrap">
                         <select class="custom-select mr-2" name="categories" id="categories">
 
                             <option selected disabled>Select one</option>

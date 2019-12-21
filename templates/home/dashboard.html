@@ -1,203 +1,300 @@
-{% load static %}
-{% load crispy_forms_tags %}
-<!doctype html>
+{% load static %} {% load crispy_forms_tags %}
+<!DOCTYPE html>
 
 <html lang="en">
   <head>
     <title>Dashboard</title>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="{% static 'css/dash.css' %}">
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="{% static 'css/dash.css' %}" />
   </head>
   <body style="height: 100%;">
     <div class="area">
-
-          <div class="cube"></div>
-          <div class="cube"></div>
-          <div class="cube"></div>
-          <div class="cube"></div>
-          <div class="cube"></div>
-          <div class="cube"></div>
-          <div class="cube"></div>
-          <div class="cube"></div>
-          <div class="cube"></div>
-          <div class="cube"></div>
-          <div class="cube"></div>
-          <div class="res-nav d-flex d-md-none d-lg-none justify-content-around align-items-center mb-3" style="z-index: 10;">
-            <div class="p-1 flex-grow-1 icons justify-content-center">
-        <img class="img-fluid rounded-circle img-thumbnail" style="width: 40px; height: 40px;" src="{{request.user.profile_picture.url}}" alt="" srcset="">
-            </div>
-            <div class="flex-grow-1 icons justify-content-center p-1">
-                <a href="{%url 'index' %}"><img class="img-fluid" style="width: 40px; height: 40px;" src="{%static 'images/house.png' %}" alt=""></a>
-              </div>
-            <div class="flex-grow-1 icons justify-content-center p-1">
-              <a href="javascript:void(0)" onclick="window.location.reload();"><img class="img-fluid" style="width: 40px; height: 40px;" src="{%static 'images/dashboard.png' %}" alt=""></a>
-            </div>
-            <div class="flex-grow-1 icons justify-content-center p-1">
-              <a href="javascript:void(0)" onclick="settings({{request.user.id}})"><img class="img-fluid"style="width: 40px; height: 40px;" src="{%static 'images/settings.png' %}" alt=""></a>
-            </div>
-            <div class="flex-grow-1 icons justify-content-center p-1">
-              <a href=""><img class="img-fluid"style="width: 40px; height: 40px;" src="{%static 'images/conversation.png' %}" alt=""></a>
-            </div>
-            <div class="flex-grow-1 icons justify-content-center p-1">
-              <a href=""><img class="img-fluid"style="width: 40px; height: 40px;" src="{%static 'images/information.png' %}" alt=""></a>
-            </div>
-
+      <div class="cube"></div>
+      <div class="cube"></div>
+      <div class="cube"></div>
+      <div class="cube"></div>
+      <div class="cube"></div>
+      <div class="cube"></div>
+      <div class="cube"></div>
+      <div class="cube"></div>
+      <div class="cube"></div>
+      <div class="cube"></div>
+      <div class="cube"></div>
+      <div
+        class="res-nav d-flex d-md-none d-lg-none justify-content-around align-items-center mb-3"
+        style="z-index: 10;"
+      >
+        <div class="p-1 flex-grow-1 icons justify-content-center">
+          <img
+            class="img-fluid rounded-circle img-thumbnail"
+            style="width: 40px; height: 40px;"
+            src="{{request.user.profile_picture.url}}"
+            alt=""
+            srcset=""
+          />
         </div>
+        <div class="flex-grow-1 icons justify-content-center p-1">
+          <a href="{%url 'index' %}"
+            ><img
+              class="img-fluid"
+              style="width: 40px; height: 40px;"
+              src="{%static 'images/house.png' %}"
+              alt=""
+          /></a>
+        </div>
+        <div class="flex-grow-1 icons justify-content-center p-1">
+          <a href="javascript:void(0)" onclick="window.location.reload();"
+            ><img
+              class="img-fluid"
+              style="width: 40px; height: 40px;"
+              src="{%static 'images/dashboard.png' %}"
+              alt=""
+          /></a>
+        </div>
+        <div class="flex-grow-1 icons justify-content-center p-1">
+          <a href="javascript:void(0)" onclick="settings({{request.user.id}})"
+            ><img
+              class="img-fluid"
+              style="width: 40px; height: 40px;"
+              src="{%static 'images/settings.png' %}"
+              alt=""
+          /></a>
+        </div>
+        <div class="flex-grow-1 icons justify-content-center p-1">
+          <a href=""
+            ><img
+              class="img-fluid"
+              style="width: 40px; height: 40px;"
+              src="{%static 'images/conversation.png' %}"
+              alt=""
+          /></a>
+        </div>
+        <div class="flex-grow-1 icons justify-content-center p-1">
+          <a href=""
+            ><img
+              class="img-fluid"
+              style="width: 40px; height: 40px;"
+              src="{%static 'images/information.png' %}"
+              alt=""
+          /></a>
+        </div>
+      </div>
       <div class="container-fluid">
         <div class="container">
           <div class="row">
             <div class="col-md-3">
-              <div class="sidenav col-md-12 d-flex flex-column align-items-center p-lg-5" style="height: 100vh; background:#E7E8EB20;">
-
+              <div
+                class="sidenav col-md-12 d-flex flex-column align-items-center p-lg-5"
+                style="height: 100vh; background:#E7E8EB20;"
+              >
                 <div class="prof-img ">
-                  <!-- <img class="pl-5"  src=" {% static 'images/home.png'%}" alt="" srcset=""> -->
                   <div class="d-flex justify-content-center">
-                    <a class="text-white" href="{% url 'index' %}"><i style="font-size: 2em" class="fa fa-home" aria-hidden="true"></i></a>
-                
+                    <a class="text-white" href="{% url 'index' %}"
+                      ><i
+                        style="font-size: 2em"
+                        class="fa fa-home"
+                        aria-hidden="true"
+                      ></i
+                    ></a>
                   </div>
-                
-                  <img class="img-fluid img-thumbnail" src="{{request.user.profile_picture.url}}" alt="" srcset="">
-                  <p class="text-center text-white">Username: {{request.user.username}}</p>
-                  <p style="font-size: 0.75rem" class="text-center text-white">Referal Code: <b>{{request.user.referal_code}}</b> </p>
-                  <p class="text-center text-white">Referal Points: {{request.user.referal_point}} </p>
-                  <hr class="">
+
+                  <img
+                    class="img-fluid img-thumbnail"
+                    src="{{request.user.profile_picture.url}}"
+                    alt=""
+                    srcset=""
+                  />
+                  <p class="text-center text-white">
+                    Username: {{request.user.username}}
+                  </p>
+                  <p style="font-size: 0.75rem" class="text-center text-white">
+                    Referal Code: <b>{{request.user.referal_code}}</b>
+                  </p>
+                  <p class="text-center text-white">
+                    Referal Points: {{request.user.referal_point}}
+                  </p>
+                  <hr class="" />
                 </div>
-                
-                <div class="panels" style="width:100%; height: 30%; border-bottom: 1px solid rgba(17, 17, 19, 0.125)">
-                  <div class="text-center das pt-2 pb-3" style=" border-bottom: 1px solid white;">
-                    <li><a href="javascript:void(0)" onclick="window.location.reload();">Dashboard</a></li>
-                
+
+                <div
+                  class="panels"
+                  style="width:100%; height: 30%; border-bottom: 1px solid rgba(17, 17, 19, 0.125)"
+                >
+                  <div
+                    class="text-center das pt-2 pb-3"
+                    style=" border-bottom: 1px solid white;"
+                  >
+                    <li>
+                      <a
+                        href="javascript:void(0)"
+                        onclick="window.location.reload();"
+                        >Dashboard</a
+                      >
+                    </li>
                   </div>
-                  <div class="text-center das pt-2 pb-3" style=" border-bottom: 1px solid white;">
-                      <li><a href="javascript:void(0)" onclick="settings({{request.user.id}})">Management</a></li>
-                
+                  <div
+                    class="text-center das pt-2 pb-3"
+                    style=" border-bottom: 1px solid white;"
+                  >
+                    <li>
+                      <a
+                        href="javascript:void(0)"
+                        onclick="settings({{request.user.id}})"
+                        >Management</a
+                      >
+                    </li>
                   </div>
-                  <div class="text-center das pt-2 pb-3" style=" border-bottom: 1px solid white;">
-                      <li><a href="#dashboard">FAQ</a></li>
-                
+                  <div
+                    class="text-center das pt-2 pb-3"
+                    style=" border-bottom: 1px solid white;"
+                  >
+                    <li><a href="#dashboard">FAQ</a></li>
                   </div>
                 </div>
-                
-                </div>
+              </div>
             </div>
             <div class="col-md-9" id="main-areas">
               <div class="row">
                 <div class="col-md-6 me mt-4">
-                <!-- <div class="d-flex justify-content-start align-start-end pt-2">
-                    <button class="shadow add-buttons"><i class="fa fa-bars"></i></button>
-                </div> -->
-              <div class=" d-flex flex-column contains align-items-start pt-lg-x">
-              
-                <div class="segment">
-              
-                  <div class="name pt-5 pt-lg-0">
-                    <h3 >Hi {{request.user.username}} </h3>
-                  </div>
-              
-                  <div class="p">
-                      <p > welcome back to your workspace we really miss you.</p>
-                  </div>
-              
-                  <div class="">
-                      <div class="input-group position-relative p-lg-2 search">
-                            <input class="p-2 phones" type="text" placeholder="Search for Tasks project..." name="project" id="project">
-                          <i class="fa fa-search pt-2 pr-2 pl-2"></i>
+                  <div
+                    class=" d-flex flex-column contains align-items-start pt-lg-x"
+                  >
+                    <div class="segment">
+                      <div class="name pt-5 pt-lg-0">
+                        <h3>Hi {{request.user.username}}</h3>
                       </div>
-              
-              
-                  </div>
-                  <div class="proj-icon pt-2  pt-lg-5">
-                    <h4 >Tasks <span><small>({{counter}})</small></span></h4>
-                    <div class=" boxes d-flex flex-wrap justify-content-evenly">
-              
-                      {% for job in jobs %}
-                      {% with index=forloop.counter %}
-                        <div class="shadow box d-flex justify-content-center align-items-center"><h6><a class="text-dark" href="javascript:void(0)" onclick="load_content('{{job.reference}}')">{{job.abbr}}</a></h6></div>
-                        {% endwith%}
-                      {% endfor %}
-              
-              
-                      <!-- <div class="shadow box d-flex justify-content-center align-items-center"><h6>PD</h6></div>
-                      <div class="shadow box d-flex justify-content-center align-items-center"><h6>PD</h6></div>
-                      <div class="shadow box d-flex justify-content-center align-items-center"><h6>PD</h6></div>
-                      <div class="shadow box d-flex justify-content-center align-items-center"><h6>PD</h6></div>
-                      <div class="shadow boxs d-flex justify-content-center align-items-center"><h6>8+</h6></div> -->
-              
+
+                      <div class="p">
+                        <p>
+                          welcome back to your workspace we really miss you.
+                        </p>
+                      </div>
+
+                      <div class="">
+                        <div
+                          class="input-group position-relative p-lg-2 search"
+                        >
+                          <input
+                            class="p-2 phones"
+                            type="text"
+                            placeholder="Search for Tasks project..."
+                            name="project"
+                            id="project"
+                          />
+                          <i class="fa fa-search pt-2 pr-2 pl-2"></i>
+                        </div>
+                      </div>
+                      <div class="proj-icon pt-2  pt-lg-5">
+                        <h4>
+                          Tasks <span><small>({{counter}})</small></span>
+                        </h4>
+                        <div
+                          class=" boxes d-flex flex-wrap justify-content-evenly"
+                        >
+                          {% for job in jobs %} {% with index=forloop.counter %}
+                          <div
+                            class="shadow box d-flex justify-content-center align-items-center"
+                          >
+                            <h6>
+                              <a
+                                class="text-dark"
+                                href="javascript:void(0)"
+                                onclick="load_content('{{job.reference}}')"
+                                >{{job.abbr}}</a
+                              >
+                            </h6>
+                          </div>
+                          {% endwith%} {% endfor %}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <!-- <div class="add-new proj-icon pt-2  pt-lg-5">
-                      <h4 >News Board</h4>
-              
-                  </div> -->
                 </div>
-              
-              
+                <div class="col-md-6 tasks">
+                  <div
+                    class="white-back d-flex flex-column align-items-start justify-content-start pt-5 loading"
+                  >
+                    <div
+                      class="segment2 d-flex justify-content-center align-items-center"
+                      style="height: 100%;"
+                    >
+                      Click on any task by on the task panel to see its progress
+                    </div>
+                    <div
+                      class="d-flex justify-content-end align-items-end p-4"
+                      style="width: 100%; height: 100%;"
+                    >
+                      <a
+                        style="background: transparent;border: none;"
+                        href="{% url 'jobCreate' %}"
+                        ><button class="shadow add-button">+</button></a
+                      >
+                    </div>
+                  </div>
+                </div>
               </div>
-              
-              </div>
-              <div class="col-md-6 tasks">
-                  <div class="white-back d-flex flex-column align-items-start justify-content-start pt-5 loading">
-                  
-                  <div class="segment2 d-flex justify-content-center align-items-center" style="height: 100%;">
-                    Click on any task by on the task panel to see its progress
-                  </div>
-                  <div class="d-flex justify-content-end align-items-end p-4" style="width: 100%; height: 100%;">
-                  <a style="background: transparent;border: none;" href="{% url 'jobCreate' %}"><button class="shadow add-button" >+</button></a>
-                  </div>
-                  </div>
-                  </div>
-              </div>
-              
             </div>
           </div>
+        </div>
       </div>
-      </div>
-      
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="{% static 'js/jquery-3.3.1.min.js' %} "></script>
     <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
   </body>
 
-
   <script>
-  function load_content(reference){
-    $.ajax({
-      url: "/user_track",
-      method:"GET",
-      data:{
-        "reference":reference
-      },
-      success:function(data){
-        $(".loading").html(data)
-      }
-
-
-    })
-  }
-  function settings(user){
-    
-     $.ajax({
-      url: "/account/settings/"+user,
-      method:"GET",
-      data:{
-        "user":user
-      },
-      success:function(data){        
-        $("#main-areas").html(data)
-      }
-
-
-    })
-  }
+    function load_content(reference) {
+      $.ajax({
+        url: "/user_track",
+        method: "GET",
+        data: {
+          reference: reference
+        },
+        success: function(data) {
+          $(".loading").html(data);
+        }
+      });
+    }
+    function settings(user) {
+      $.ajax({
+        url: "/account/settings/" + user,
+        method: "GET",
+        data: {
+          user: user
+        },
+        success: function(data) {
+          $("#main-areas").html(data);
+        }
+      });
+    }
   </script>
 </html>

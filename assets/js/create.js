@@ -1,16 +1,50 @@
 $("#customizeForm").submit(e => {
+  for ( instance in CKEDITOR.instances ) {
+        CKEDITOR.instances[instance].updateElement();
+    }
   e.preventDefault();
-
+  shown = 1;
   url = $("#customizeForm").attr("action");
+  $(".frame").show();
   $.ajax({
     url: url,
     method: "POST",
     enctype: "multipart/form-data",
     data: $("#customizeForm").serialize(),
+    check: setTimeout(function() {
+        if (shown === 1) {
+          $(".frame").hide();
+          shown = 0;
+          Swal.fire({
+          title: 'Message',
+          text:"Sorry we can't process your booking right now try again in a bit thanks",
+          icon:'error',
+
+        })
+        } else {
+          return;
+        }
+      }, 10000),
     success: function(data) {
+      $(".frame").hide();
+      shown = 0;
       if (data.error == false) {
-        alert(data.message);
+        Swal.fire({
+          title: 'Message',
+          text:data.message,
+          icon:'info',
+
+        })
+
+      }else{
+        Swal.fire({
+          title: 'Message',
+          text:data.errors,
+          icon:'info',
+
+        })
       }
+
     }
   });
 });
@@ -187,7 +221,7 @@ $(".quote").click(e => {
           $(".frame").hide();
           shown = 0;
           alert(
-            "Sorry we can't process your bokking right now try again in a bit thanks"
+            "Sorry we can't process your booking right now try again in a bit thanks"
           );
         } else {
           return;
@@ -196,7 +230,13 @@ $(".quote").click(e => {
       success: data => {
         $(".frame").hide();
         shown = 0;
-        alert("successfully booked");
+        // alert("successfully booked");
+        Swal.fire({
+          title: 'Message',
+          text:'Successfully booked',
+          icon:'info',
+
+        })
       }
     });
   }
