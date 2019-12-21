@@ -1,150 +1,211 @@
 {% load static %}
 <div id="segment2" class="segment2">
+  <div class="top-bar d-flex justify-content-between pt-2">
+    <h3>{{job.title}}</h3>
+    <p>Welcome <small>{{job.name}}</small></p>
+  </div>
+  <div class="describe">
+    <p>Ref.Code: {{job.reference}}</p>
+    {{job.description | safe}}
+  </div>
 
+  <div class="activities">
+    <div class="heads d-flex justify-content-between pt-5">
+      <h4>Activities</h4>
 
-        <div class="top-bar d-flex justify-content-between pt-2">
-        <h3>{{job.title}}</h3>
-        <p>Welcome <small>{{job.name}}</small></p>
+      <p>Status</p>
+    </div>
+    <hr class="p-0 m-1" />
+    <div id="jobs-div" class="jobs-div d-flex flex-column">
+      {% for stage in stages %} {% if stage.stage == job.status %}
+      <div class="d-flex jobs justify-content-between">
+        <p class="flex-grow-1">
+          <span class="text-warning pt-2 fa fa-spinner pr-3"></span>
+          {{stage.stage_name}}
+        </p>
+        {% if stage.stage_name == "Assign Task" %}
+        <button
+          type="button"
+          name=""
+          id="actions"
+          data-toggle="modal"
+          data-target="#exampleModal"
+          class=" btn btn-primary"
+        >
+          Assign
+        </button>
+        {% else %}
+        <button
+          type="button"
+          name="actions"
+          id="actions"
+          onclick="verify('{{job.reference}}','{{stage.stage}}')"
+          class=" btn btn-success"
+        >
+          Done
+        </button>
+        {% endif %}
+        <div class="p-1 alert alert-warning" role="alert">
+          In Progress
         </div>
-        <div class="describe">
-            {{job.description | safe}}
-        <!-- <p>Design a website for ABC company</p> -->
-        </div>
-
-      <div class="activities">
-        <div class="heads d-flex justify-content-between pt-5">
-            <h4>Activities</h4>
-            <p>Ref.Code: {{job.reference}}</p>
-            <p>Status</p>
-            
-        </div>
-        <hr class="p-0 m-1">
-        <div id="jobs-div" class="jobs-div d-flex flex-column">
-              
-              {% for stage  in stages %}
-                
-                {% if stage.stage == job.status %}
-              <div class="d-flex jobs justify-content-between">
-                    
-                  <p> <span class="text-warning pt-2 fa fa-spinner pr-3"></span> {{stage.stage_name}}</p>
-                  {% if stage.stage_name == "Assign Task" %}
-                  <button type="button" name="" id="actions" data-toggle="modal" data-target="#exampleModal" class="btn btn-primary" btn-lg btn-block">Assign</button>
-                 {% else %}
-                  <button type="button" name="actions" id="actions" onclick="verify('{{job.reference}}','{{stage.stage}}')" class="btn btn-success" btn-lg btn-block">Done</button>
-                  {% endif %}
-                  <div class="p-1 alert alert-warning" role="alert">
-                      In Progress
-                  </div>
-              </div>
-              {% elif stage.stage > job.status %}
-              <div class="d-flex jobs justify-content-between">
-                    
-                <p> <span class="flex-grow-1 text-secondary pt-2 fa fa-pause-circle pr-3"></span> {{stage.stage_name}}</p>
-                <div class="p-1 alert alert-secondary" role="alert">
-                    Waiting
-                </div>
-              </div>
-              {% elif stage.stage < job.status %}
-              <div class="d-flex jobs justify-content-between">  
-                  <p> <span class="text-success pt-2 fa fa-check-circle pr-3"></span>  
-                    {{stage.stage_name}}</p>
-                  <div class="p-1 alert alert-success" role="alert">
-                      Success
-                  </div>
-                </div>
-              {% endif %}
-                  
-              {% endfor %}
-             </div>   
-         </div>
       </div>
+      {% elif stage.stage > job.status %}
+      <div class="d-flex jobs justify-content-between">
+        <p class="flex-grow-1">
+          <span class=" text-secondary pt-2 fa fa-pause-circle pr-3"></span>
+          {{stage.stage_name}}
+        </p>
+        <div class="flex-grow-1 p-1 alert alert-secondary" role="alert">
+          Waiting
+        </div>
+      </div>
+      {% elif stage.stage < job.status %}
+      <div class="d-flex jobs justify-content-between">
+        <p class="flex-grow-1">
+          <span class="text-success pt-2 fa fa-check-circle pr-3"></span>
+          {{stage.stage_name}}
+        </p>
+        <div class="flex-grow-1 p-1 alert alert-success" role="alert">
+          Success
+        </div>
+      </div>
+      {% endif %} {% endfor %}
+    </div>
+  </div>
+</div>
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-                
-                <div class="alert alert-success alert-dismissible fade show" role="alert" id="showAssign" style="display: none">
-                    Job Successfully assigned
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                    <form action="{% url 'workload' %}" method="POST" id="assign_form">
-                        {% csrf_token %}
-                        <div class="form-group">
-                                <label for="manager">Project Manager</label>
-                                <select name="manager" class="form-control" id="manager" required>
-                                <option disabled selected>Select Manager</option>
-
-                                  {% for manager in managers %}
-                                    {% if manager.availability is True %}
-                                        <option value="{{manager.id}}">{{manager.name}}</option>
-                                    {% endif %}
-                                  {% endfor %}
-                                </select>
-                        </div>
-                        <input type="hidden" name="cur_reference" value="{{job.reference}}">
-                                <div class="form-group">
-                                        <label for="handlers">Project Handler</label>
-                                        <select name="handlers" class="form-control" id="handlers" required>
-                                        <option disabled selected>Select Handler</option>
-                                          {% for handler in handlers %}
-                                            {% if handler.availability is True %}
-                                                <option value="{{handler.id}}">{{handler.name}}</option>
-                                            {% endif %}
-                                          {% endfor %}
-                                        </select>
-                                </div>
-                            <button type="submit" class="btn btn-success">Assign</button>
-                          </form>
-            </div>
-          </div>
-        </div>
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
+      <div class="modal-body">
+        <div
+          class="alert alert-success alert-dismissible fade show"
+          role="alert"
+          id="showAssign"
+          style="display: none"
+        >
+          Job Successfully assigned
+          <button
+            type="button"
+            class="close"
+            data-dismiss="alert"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="{% url 'workload' %}" method="POST" id="assign_form">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="manager">Project Manager</label>
+            <select name="manager" class="form-control" id="manager" required>
+              <option disabled selected>Select Manager</option>
+
+              {% for manager in managers %} {% if manager.availability is True%}
+              <option value="{{manager.id}}">{{manager.name}}</option>
+              {% endif %} {% endfor %}
+            </select>
+          </div>
+          <input type="hidden" name="cur_reference" value="{{job.reference}}" />
+          <div class="form-group">
+            <label for="handlers">Project Handler</label>
+            <select name="handlers" class="form-control" id="handlers" required>
+              <option disabled selected>Select Handler</option>
+              {% for handler in handlers %} {% if handler.availability is True%}
+              <option value="{{handler.id}}">{{handler.name}}</option>
+              {% endif %} {% endfor %}
+            </select>
+          </div>
+          <button type="submit" class="btn btn-success">Assign</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- <div class="d-flex justify-content-end align-items-end p-4" style="width: 100%; height: 100%;">
         <button class="shadow add-button" data-toggle="modal" data-target="#exampleModalScrollable">+</button>
 </div> -->
 
 <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
 <script>
-const verify =(reference,stage)=>{
-  $(".frame").show()
+  const verify = (reference, stage) => {
+    shown = 1;
+    $(".frame").show();
     $.ajax({
-        url:"/verify",
-        data:{
-            "reference":reference,
-            "stage":stage
-        },
-        success:function(data){
-          $(".frame").fadeOut()
-          alert("stage successfully passed")
-          $(".jobs").load(location.href + ".jobs")
+      url: "/verify",
+      data: {
+        reference: reference,
+        stage: stage
+      },
+      check: setTimeout(function() {
+        if (shown === 1) {
+          $(".frame").hide();
+          shown = 0;
+          Swal.fire({
+            title: "Message",
+            text:
+              "Sorry we can't process your booking right now try again in a bit thanks",
+            icon: "error"
+          });
+        } else {
+          return;
         }
-    })
-}
-$("#assign_form").submit(function(e){
-  $(".frame").show()
-    e.preventDefault()
-    url= $("#assign_form").attr("action")
-    $.ajax({
-      url:url,
-      method:"POST",
-      data:$("#assign_form").serialize(),
-      success:function(data){        
-        $("#showAssign").show()
-        $(".frame").fadeOut()
-        $("#exampleModal").modal('hide')
+      }, 10000),
+      success: function(data) {
+        shown = 0;
+        $(".frame").fadeOut();
+        alert("stage successfully passed");
+        $(".jobs").load(location.href + ".jobs");
       }
-    })
-    
-})
+    });
+  };
+  $("#assign_form").submit(function(e) {
+    shown = 1;
+    $(".frame").show();
+    e.preventDefault();
+    url = $("#assign_form").attr("action");
+    $.ajax({
+      url: url,
+      method: "POST",
+      data: $("#assign_form").serialize(),
+      check: setTimeout(function() {
+        if (shown === 1) {
+          $(".frame").hide();
+          shown = 0;
+          Swal.fire({
+            title: "Message",
+            text:
+              "Sorry we can't process your booking right now try again in a bit thanks",
+            icon: "error"
+          });
+        } else {
+          return;
+        }
+      }, 10000),
+      success: function(data) {
+        shown = 0;
+        $("#showAssign").show();
+        $(".frame").fadeOut();
+        $("#exampleModal").modal("hide");
+      }
+    });
+  });
 </script>
-
-                                      
