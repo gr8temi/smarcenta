@@ -5,16 +5,17 @@ from Jobs import models as jo
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage, send_mail, EmailMultiAlternatives
 from Jobs import forms as j_forms
-from .forms import CouponForm, Coupons, ValidityForm, MaxUseForm, DiscountForm,CouponUsers
+from .forms import CouponForm, Coupons, ValidityForm, MaxUseForm, DiscountForm, CouponUsers
 from django.http import JsonResponse
 from django_simple_coupons import models as co_models
 from home import models as homes
 from django.db.models import Count
+
+
 # Create your views here.
 
 
-def Home(request):
-
+def home(request):
     template = "home/home.html"
     cate_top = Acct.Categories.objects.all()
     jobs = jo.Jobs.objects.all()
@@ -24,16 +25,18 @@ def Home(request):
     context = {
         'jobs': jobs,
         "cate_top": cate_top,
-        'info':info,
-        'terms':terms,
-        'testimony':testimony
+        'info': info,
+        'terms': terms,
+        'testimony': testimony
     }
     return render(request, template, context)
+
 
 def website(request):
     template = "home/website_home.html"
 
-    return render(request,template)
+    return render(request, template)
+
 
 @login_required(login_url='/account/login')
 def dashboard(request):
@@ -62,8 +65,7 @@ def track(request):
         template = "home/track_page.html"
         refer = str(request.POST.get("reference")).rstrip()
         job = jo.Order.objects.get(reference=refer)
-        # sub_cats= job.sub_cat[slice()]
-        sub_cat = jo.subcategory.objects.get(name=job.sub_cat)
+        sub_cat = jo.subcategory.objects.get(name="Research")
         stages = jo.stage.objects.filter(category=sub_cat)
 
         context = {
@@ -78,7 +80,7 @@ def trackin(request):
         template = "home/tracking.html"
         refer = str(request.GET.get("reference")).rstrip()
         job = jo.Order.objects.get(reference=refer)
-        sub_cat = jo.subcategory.objects.get(name=job.sub_cat)
+        sub_cat = jo.subcategory.objects.get(name="Research")
         stages = jo.stage.objects.filter(category=sub_cat)
         managers = Acct.project_managers.objects.all()
         handlers = Acct.project_handlers.objects.all()
@@ -99,7 +101,7 @@ def user_track(request):
         if refer == "quote":
             return render(request, "account/404.html")
         job = jo.Order.objects.filter(reference=refer).first()
-        sub_cat = jo.subcategory.objects.get(name=job.sub_cat)
+        sub_cat = jo.subcategory.objects.get(name="Research")
         stages = jo.stage.objects.filter(category=sub_cat)
         managers = Acct.project_managers.objects.all()
         handlers = Acct.project_handlers.objects.all()
@@ -117,7 +119,7 @@ def verify(request):
     reference = request.GET.get("reference")
     status = request.GET.get("stage")
     order = jo.Order.objects.get(reference=reference)
-    stage = jo.stage.objects.get(stage=status, category__name=order.sub_cat)
+    stage = jo.stage.objects.get(stage=status, category__name="Research")
     info = homes.CompanyInfo.objects.get(id=1)
     company_email = info.email
     mail_subject = 'Job Status'
@@ -134,7 +136,7 @@ def verify(request):
         "stage": stage
     })
     send_mail(mail_subject, message, company_email,
-              to_email, fail_silently=False, html_message=msg_html,)
+              to_email, fail_silently=False, html_message=msg_html, )
     order.status += 1
     order.save()
     return HttpResponse(True)
@@ -153,7 +155,8 @@ def users(request):
         complete = jo.Order.objects.filter(
             user_id=user.id, status__gte=6).count()
         user_list.append({"username": user.username,
-                          "id": user.id, "is_active": user.is_active, "email": user.email, "order": order, "pending": pending, "complete": complete, "referal": user.referal_point})
+                          "id": user.id, "is_active": user.is_active, "email": user.email, "order": order,
+                          "pending": pending, "complete": complete, "referal": user.referal_point})
     users = Acct.CustomUser.objects.filter(is_staff=False)
     context = {
         "users": users,
@@ -163,7 +166,7 @@ def users(request):
     return render(request, template, context)
 
 
-def Categories(request):
+def categories(request):
     template = "home/categories.html"
     categories = Acct.Categories.objects.all()
     subcategories = jo.subcategory.objects.all()
@@ -175,7 +178,7 @@ def Categories(request):
     return render(request, template, context)
 
 
-def Category(request, pk):
+def category(request, pk):
     template = "home/category.html"
     category = Acct.Categories.objects.get(pk=pk)
     sub_cat = jo.subcategory.objects.filter(category__pk=pk)
@@ -219,56 +222,61 @@ def Category(request, pk):
         "cate_top": cate_top,
         "jobform": jobform,
         "form": form,
-		"cate": cate,
+        "cate": cate,
         "subc": subc,
         "tota": tota,
         "amount": amount,
         "dead_price": dead_price,
         "sub_price": sub_price,
         "deadlines": deadlines,
-        "info":info,
-        "terms":terms,
-        "faqs":faqs
+        "info": info,
+        "terms": terms,
+        "faqs": faqs
     }
     return render(request, template, context)
+
 
 def cat_main(request):
     template = "home/main_cat.html"
     categories = Acct.Categories.objects.annotate(sub_count=Count('subcategory'))
     packages = jo.Package.objects.all()
     context = {
-        "categories":categories,
-        "packages":packages
+        "categories": categories,
+        "packages": packages
     }
     return render(request, template, context)
+
 
 def coupon(request):
     if request.method == 'POST':
         form = CouponForm(request.POST)
         coup = Coupons(request.POST)
-        validity= ValidityForm(request.POST)
-        maxUse= MaxUseForm(request.POST)
+        validity = ValidityForm(request.POST)
+        maxUse = MaxUseForm(request.POST)
         discount = DiscountForm(request.POST)
         Cusers = CouponUsers(request.POST)
-        if coup.is_valid() and  validity.is_valid() and maxUse.is_valid() and discount.is_valid() and Cusers.is_valid():
+        if coup.is_valid() and validity.is_valid() and maxUse.is_valid() and discount.is_valid() and Cusers.is_valid():
             validity.save()
             maxUse.save()
             Cusers.save()
             discount.save()
-            valid = co_models.ValidityRule.objects.filter(expiration_date=validity.cleaned_data["expiration_date"]).first()
-            maxi= co_models.MaxUsesRule.objects.filter(max_uses=maxUse.cleaned_data["max_uses"]).first()
-            maxi.is_active=True
+            valid = co_models.ValidityRule.objects.filter(
+                expiration_date=validity.cleaned_data["expiration_date"]).first()
+            maxi = co_models.MaxUsesRule.objects.filter(max_uses=maxUse.cleaned_data["max_uses"]).first()
+            maxi.is_active = True
             maxi.save()
             coup_user = co_models.AllowedUsersRule.objects.filter(all_users=Cusers.cleaned_data["all_users"]).first()
             co_models.Ruleset.objects.create(
-                max_uses = maxi,
-                validity = valid,
+                max_uses=maxi,
+                validity=valid,
                 allowed_users=coup_user
             )
-            rules =co_models.Ruleset.objects.filter( max_uses__id = maxi.id,validity__id = valid.id, allowed_users__id=coup_user.id).first()
-            disc = co_models.Discount.objects.filter(value = discount.cleaned_data["value"], is_percentage=discount.cleaned_data["is_percentage"] ).first()
+            rules = co_models.Ruleset.objects.filter(max_uses__id=maxi.id, validity__id=valid.id,
+                                                     allowed_users__id=coup_user.id).first()
+            disc = co_models.Discount.objects.filter(value=discount.cleaned_data["value"],
+                                                     is_percentage=discount.cleaned_data["is_percentage"]).first()
             co_models.Coupon.objects.create(
-                code = coup.cleaned_data["code"],
+                code=coup.cleaned_data["code"],
                 ruleset=rules,
                 discount=disc
             )
@@ -280,16 +288,16 @@ def coupon(request):
         template = "home/promotion.html"
         form = CouponForm()
         coup = Coupons()
-        validity= ValidityForm()
-        maxUse= MaxUseForm()
+        validity = ValidityForm()
+        maxUse = MaxUseForm()
         discount = DiscountForm()
         Cusers = CouponUsers()
         context = {
-            "form":form,
-            "coup":coup,
-            "validity":validity,
-            "maxUse":maxUse,
-            "discount":discount,
-            "Cusers":Cusers
+            "form": form,
+            "coup": coup,
+            "validity": validity,
+            "maxUse": maxUse,
+            "discount": discount,
+            "Cusers": Cusers
         }
-        return render (request,template,context)
+        return render(request, template, context)

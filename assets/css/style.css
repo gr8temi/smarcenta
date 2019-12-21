@@ -1600,12 +1600,16 @@ a {
   box-shadow: 0 0 15px red;
 }
 .frame {
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100%;
   border-radius: 2px;
   background: #00000050;
   color: #3B945E;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 .dot-1 {
   position: absolute;
@@ -1725,6 +1729,32 @@ a {
   }
 }
 .pos-center{
-  left:40%;
+  position: absolute;
+  width: 100%;
+  left:50%;
   top: 50%;
+}
+
+@media only screen and (max-width: 768px) {
+  .pos-center{
+    left:40%;
+  top: 40%;
+  }
+}
+@media only screen and (max-width: 375px) {
+  .pos-center{
+    left:20%;
+  top: 20%;
+  }
+}
+
+.banner-img{
+  width: 25rem;
+  height: 25rem;
+
+}
+.close-icon{
+  cursor: pointer;
+  font-size: 3rem;
+  color: white;
 }

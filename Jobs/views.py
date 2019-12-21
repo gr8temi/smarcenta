@@ -1,18 +1,20 @@
-from django.shortcuts import render, HttpResponse
-from django.contrib.auth.decorators import login_required
-from . import forms
-from Accounts import models as acct
-from . import models as jom
-from home import models as homes
-from django.template.loader import render_to_string
-from django.core.mail import EmailMessage, send_mail, EmailMultiAlternatives
+from django.core.mail import send_mail
 from django.http import JsonResponse
-from django_simple_coupons.validations import validate_coupon
+from django.shortcuts import render, HttpResponse
+from django.template.loader import render_to_string
 from django_simple_coupons.models import Coupon
+from django_simple_coupons.validations import validate_coupon
+
+from Accounts import models as acct
+from home import models as homes
+from . import forms
+from . import models as jom
+
+
 # Create your views here.
 
 
-def JobCreate(request):
+def job_create(request):
     template = 'Job/create.html'
     jobform = forms.JobForm()
     form = forms.CustomizeForm()
@@ -20,7 +22,7 @@ def JobCreate(request):
     faqs = homes.FAQ.objects.all()
     info = homes.CompanyInfo.objects.all()
     terms = acct.Terms.objects.get(id=1)
-    # user = acct.Finder.objects.get(user=request.user)
+
     try:
         cate = request.session['category']
     except KeyError:
@@ -51,7 +53,6 @@ def JobCreate(request):
         amount = 0
     context = {
         "jobform": jobform,
-        # "user":user,
         "category": category,
         "cate": cate,
         "subc": subc,
@@ -69,7 +70,7 @@ def JobCreate(request):
     return render(request, template, context)
 
 
-def CatChange(request):
+def cat_change(request):
     template = "Job/catechange.html"
     cate = request.GET.get("category")
     category = acct.Categories.objects.get(id=cate)
@@ -83,7 +84,7 @@ def CatChange(request):
     return render(request, template, context)
 
 
-def Deadline(request):
+def deadline(request):
     template = "Job/deadline.html"
     cate = request.GET.get("sub_cat")
     category = jom.subcategory.objects.get(id=cate)
@@ -318,7 +319,6 @@ def customize(request):
             form.save()
             return JsonResponse({'error': False, 'message': "Upload Successful"})
         else:
-
             return JsonResponse({'error': True, 'errors': form.errors})
 
 
