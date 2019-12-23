@@ -7,7 +7,6 @@
   <div class="describe">
     <p>Ref.Code: {{job.reference}}</p>
     {{job.description | safe}}
-
   </div>
 
   <div class="activities">
@@ -119,12 +118,10 @@
             <label for="manager">Project Manager</label>
             <select name="manager" class="form-control" id="manager" required>
               <option disabled selected>Select Manager</option>
-              {% for manager in managers %}
-                  {% if manager.availability is True%}
-                        <option value="{{manager.id}}">{{manager.name}}</option>
-                  {% endif %}
-              {% endfor %}
 
+              {% for manager in managers %} {% if manager.availability is True%}
+              <option value="{{manager.id}}">{{manager.name}}</option>
+              {% endif %} {% endfor %}
             </select>
           </div>
           <input type="hidden" name="cur_reference" value="{{job.reference}}" />
@@ -149,7 +146,7 @@
 
 <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
 <script>
-  const verify = (reference, stage) => {
+  let verify = (reference, stage) => {
     shown = 1;
     $(".frame").show();
     $.ajax({
